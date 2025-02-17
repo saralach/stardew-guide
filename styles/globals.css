@@ -96,7 +96,7 @@ li {
   list-style-type: disc;
 }
 
-/**/a {
+a {
   color: var(--alt-color-2);
 }
 
@@ -118,16 +118,20 @@ header nav {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
 
   padding-inline: 1rem;
   padding-block: .5rem;
   background-color: var(--accent-color);
+  box-shadow: 1px 1px 7px var(--midgray2);
 
   #site-logo {
       margin-inline-end: 1rem;
+      height: 88px;
+      display: inline;
   }
   
-  .dropdown {
+  /*.dropdown {
       display: inline-block;
   }
   .dropdown:hover .dropdown-content {
@@ -168,7 +172,21 @@ header nav {
               background-color: var(--lightgray2);
           }
       }
+  }*/
+  a {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-color-med);
+
+    &.tab {
+      padding-inline: .75rem;
+    }
+
+    &:hover {
+      color: var(--lightgray0);
+    }
   }
+
 }
 
 
@@ -186,7 +204,7 @@ header nav {
 
 .thin-card {
   min-width: 15rem;
-  width: 15rem;
+  width: /*15rem*/18rem;
 }
 
 .info-card {
@@ -195,7 +213,7 @@ header nav {
   border: 1px solid var(--midgray1);
   border-radius: 1rem;
   background-color: var(--lightgray0);
-  box-shadow: 1px 1px 7px rgb(217, 218, 220);
+  box-shadow: 1px 1px 7px var(--midgray0) /*rgb(217, 218, 220)*/;
 
   &:has(input:checked) {
       background-color: var(--midgray0);

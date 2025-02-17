@@ -1,4 +1,4 @@
-import "@/styles/iconlink.modules.css";
+import "@/styles/iconlink.module.css";
 
 interface IconLinkProps {
     section: string;
@@ -10,12 +10,12 @@ function IconLink({ section, name, isLink = true }: IconLinkProps)  {
     return (
         isLink ? (
             <a href={`${section}/${name}`}>
-            <img className="inline" width="36px" src={`/${section}/${name.replace(" ", "_")}.png`} alt={name}/>
+            <img className="iconimg inline" width="36px" src={`/${section}/${name.replace(" ", "_")}.png`} alt={name}/>
             {name}
         </a>
         ) : (
             <div>
-            <img className="inline" width="36px" src={`/${section}/${name.replace(" ", "_")}.png`} alt={name}/>
+            <img className="iconimg inline" width="36px" src={`/${section}/${name.replace(" ", "_")}.png`} alt={name}/>
             {name}
         </div>
         )

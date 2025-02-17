@@ -4,7 +4,7 @@ const goals = [
     {
         monsterType: "Slimes", 
         qty: 1000, 
-        monsters: ["Green Slime", "Blue Slime", "Red Slime", "Purple Slime", "Copper Slime", "Iron Slime", "Tiger Slime"], 
+        monsters: ["Slime"], 
         locations: ["The Mines", "Skull Cavern", "Quarry Mine", "Secret Woods", "Volcano Dungeon"] 
     },
     {
