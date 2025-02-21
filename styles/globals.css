@@ -285,11 +285,11 @@ header nav {
   height: auto;
   
   padding-block: 2px;
-  padding-inline-end: 8px;
+  padding-inline-end: /*10px*/ 4px;
 }
 
 .icon-link {
   display: flex;
   flex-wrap: wrap;
-  align-content: center;
+  align-items: center;
 }

@@ -51,13 +51,13 @@ export default function PerfectionTracker() {
                                     name={"earth-obelisk"} 
                                     value={"Earth Obelisk"} 
                                     /*checked={"isChecked"} 
-                                    onChange={handleOnChange}*/ />
+                                    onChange={handleOnChange}*//>
                                     Earth Obelisk
                             </label>
                             <div className="pt-3">
                                 <IconLink label="500,000g" altImgSrc="Gold" isLink={false}/>
-                                <IconLink section="Resource" label="Iridium Bar" qty={10}/>
-                                <IconLink section="Mineral" label="10 Earth Crystal" altImgSrc="Earth Crystal"/>
+                                <IconLink category="Resource" label="Iridium Bar" qty={10}/>
+                                <IconLink category="Mineral" label="Earth Crystal" qty={10}/>
                             </div>
                         </article>
 
@@ -69,13 +69,52 @@ export default function PerfectionTracker() {
                                     name={"water-obelisk"} 
                                     value={"Water Obelisk"} 
                                     /*checked={"isChecked"} 
-                                    onChange={handleOnChange}*/ />
+                                    onChange={handleOnChange}*//>
                                     Water Obelisk
                             </label>
                             <div className="pt-3">
                                 <IconLink label="500,000g" altImgSrc="Gold" isLink={false}/>
-                                <IconLink section="Resource" label="5 Iridium Bar" altImgSrc="Iridium Bar"/>
-                                <IconLink section="Mineral" label="10 Earth Crystal" altImgSrc="Earth Crystal"/>
+                                <IconLink category="Resource" label="Iridium Bar" qty={10}/>
+                                <IconLink category="Fish" label="Clam" qty={10}/>
+                                <IconLink category="Fish" label="Coral" qty={10}/>
+                            </div>
+                        </article>
+
+                        <article id="desert-obelisk-card" className="card">
+                            <label className="check-container bottom-border">
+                                <input 
+                                    type="checkbox" 
+                                    id={"desert-obelisk-checkbox"} 
+                                    name={"desert-obelisk"} 
+                                    value={"Desert Obelisk"} 
+                                    /*checked={"isChecked"} 
+                                    onChange={handleOnChange}*/ />
+                                    Desert Obelisk
+                            </label>
+                            <div className="pt-3">
+                                <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
+                                <IconLink category="Resource" label="Iridium Bar" qty={20}/>
+                                <IconLink category="Fruit" label="Coconut" qty={10}/>
+                                <IconLink category="Fruit" label="Cactus Fruit" qty={10}/>
+                            </div>
+                        </article>
+
+                        <article id="desert-obelisk-card" className="card">
+                            <label className="check-container bottom-border">
+                                <input 
+                                    type="checkbox" 
+                                    id={"desert-obelisk-checkbox"} 
+                                    name={"desert-obelisk"} 
+                                    value={"Desert Obelisk"} 
+                                    /*checked={"isChecked"} 
+                                    onChange={handleOnChange}*/ />
+                                    Desert Obelisk
+                            </label>
+                            <div className="pt-3">
+                                <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
+                                <IconLink category="Resource" label="Iridium Bar" qty={20}/>
+                                <IconLink category="Fruit" label="Coconut" qty={10}/>
+                                <IconLink category="Fruit" label="Cactus Fruit" qty={10}/>
                             </div>
                         </article>
 
@@ -88,5 +127,4 @@ export default function PerfectionTracker() {
             </div>
         </main>
     );
-        
 }
