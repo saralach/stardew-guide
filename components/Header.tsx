@@ -15,7 +15,7 @@ export default function Header() {
                     <a className="tab" href="/Items">
                         Items
                     </a>
-                    <a className="tab" href="/Tracker">
+                    <a className="tab" href="/Perfection_Tracker">
                         Perfection Tracker
                     </a>
                 </div>

@@ -79,12 +79,12 @@ export default function MonsterSlayerGoals() {
     return (
         <main>
             <h1>Monster Eradication Goals</h1>
-            <section class="info-cards-container">
+            <section class="cards-container">
             {
                 goals.map((goal) => {
                     return (
-                        <div class="info-card thin-card">
-                            <div class="check-container">
+                        <div class="card thin-card">
+                            <div class="check-container bottom-border">
                                 <input type="checkbox" id={goal.monsterType} name={goal.monsterType} />
                                 <label for={goal.monsterType}><h4>Slay {goal.qty} {goal.monsterType}</h4></label>
                             </div>

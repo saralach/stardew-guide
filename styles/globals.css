@@ -63,7 +63,7 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
   background-color: var(--lightgray1);
-  color: var(--textcolordark);
+  color: var(--text-color-dark);
 }
 
 main {
@@ -97,7 +97,8 @@ li {
 }
 
 a {
-  color: var(--alt-color-2);
+  /*color: var(--alt-color-2);*/
+  color: var(--text-color-dark);
 }
 
 label {
@@ -108,6 +109,10 @@ label {
   h4 {
       display: inline;
   }
+}
+
+input[type='checkbox'] {
+  margin-inline-end: 1rem;
 }
 
 /* ============================================================ */
@@ -193,7 +198,7 @@ header nav {
 /* ============================================================ */
 /*                          Utilities                           */
 /* ============================================================ */
-.info-cards-container {
+.cards-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -207,7 +212,7 @@ header nav {
   width: /*15rem*/18rem;
 }
 
-.info-card {
+.card {
   margin: 1rem;
   padding: 1rem;
   border: 1px solid var(--midgray1);
@@ -218,11 +223,19 @@ header nav {
   &:has(input:checked) {
       background-color: var(--midgray0);
   }
+
+  /*.card {
+    background-color: var(--lightgray1);
+  }*/
   
-  .check-container {
-      /*margin-block-end: .75rem;*/
-      padding-block-end: .5rem;
-      border-block-end: 1px solid var(--midgray1);
+  /*.check-container {
+
+
+  }*/
+
+  .bottom-border {
+    padding-block-end: .5rem;
+    border-block-end: 1px solid var(--midgray1);
   }
 
   .right-check-container {
@@ -262,4 +275,21 @@ header nav {
   li:not(li:last-child):after {
       content: " \2022 "
   }
+}
+
+/* --------------- IconLinks --------------- */
+.iconimg {
+  max-height: 32px;
+  max-width: 32px;
+  width: auto;
+  height: auto;
+  
+  padding-block: 2px;
+  padding-inline-end: 8px;
+}
+
+.icon-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
