@@ -84,7 +84,7 @@ h3 {
   font-size: 1.25rem;
 }
 h4 {
-  font-size: 1.125rem;
+  font-size: 1.1rem;
 }
 h5, h6 {
   font-size: 1rem;
@@ -212,6 +212,8 @@ header nav {
   width: /*15rem*/18rem;
 }
 
+
+
 .card {
   margin: 1rem;
   padding: 1rem;
@@ -222,6 +224,10 @@ header nav {
 
   &:has(input:checked) {
       background-color: var(--midgray0);
+  }
+
+  &:has(.card input:not(:checked)) { /* not all subtasks are completed */
+    background-color: var(--lightgray0);
   }
 
   /*.card {

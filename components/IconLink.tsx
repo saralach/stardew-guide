@@ -3,11 +3,13 @@ interface IconLinkProps {
     label: string;
     qty?: number;
     altImgSrc?: string;
-    isLink?: boolean;
+    isLink?: boolean;   
+    className?: string;
     width?: string;
+
 }
 
-function IconLink({ category, label, qty, altImgSrc = "", isLink = true, width = "36px" }: IconLinkProps)  {
+function IconLink({ category, label, qty, altImgSrc = "", isLink = true, className = "", width = "36px" }: IconLinkProps)  {
     // --- Set name of item & item location --------
     let itemName = "";
     if(altImgSrc === "")
@@ -15,7 +17,7 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, width =
     else
         itemName = altImgSrc;
 
-    let location = "/" + itemName.replace(" ", "_");
+    let location = "/" + itemName.replaceAll(" ", "_");
     if(typeof category !== 'undefined')
         location = "/" + category + location;
 
@@ -25,13 +27,13 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, width =
 
     return (
         isLink ? (
-            <a className="icon-link" href={location}>
+            <a className={`icon-link ${className}`} href={location}>
                 <img className="iconimg inline" width={width} /*width="36px"*/ 
                     src={`${location}.png`} alt={itemName}/>
                 {label}
             </a>
         ) : (
-            <div className="icon-link">
+            <div className={`icon-link ${className}`}>
                 <img className="iconimg inline" width={width} /*width="36px"*/ 
                     src={`${location}.png`} alt={itemName}/>
                 {label}
