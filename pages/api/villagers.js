@@ -1,21 +1,22 @@
 import { connectToDatabase } from '../../lib/mongodb';
 
 export default async function handler(req, res) {
-  const { db } = await connectToDatabase();
 
-  // Query the MongoDB database
-  const query = {};
-  const projection = { _id: 0 };
+  try {
+    // Connect to MongoDB database
+    const { db } = await connectToDatabase();
+    const collection = db.collection('villagers');
 
-  const villagers = await db.collection('villagers').find(query, { projection }).toArray();
+    // Query the MongoDB database
+    const query = {};                 //get all villagers
+    const projection = { _id: 0 };    //exclude _id field
 
-  res.status(200).json(villagers);
+    const villagers = await collection.find(query, {projection}).toArray();
 
-  /*
-  return {
-    props: {
-        villagers: JSON.parse(JSON.stringify(villagers)), // Ensure we handle serialization of MongoDB documents
-    },
-    revalidate: 3600, // Optional: Revalidate every 60 seconds if you want to update the page content
-  };*/
+    res.status(200).json(villagers);
+  }
+  catch (error) {
+    res.status(500).json({ error: 'Failed to fetch documents' });
+  }
+
 }

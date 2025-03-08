@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     const collection = db.collection('recipes');
 
     // Query the database
-    const query = {recipe_type: "Cooking"}; //get only cooking recipes
-    const projection = { _id: 0, recipe_type: 0 }; //exclude _id and recipe_type fields
+    const query = {recipe_type: "Cooking"};         //get only cooking recipes
+    const projection = { _id: 0, recipe_type: 0 };  //exclude _id and recipe_type fields
   
     const cookingRecipes = await collection.find(query, {projection}).toArray();
   
