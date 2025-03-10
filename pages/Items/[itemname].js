@@ -1,24 +1,72 @@
 import styles from '../../styles/Item.module.css';
 import IconLink from "../../components/IconLink";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function ItemPage() {
+  const router = useRouter();
+  const { itemname } = router.query;
 
+  const [item, setItem] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItemInfo = async () => {
+      try {
+          const res = await fetch(`/api/items/${itemname}`);
+          const data = await res.json();
+          setItem(data);
+
+
+
+
+          
+      } 
+      catch(error) {
+          console.log('Error fetching documents');
+      }
+      finally {
+          setLoading(false);
+          console.log("in finally");
+      }
+      }
+
+      if(itemname) {
+        console.log("got item name, fetching data");
+        fetchItemInfo();
+      }
+  }, [itemname]); /* executes again when itemname is changed */
 
   return (
     <main>
       <div className={styles.itemintro}>
         <div className={styles.itemheader}>
-          <img className="item-pic" src={`/Dinosaur_Egg.png`} alt={"Dinosaur Egg"} />
-          <h1 className="ps-2">Dinosaur Egg</h1>
+          <img className="item-pic" alt={item.item_name} 
+            src={`/${itemname?.replace(" ", "_")}.png`} 
+          />
+          <h1 className="ps-2">
+            {item.item_name}
+          </h1>
         </div>
         <p className={styles.caption}>
-          “A giant dino egg... The entire shell is still intact!”
+          {item.desc}
         </p>
+        {/*
         <div className={styles.itemheader}>
-          <IconLink altImgSrc="Icons\Energy" label="125" className="pe-4" isLink={false}/>
-          <IconLink altImgSrc="Icons\Health" label="56" className="pe-4" isLink={false}/>
-          <IconLink altImgSrc="Gold" label="350g" className="pe-4" isLink={false}/>
+          {
+            item.energy && <IconLink altImgSrc="Icon\Energy" label={item.energy} className="pe-4" 
+            isLink={false}/>
+          }
+          {
+            item.health && <IconLink altImgSrc="Icon\Health" label={item.health} className="pe-4" isLink={false}/>
+          }
+          {
+            item.sell_price && <IconLink altImgSrc="Gold" label={`${item.sell_price}g`} 
+              className="pe-4" isLink={false}/>
+          }
         </div>
+        */}
+
       </div>
 
       <section className={styles.btmborder} href="Sources">

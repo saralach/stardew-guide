@@ -29,7 +29,7 @@ export default function VillagerPage() {
         console.log("got villager name, fetching data");
         fetchVillagerInfo();
       }
-  }, [villagername]);
+  }, [villagername]); /* executes again when villagername is changed */
 
 
   if(loading) {

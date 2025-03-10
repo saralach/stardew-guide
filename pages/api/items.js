@@ -1,0 +1,22 @@
+import { connectToDatabase } from '../../lib/mongodb';
+
+export default async function handler(req, res) {
+
+  try {
+    // Connect to MongoDB database
+    const { db } = await connectToDatabase();
+    const collection = db.collection('items');
+
+    // Query the database
+    const query = { };
+    const projection = { _id: 0 };  //exclude _id field
+  
+    const items = await collection.find(query, {projection}).toArray();
+  
+    res.status(200).json(items);
+  }
+  catch (error) {
+    res.status(500).json({ error: 'Failed to fetch documents' });
+  }
+
+}
