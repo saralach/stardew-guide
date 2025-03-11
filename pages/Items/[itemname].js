@@ -72,7 +72,7 @@ export default function ItemPage() {
         {
           // Create a SourceSection for each source array
           item.sources && Object.entries(item.sources).map( ([key, value]) => (
-            <SourceSection key={key} category={key} sources={value}/>
+            <SourceSection key={key} category={key} sources={value} itemName={item.item_name}/>
           ))
         }
 
