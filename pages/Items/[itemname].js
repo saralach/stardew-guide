@@ -2,6 +2,7 @@ import styles from '../../styles/Item.module.css';
 import IconLink from "../../components/IconLink";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import SourceSection from '../../components/SourceSection';
 
 export default function ItemPage() {
   const router = useRouter();
@@ -10,17 +11,13 @@ export default function ItemPage() {
   const [item, setItem] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // =================== Get Info from Database ===================
   useEffect(() => {
     const fetchItemInfo = async () => {
       try {
           const res = await fetch(`/api/items/${itemname}`);
           const data = await res.json();
           setItem(data);
-
-
-
-
-          
       } 
       catch(error) {
           console.log('Error fetching documents');
@@ -36,6 +33,7 @@ export default function ItemPage() {
         fetchItemInfo();
       }
   }, [itemname]); /* executes again when itemname is changed */
+
 
   return (
     <main>
@@ -70,8 +68,22 @@ export default function ItemPage() {
       </div>
 
       <section className={styles.btmborder} href="Sources">
-        <h2>Sources</h2>
-        <ul className={styles.multilevellist}>
+        <h2 className={`text-center pb-3`}>SOURCES</h2>
+        {
+          // Create a SourceSection for each source array
+          item.sources && Object.entries(item.sources).map( ([key, value]) => (
+            <SourceSection key={key} category={key} sources={value}/>
+          ))
+        }
+
+
+
+
+
+
+
+      {
+        /*<ul className={styles.multilevellist}>
         <li>
             Farm Animals
             <ul>
@@ -121,7 +133,8 @@ export default function ItemPage() {
               <li>Seed Type, Season?</li>
             </ul>
           </li>
-        </ul>
+        </ul>*/
+        }
 
         {/*
           <h2>Sources</h2>
@@ -132,12 +145,13 @@ export default function ItemPage() {
             <li>Fishing Treasure Chests</li>
             <li>Foraging (Skull Cavern)</li>
           </ul>
-        */}
+        */
+      }
       </section>
 
       <section href="Usage">
         <h2>Usage</h2>
-        <ul className={styles.multilevellist}>
+        {/*<ul className={styles.multilevellist}>
         <li>
             Cooking
             <ul>
@@ -175,7 +189,7 @@ export default function ItemPage() {
               <li>Product</li>
             </ul>
           </li>
-        </ul>
+        </ul>*/}
 
         {/*
           <h2>Sources</h2>

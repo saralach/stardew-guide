@@ -6,10 +6,11 @@ interface IconLinkProps {
     isLink?: boolean;   
     className?: string;
     width?: string;
-
 }
 
 function IconLink({ category, label, qty, altImgSrc = "", isLink = true, className = "", width = "36px" }: IconLinkProps)  {
+    if(label == undefined && altImgSrc == "") // Error
+        return null;
     // --- Set name of item & item location --------
     let itemName = "";
     if(altImgSrc === "")
@@ -17,7 +18,7 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
     else
         itemName = altImgSrc;
 
-    let location = "/" + itemName.replaceAll(" ", "_");
+    let location = "/" + itemName?.replaceAll(" ", "_");
     if(typeof category !== 'undefined')
         location = "/" + category + location;
 

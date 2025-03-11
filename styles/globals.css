@@ -378,8 +378,11 @@ table {
 
 
 .card {
-  margin: 1rem;
-  padding: 1rem;
+  /*margin: 1rem;*/
+  margin: .625rem;
+  /*padding: 1rem;*/
+  padding-inline: 1rem;
+  padding-block: .75rem;
   border: 1px solid var(--midgray1);
   border-radius: 1rem;
   background-color: var(--lightgray0);
@@ -467,7 +470,7 @@ table {
   height: auto;
   
   padding-block: 2px;
-  padding-inline-end: /*10px*/ 4px;
+  margin-inline-end: /*10px*/ 6px;
 }
 
 .icon-link {
