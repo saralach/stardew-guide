@@ -1,0 +1,16 @@
+.iconimg {
+  max-height: 32px;
+  max-width: 32px;
+  width: auto;
+  height: auto;
+  
+  padding-block: 2px;
+  margin-inline-end: /*10px*/ 6px;
+  display: inline;
+}
+
+.iconlink {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}

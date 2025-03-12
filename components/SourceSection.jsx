@@ -132,9 +132,11 @@ export default function SourceSection({ category, sources, itemName }) {
         </h3>
         {
           sectionContent && (
-            sectionVisible ? (<ChevronUp onClick={changeVisibility} className="mx-2 text-gray-500" />
+            sectionVisible ? (
+              <ChevronUp onClick={changeVisibility} className="chevron-btn" />
             ) : (
-            <ChevronDown onClick={changeVisibility} className="mx-2 text-gray-500" />)
+              <ChevronDown onClick={changeVisibility} className="chevron-btn" />
+            )
           )
         }
       </div>
