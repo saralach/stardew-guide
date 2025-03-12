@@ -216,7 +216,7 @@ header nav {
       }
   }*/
   
-  a {
+  a, button {
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--text-color-med);

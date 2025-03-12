@@ -15,33 +15,35 @@ export default NextAuth({
         const { username, password } = credentials;
 
         const { db } = await connectToDatabase();
-        const user = await db.collection("users").findOne({ username });
+        const dbResult = await db.collection("users").findOne({ username });
 
-        if (!user) {
+        if (!dbResult) {
           throw new Error("No user found with that username");
         }
 
-        const isValid = await compare(password, user.password);
+        const isValid = await compare(password, dbResult.password);
         if (!isValid) {
           throw new Error("Invalid password");
         }
 
-        return { username: user.username }; // Can also include other data like `id`
+        return { username };
       },
     }),
   ],
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   callbacks: {
-    async jwt(token, user) {
+    async jwt({ token, user }) {
       if (user) {
         token.username = user.username;
       }
       return token;
     },
-    async session(session, token) {
-      session.user.username = token.username;
+    async session({ session, token }) {
+      if(token) {
+        session.user.username = token.username;
+      }
       return session;
     },
   },
