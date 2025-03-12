@@ -1,31 +1,40 @@
 import { useState } from "react";
+import React from "react";
+import { CardWidth } from "@/types";
+
+interface CheckCardProps {
+  task: string;
+  altId?: string;
+  isChecked: boolean;
+  onChange: any;
+  category: string;
+  children?: React.ReactNode;
+  cardWidth?: CardWidth;
+}
 
 
-export default function CheckCard({ name, children }) {
-  const noSpaceName = name.replace(" ", "");
+export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin  }: CheckCardProps) {
+  const id = altId ? altId.replace(" ", "") : task.replace(" ", "");
+
 
   return (
-    <article className="card">
-      <div className="bottom-border">
-        <label>
+    <article className={`card card-${cardWidth}`}>
+      <div className={children ? "bottom-border" : ""}>
+        <label className={children ? "" : "font-medium xs-font"}>
           <input 
             type="checkbox" 
-            id={`${noSpaceName}Checkbox`} 
-            name={noSpaceName} 
-            value={name} 
-            /*checked={"isChecked"} 
-            onChange={handleOnChange}*//>
-            {name}
+            id={`${id}Checkbox`} 
+            name={id} 
+            value={id} 
+            checked={isChecked} 
+            onChange={(e) => onChange(e.target.checked, id)}/>
+          {task}
         </label>
       </div>
-      <div className="pt-3">
       {
-        children
-        /*<IconLink label="500,000g" altImgSrc="Gold" isLink={false}/>
-        <IconLink label="Iridium Bar" qty={10}/>
-        <IconLink label="Earth Crystal" qty={10}/>*/
+        children && <div className="pt-3">{children}</div>
       }
-      </div>
+
     </article>
   );
 }

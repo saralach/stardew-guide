@@ -1,49 +1,54 @@
-import CheckCard from "@/components/CheckCard";
 import IconLink from "@/components/IconLink";
-import { ChevronUp } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
+import { CardWidth } from "@/types";
+import { useEffect, useState } from 'react';
+import { useSession } from "next-auth/react";
+
 
 export default function PerfectionTracker() {
+  const [checkboxData, setCheckboxData] = useState([]);
+  const { data: session, status } = useSession();
 
-/*const DocumentsList = () => {
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Get initial checkbox data
+  /*useEffect(() => {
+      const fetchRecipes = async () => {
+          try {
+              const res = await fetch('api/cooking');
+              const data = await res.json();
+              setCookingRecipes(data);
+          } 
+          catch(error) {
+              console.log('Error fetching documents');
+          }
+          finally {
+              setLoading(false);
+          }
+      }
+      fetchRecipes();
+  }, []);*/
 
-  useEffect(() => {
-  const fetchDocuments = async () => {
-    try {
-    const res = await fetch('/api/getDocuments?sortField=yourFieldName&sortOrder=asc'); // Modify the query params as needed
-    const data = await res.json();
-    setDocuments(data);
-    } catch (error) {
-    console.error('Error fetching documents:', error);
-    } finally {
-    setLoading(false);
+
+  // Handle any checkbox changes
+  const handleCheckboxChange = async (isChecked, checkboxId) => {
+    if(status === 'authenticated') {
+      const res = await fetch("/api/saveCheckboxData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: session.user.username,
+          checkboxId: checkboxId,
+          isChecked: isChecked,
+        }),
+      });
+
+      const data = res.json();
+      if(!data.success)
+        console.log("Updated checkbox data not saved.");
     }
-  };
-
-  fetchDocuments();
-  }, []);
-
-  if (loading) {
-  return <div>Loading...</div>;
-  }
-
-  return (
-  <div>
-    <h1>Documents</h1>
-    <ul>
-    {documents.map((doc, index) => (
-      <li key={index}>{JSON.stringify(doc)}</li>
-    ))}
-    </ul>
-  </div>
-  );
-};
-export default DocumentsList;
-*/
+  }//end handleCheckboxChange()
 
 
 
@@ -60,26 +65,26 @@ export default DocumentsList;
       <CheckSection sectionId="Obelisks" 
           desc="Build the Earth, Water, Desert, and Island Obelisks.">
 
-        <CheckCard name="Earth Obelisk">
+        <CheckCard task="Earth Obelisk" onChange={handleCheckboxChange} category="Obelisk">
           <IconLink label="500,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Earth Crystal" qty={10}/>
         </CheckCard>
 
-        <CheckCard name="Water Obelisk">
+        <CheckCard task="Water Obelisk" onChange={handleCheckboxChange} category="Obelisk">
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Clam" qty={10}/>
           <IconLink label="Coral" qty={10}/>
         </CheckCard>
 
-        <CheckCard name="Desert Obelisk">
+        <CheckCard task="Desert Obelisk" onChange={handleCheckboxChange} category="Obelisk">
           <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={20}/>
           <IconLink label="Coconut" qty={10}/>
           <IconLink label="Cactus Fruit" qty={10}/>
         </CheckCard>
 
-        <CheckCard name="Island Obelisk">
+        <CheckCard task="Island Obelisk" onChange={handleCheckboxChange} category="Obelisk">
           <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Dragon Tooth" qty={10}/>
@@ -89,9 +94,7 @@ export default DocumentsList;
       </CheckSection>
 
       <CheckSection sectionId="Golden Clock" 
-          desc="Build the Golden Clock on the Farm.">
-        <IconLink label="10,000,000g" altImgSrc="Gold" isLink={false} className="ms-8" />
-      </CheckSection>
+          desc="Build the Golden Clock on the Farm for 10,000,000g."/>
 
       <CheckSection sectionId="Monster Eradication" 
           desc="Complete all of the monster eradication goals in the Adventurer's Guild.">
@@ -105,17 +108,31 @@ export default DocumentsList;
 
       <CheckSection sectionId="Level 10 Skills" 
           desc="Reach level 10 in all skills.">
-
+        <CheckCard task="Mining Level 10" />
       </CheckSection>
 
       <CheckSection sectionId="Stardrops" 
           desc="Find all Stardrops.">
+        <CheckCard cardWidth={CardWidth.Full} altId="FairStardrop" onChange={handleCheckboxChange}
+          task="Buy at the Stardew Valley Fair."/>
 
-      </CheckSection>
+        <CheckCard cardWidth={CardWidth.Full} altId="MinesStardrop" onChange={handleCheckboxChange} 
+          task="Open the Treasure Chest on Floor 100 of The Mines."/>
 
-      <CheckSection sectionId="Stardrops" 
-          desc="Find all Stardrops.">
+        <CheckCard cardWidth={CardWidth.Full} altId="SpouseStardrop" onChange={handleCheckboxChange}  
+          task="Reach 12.5 hearts with your spouse."/>
 
+        <CheckCard cardWidth={CardWidth.Full} altId="KrobusStardrop" onChange={handleCheckboxChange}
+          task="Buy from Krobus for 20,000g."/>
+
+        <CheckCard cardWidth={CardWidth.Full} altId="BerryStardrop" onChange={handleCheckboxChange}
+          task="In the Secret Woods, give Master Cannoli a Sweet Gem Berry."/>
+
+        <CheckCard cardWidth={CardWidth.Full} altId="FishStardrop" onChange={handleCheckboxChange}
+          task="Catch every fish (delivered in the mail the following day)."/>
+
+        <CheckCard cardWidth={CardWidth.Full} altId="MuseumStardrop" onChange={handleCheckboxChange}
+          task="Donate every mineral and artifact to the museum."/>
       </CheckSection>
 
       <CheckSection sectionId="Cooking" 

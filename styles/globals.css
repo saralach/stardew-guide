@@ -59,6 +59,14 @@ body {
   --font-size-sm: 1.1rem;
   --font-size-xs: 1rem;
 
+
+
+
+  /* ------- Card Widths -------- */
+  --card-width-thin: 12rem;
+  --card-width-full: 100%;
+
+  /* ----- Borders/Shadows ------ */
   --shadow-1: 1px 1px 7px var(--midgray0);
 
   --light-border: 1px solid var(--midgray0);
@@ -339,8 +347,6 @@ table {
 /*============================================================*/
 /*                         Utilities                          */
 /*============================================================*/
-
-
 .chevron-btn {
   margin-inline: 0.5rem;
   color: var(--text-color-disabled);
@@ -386,9 +392,7 @@ table {
 
 
 .card {
-  /*margin: 1rem;*/
   margin: .625rem;
-  /*padding: 1rem;*/
   padding-inline: 1rem;
   padding-block: .75rem;
   border: 1px solid var(--midgray1);
@@ -428,16 +432,27 @@ table {
   padding-inline: 1rem;
 }
 
-.thin-card {
+/*.thin-card {
   min-width: 15rem;
   width: 18rem;
+}*/
+
+.card-thin {
+  max-width: 15rem;
+  width: 25cqw; /* 25% container width */
+  min-width: 13rem;
+}
+
+.card-full {
+  width: 100%;
+  margin-block-start: .5rem;
+  margin-block-end: .25rem;
 }
 
 .item-pic {
   width: 48px;
   height: auto;
 }
-
 
 
 
@@ -469,6 +484,15 @@ table {
       content: " \2022 "
   }
 }
+
+.medium-font-weight {
+  font-weight: 500;
+}
+
+.xs-font {
+  font-size: var(--font-size-xs);
+}
+
 
 /* --------------- IconLinks --------------- 
 .iconimg {

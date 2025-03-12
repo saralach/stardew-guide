@@ -3,16 +3,29 @@ import { connectToDatabase } from '../../lib/mongodb';
 export default async function handler(req, res) {
 
   if (req.method === 'POST') {
-    const checkboxData = req.body;
+    const {username, checkboxId, isChecked } = req.body;
 
     try {
-      const db = await connectToDatabase();
+      const { db } = await connectToDatabase();
       const collection = db.collection('user_progress');
-      const userId = "sturtis";
 
       // Insert the checkbox data into the MongoDB collection
-      //await collection.insertOne(checkboxData);
+      const result = await collection.updateOne(
+        { 
+          username: username, 
+          checkbox_id: checkboxId 
+        }, 
+        { $set: { is_checked: isChecked } },
+        { upsert: true } // if document doesn't exist, create it
+      );
 
+      if (result.matchedCount > 0) {
+        console.log('Document updated');
+      } else {
+        console.log('Document inserted');
+      }
+
+      /*
       const result = await collection.updateOne(
         { _id: userId }, // Find the document by its _id
         {
@@ -20,7 +33,7 @@ export default async function handler(req, res) {
             tasks: newTask // Add the new task to the tasks array
           }
         }
-      );
+      );*/
 
       res.status(200).json({ message: 'Data saved successfully' });
     } 

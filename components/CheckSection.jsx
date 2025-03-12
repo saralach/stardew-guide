@@ -33,10 +33,13 @@ export default function CheckSection({ sectionId, desc, children }) {
         }
 
       </div>
+      {
+        sectionVisible && children && (
+        <div className="flex flex-row flex-wrap justify-center" >
+          {children}
+        </div>)
+      }
 
-      <div className="flex flex-row" /*className="flex flex-row basis-lg"*/>
-        {sectionVisible && children}
-      </div>
 
     </section>
   );
