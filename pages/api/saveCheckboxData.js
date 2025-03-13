@@ -1,18 +1,27 @@
-import { connectToDatabase } from '../../lib/mongodb';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './auth/[...nextauth]';
+import { connectToDatabase } from '@/lib/mongodb';
 
 export default async function handler(req, res) {
+  const session = await getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
   if (req.method === 'POST') {
-    const {username, checkboxId, isChecked } = req.body;
+    const { checkboxId, isChecked } = req.body;
 
     try {
+      // Connect to MongoDB database
       const { db } = await connectToDatabase();
       const collection = db.collection('user_progress');
 
       // Insert the checkbox data into the MongoDB collection
+
       const result = await collection.updateOne(
         { 
-          username: username, 
+          username: session.user.username, 
           checkbox_id: checkboxId 
         }, 
         { $set: { is_checked: isChecked } },
@@ -24,16 +33,6 @@ export default async function handler(req, res) {
       } else {
         console.log('Document inserted');
       }
-
-      /*
-      const result = await collection.updateOne(
-        { _id: userId }, // Find the document by its _id
-        {
-          $push: {
-            tasks: newTask // Add the new task to the tasks array
-          }
-        }
-      );*/
 
       res.status(200).json({ message: 'Data saved successfully' });
     } 

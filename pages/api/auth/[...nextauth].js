@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { connectToDatabase } from "../../../lib/mongodb";
+import { connectToDatabase } from "@/lib/mongodb";
 import { compare } from "bcryptjs";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider ({
       name: "Credentials",
@@ -30,6 +30,7 @@ export default NextAuth({
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -50,4 +51,6 @@ export default NextAuth({
   pages: {
     signIn: "/Login", // Customize the sign-in page
   },
-});
+};
+
+export default NextAuth(authOptions);

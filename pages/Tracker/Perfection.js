@@ -11,34 +11,33 @@ export default function PerfectionTracker() {
   const { data: session, status } = useSession();
 
   // Get initial checkbox data
-  /*useEffect(() => {
-      const fetchRecipes = async () => {
+  useEffect(() => {
+      const fetchCheckboxData = async () => {
           try {
-              const res = await fetch('api/cooking');
+              const res = await fetch('/../api/getCheckboxData');
               const data = await res.json();
-              setCookingRecipes(data);
+              setCheckboxData(data);
+              console.log("Successfully got checkbox data");
+              console.log(data);
           } 
           catch(error) {
               console.log('Error fetching documents');
           }
-          finally {
-              setLoading(false);
-          }
       }
-      fetchRecipes();
-  }, []);*/
+      fetchCheckboxData();
+  }, []);
 
 
   // Handle any checkbox changes
   const handleCheckboxChange = async (isChecked, checkboxId) => {
     if(status === 'authenticated') {
-      const res = await fetch("/api/saveCheckboxData", {
+      const res = await fetch("/../api/saveCheckboxData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.accessToken}`
         },
         body: JSON.stringify({
-          username: session.user.username,
           checkboxId: checkboxId,
           isChecked: isChecked,
         }),
