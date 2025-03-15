@@ -14,22 +14,29 @@ export default function CheckSection({ sectionId, desc, children }) {
   return (
     <section id={sectionId} className="card">
       <div className="flex justify-between">
-        <label>
-          <input 
-            type="checkbox" 
-            id={`${noSpaceId}Checkbox`} 
-            name={`${noSpaceId}Checkbox`} 
-            value={"Shipped Collection"} 
-            /*checked={"isChecked"} 
-            onChange={handleOnChange}*/ />
-          {desc}
-        </label>
         {
+          children ? (
+            <h4 className="ps-8">{desc}</h4>
+          ) : (
+            <label>
+              <input 
+                type="checkbox" 
+                id={`${noSpaceId}Checkbox`} 
+                name={`${noSpaceId}Checkbox`} 
+                value={"Shipped Collection"} 
+                /*checked={"isChecked"} 
+                onChange={handleOnChange}*/ />
+              {desc}
+            </label>
+          )
+        }
+        {
+          children && (
           sectionVisible ? (
             <ChevronUp onClick={changeVisibility} className="inline chevron-btn" />
           ) : (
             <ChevronDown onClick={changeVisibility} className="inline chevron-btn" />
-          )
+          ))
         }
 
       </div>

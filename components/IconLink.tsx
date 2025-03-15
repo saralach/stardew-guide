@@ -1,4 +1,5 @@
 import styles from '@/styles/IconLink.module.css';
+import Link from 'next/link';
 
 interface IconLinkProps {
     category?: string;
@@ -33,11 +34,11 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
 
     return (
         isLink ? (
-            <a className={`${styles.iconlink} ${className}`} href={location}>
+            <Link className={`${styles.iconlink} ${className} link`} href={`/Items/${location}`}>
                 <img className={styles.iconimg} width={width} /*width="36px"*/ 
                     src={`${location}.png`} alt={itemName}/>
                 {label}
-            </a>
+            </Link>
         ) : (
             <div className={`${styles.iconlink} ${className}`}>
                 <img className={styles.iconimg} width={width} /*width="36px"*/ 

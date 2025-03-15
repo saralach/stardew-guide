@@ -2,35 +2,46 @@ import IconLink from "@/components/IconLink";
 import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
 import { CardWidth } from "@/types";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 
 export default function PerfectionTracker() {
   const [checkboxData, setCheckboxData] = useState([]);
   const { data: session, status } = useSession();
+  const checkboxCategory = "Perfection";
 
   // Get initial checkbox data
   useEffect(() => {
       const fetchCheckboxData = async () => {
-          try {
-              const res = await fetch('/../api/getCheckboxData');
-              const data = await res.json();
-              setCheckboxData(data);
-              console.log("Successfully got checkbox data");
-              console.log(data);
-          } 
-          catch(error) {
-              console.log('Error fetching documents');
+        if(status === "loading") {
+          return; //session not yet loaded
+        }
+        try {
+          if(session) {
+            const res = await fetch(`/../api/getCheckboxData/${checkboxCategory}`);
+            const data = await res.json();
+            setCheckboxData(data);
+            console.log(checkboxData);
+            const result = checkboxData.find(item => item.checkbox_id === "EarthObelisk")
+            console.log(result);
           }
+          else {
+            console.log("Error - user not authenticated")
+          }
+        } 
+        catch(error) {
+            console.log("Error fetching documents");
+            console.log(error);
+        }
       }
       fetchCheckboxData();
-  }, []);
+  }, [session, status]);
 
 
   // Handle any checkbox changes
   const handleCheckboxChange = async (isChecked, checkboxId) => {
-    if(status === 'authenticated') {
+    if(status === "authenticated") {
       const res = await fetch("/../api/saveCheckboxData", {
         method: "POST",
         headers: {
@@ -40,11 +51,12 @@ export default function PerfectionTracker() {
         body: JSON.stringify({
           checkboxId: checkboxId,
           isChecked: isChecked,
+          category: checkboxCategory
         }),
       });
 
       const data = res.json();
-      if(!data.success)
+      if(!data.status === 200)
         console.log("Updated checkbox data not saved.");
     }
   }//end handleCheckboxChange()
@@ -64,26 +76,26 @@ export default function PerfectionTracker() {
       <CheckSection sectionId="Obelisks" 
           desc="Build the Earth, Water, Desert, and Island Obelisks.">
 
-        <CheckCard task="Earth Obelisk" onChange={handleCheckboxChange} category="Obelisk">
+        <CheckCard task="Earth Obelisk" onChange={handleCheckboxChange} category="Obelisk" isChecked={checkboxData.find(item => item.checkbox_id === "EarthObelisk")?.is_checked ? "true" : "false"}>
           <IconLink label="500,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Earth Crystal" qty={10}/>
         </CheckCard>
 
-        <CheckCard task="Water Obelisk" onChange={handleCheckboxChange} category="Obelisk">
+        <CheckCard task="Water Obelisk" onChange={handleCheckboxChange} category="Obelisk" isChecked={checkboxData.find(item => item.checkbox_id === "WaterObelisk")?.is_checked ? "true" : "false"}>
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Clam" qty={10}/>
           <IconLink label="Coral" qty={10}/>
         </CheckCard>
 
-        <CheckCard task="Desert Obelisk" onChange={handleCheckboxChange} category="Obelisk">
+        <CheckCard task="Desert Obelisk" onChange={handleCheckboxChange} category="Obelisk" isChecked={checkboxData.find(item => item.checkbox_id === "DesertObelisk")?.is_checked ? "true" : "false"}>
           <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={20}/>
           <IconLink label="Coconut" qty={10}/>
           <IconLink label="Cactus Fruit" qty={10}/>
         </CheckCard>
 
-        <CheckCard task="Island Obelisk" onChange={handleCheckboxChange} category="Obelisk">
+        <CheckCard task="Island Obelisk" onChange={handleCheckboxChange} category="Obelisk" isChecked={checkboxData.find(item => item.checkbox_id === "IslandObelisk")?.is_checked ? "true" : "false"}>
           <IconLink label="1,000,000g" altImgSrc="Gold" isLink={false}/>
           <IconLink label="Iridium Bar" qty={10}/>
           <IconLink label="Dragon Tooth" qty={10}/>

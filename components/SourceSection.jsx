@@ -30,7 +30,7 @@ export default function SourceSection({ category, sources, itemName }) {
   if(category === "Cooking" || category === "Crafting") {
     sectionContent = sources.map( (source) => {
       return (
-            <article className="card thin-card">
+            <article className="card card-wide">
               <div className="bottom-border block w-full">
                 <h4>
                   <IconLink label={itemName} />
@@ -55,7 +55,7 @@ export default function SourceSection({ category, sources, itemName }) {
   else if(category === "Buying") {
     sectionContent = sources.map( (source) => {
       return (
-        source.source_name && <div className="card thin-card">
+        source.source_name && <div className="card card-wide">
           {
             <div className="flex flex-row items-center justify-between">
               <IconLink 
@@ -81,7 +81,7 @@ export default function SourceSection({ category, sources, itemName }) {
   else if(category === "Equipment") {
     sectionContent = sources.map( (source) => {
       return (
-            <article className="card thin-card">
+            <article className="card card-wide">
               <div className="bottom-border block w-full">
                 <h4>
                   {source.source_name}
@@ -106,7 +106,7 @@ export default function SourceSection({ category, sources, itemName }) {
   else {
     sectionContent = sources.map( (source) => {
       return (
-        source.source_name && <div className="card thin-card">
+        source.source_name && <div className="card card-wide">
           {
              <IconLink key={source.source_name} category={category} label={source.source_name} 
               isLink={false} className="font-bold"

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { CardWidth } from "@/types";
+import IconLink from "./IconLink";
 
 interface CheckCardProps {
   task: string;
@@ -10,25 +11,25 @@ interface CheckCardProps {
   category: string;
   children?: React.ReactNode;
   cardWidth?: CardWidth;
+  iconLabel?: boolean;
 }
 
 
-export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin  }: CheckCardProps) {
+export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false }: CheckCardProps) {
   const id = altId ? altId.replace(" ", "") : task.replace(" ", "");
-
 
   return (
     <article className={`card card-${cardWidth}`}>
       <div className={children ? "bottom-border" : ""}>
-        <label className={children ? "" : "font-medium xs-font"}>
+        <label className={children ? "flex flex-row" : "font-medium xs-font flex flex-row"}>
           <input 
             type="checkbox" 
             id={`${id}Checkbox`} 
             name={id} 
             value={id} 
             checked={isChecked} 
-            onChange={(e) => onChange(e.target.checked, id)}/>
-          {task}
+            onChange={(e) => onChange(e.target.checked, id)} className="inline"/>
+          {iconLabel ? <IconLink label={task} isLink={false}/> : task}
         </label>
       </div>
       {

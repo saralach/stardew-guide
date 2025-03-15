@@ -449,14 +449,21 @@ table {
   margin-block-end: .25rem;
 }
 
+.card-wide {
+  max-width: 22rem;
+  width: 45cqw; /* 45% container width */
+  min-width: 17rem;
+}
+
 .item-pic {
   width: 48px;
   height: auto;
 }
 
-
-
-
+.link:hover {
+  font-weight: bold;
+  color: var(--alt-color-2);
+}
 
 .monsterlist li {
   list-style-type: none;

@@ -1,10 +1,10 @@
-//import { getSession } from 'next-auth/react';
 import { connectToDatabase } from '@/lib/mongodb';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
+  const { category } = req.body;
   
   if (!session) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -16,8 +16,11 @@ export default async function handler(req, res) {
     const collection = db.collection('user_progress');
 
     // Query the database
-    const query = { username: session.user.username }; //get only the user's documents
-    const projection = { _id: 0, username: 0 }; //exclude _id and username fields
+    const query = { 
+      username: session.user.username, 
+      category: category 
+    }; //get only signed in user's documents, & only of the specified category
+    const projection = { _id: 0, username: 0, category: 0 }; //exclude _id, username, and category fields
   
     const userCheckboxData = await collection.find(query, {projection}).toArray();
   

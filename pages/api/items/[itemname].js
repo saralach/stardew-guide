@@ -10,7 +10,8 @@ export default async function handler(req, res) {
     const collection = db.collection('items');
 
     // Replace underscores with spaces
-    itemname = itemname.replace("_", " ");
+    itemname = itemname.replaceAll("_", " ");
+    console.log(itemname);
 
     // Query the database
     const query = { item_name: itemname }; 

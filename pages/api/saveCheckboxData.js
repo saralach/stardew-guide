@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { checkboxId, isChecked } = req.body;
+    const { checkboxId, isChecked, category } = req.body;
 
     try {
       // Connect to MongoDB database
@@ -22,6 +22,7 @@ export default async function handler(req, res) {
       const result = await collection.updateOne(
         { 
           username: session.user.username, 
+          category: category,
           checkbox_id: checkboxId 
         }, 
         { $set: { is_checked: isChecked } },

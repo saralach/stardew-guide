@@ -14,22 +14,22 @@ export default function ItemPage() {
   // =================== Get Info from Database ===================
   useEffect(() => {
     const fetchItemInfo = async () => {
-      try {
-          const res = await fetch(`/api/items/${itemname}`);
-          const data = await res.json();
-          setItem(data);
-      } 
-      catch(error) {
-          console.log('Error fetching documents');
+        try {
+            const res = await fetch(`/api/items/${itemname}`);
+            const data = await res.json();
+            setItem(data);
+            console.log(data);
+        } 
+        catch(error) {
+            console.log('Error fetching documents');
+        }
+        finally {
+            setLoading(false);
+            console.log("in finally");
+        }
       }
-      finally {
-          setLoading(false);
-          console.log("in finally");
-      }
-      }
-
       if(itemname) {
-        console.log("got item name, fetching data");
+        console.log(`got item name ${itemname}, fetching data`);
         fetchItemInfo();
       }
   }, [itemname]); /* executes again when itemname is changed */
