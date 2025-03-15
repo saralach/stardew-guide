@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import IconLink from "@/components/IconLink";
 
 
 export default function VillagerPage() {
@@ -78,6 +79,17 @@ export default function VillagerPage() {
             </tr>
           </tbody>
         </table>
+
+        <article className="py-5">
+          <h4>Loved Gifts</h4>
+          <ul>
+            {
+              villagerInfo.gift_prefs.items.map((gift) => {
+                return (gift.pref_num === 5 && <li className="list-none h-fit"><IconLink label={gift.item_name}/></li>)
+              })
+            }
+          </ul>
+        </article>
       </div>
 
     </main>

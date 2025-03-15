@@ -1,7 +1,3 @@
-import CheckItem from "../../components/CheckItem";
-import IconLink from "../../components/IconLink";
-import SingleCheck from "../../components/SingleCheck";
-import { ChevronUp, ChevronDown, Info } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function AllVillagersPage() {
