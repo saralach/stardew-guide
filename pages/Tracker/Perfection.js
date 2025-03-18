@@ -107,6 +107,8 @@ export default function PerfectionTracker() {
             <h1>Perfection Tracker</h1>
 
             {
+              /* ------------ Items Shipped ------------ */
+
               requirements.map((reqGroup) => {
                 return (
                   <CheckSection key={reqGroup.subcategory_id}
@@ -119,8 +121,9 @@ export default function PerfectionTracker() {
                               task={req.label ? req.label : req.req_id} 
                               altId={req.label && req.req_id} 
                               onChange={handleCheckboxChange} 
-                              isChecked={getCheckedStatus(req.req_id)} 
-                              iconLabel={reqIconLabelSections.includes(reqGroup.subcategory_id)}>
+                              isChecked={checkboxData.find(item => item.checkbox_id === req.req_id)?.is_checked} 
+                              iconLabel={reqIconLabelSections.includes(reqGroup.subcategory_id)}
+                              cardWidth={CardWidth.Wide}>
                             {
                               req.gold_reqd && <IconLink label={`${req.gold_reqd}g`} altImgSrc="Gold" isLink={false} />
                             }

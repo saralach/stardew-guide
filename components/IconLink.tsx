@@ -23,7 +23,7 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
     
     itemName = itemName.trim();
 
-    let location = "/" + itemName?.replaceAll(" ", "_");
+    let location = "/" + itemName?.replaceAll(" ", "_").replaceAll(":", "");
     if(typeof category !== 'undefined')
         location = "/" + category + location;
 
