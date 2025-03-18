@@ -9,7 +9,7 @@ interface CheckCardProps {
   isChecked: boolean;
   onChange: any;
   category: string;
-  children?: React.ReactNode;
+  children?: React.ReactNode[] | undefined;
   cardWidth?: CardWidth;
   iconLabel?: boolean;
 }
@@ -17,6 +17,15 @@ interface CheckCardProps {
 
 export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false }: CheckCardProps) {
   const id = altId ? altId.replace(" ", "") : task.replace(" ", "");
+
+  // Remove any children that are undefined; set array to undefined if no children remain
+  if(children != null) {
+    children = children?.filter(child => child !== undefined);
+    if(children.length === 0) {
+      children = undefined;
+    }
+  }
+
 
   return (
     <article className={`card card-${cardWidth}`}>

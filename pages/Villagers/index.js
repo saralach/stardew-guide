@@ -1,3 +1,5 @@
+import Head from "next/head";
+import Loading from "@/components/Loading";
 import { useEffect, useState } from 'react';
 
 export default function AllVillagersPage() {
@@ -22,25 +24,32 @@ export default function AllVillagersPage() {
       fetchVillagers();
   }, []);
 
-  
-  if(loading) {
-    return <div>Loading...</div>;
-  }
-  else {
-    return (
-      <main>
-        <h1>Villagers</h1>
-        <div class="cards-container">
-          {
-            villagers.map( (villager) => (
-              <a class="cardlink villagerlink" href={`Villagers/${villager.name}`}>
-                <img className="villagerphoto" src={`/Villager/${villager.name}.png`} alt={`${villager.name}'s portrait`} />
-                <p>{villager.name}</p>
-              </a>
-            ))
-          }
-        </div>
-      </main>
-    );
-  }
-}
+  return (
+    <>
+      <Head>
+        <title>Villagers</title>
+      </Head>
+      {
+        loading ? (
+          <Loading/>
+        ) : (
+          <main>
+            <h1>Villagers</h1>
+            <div class="cards-container">
+              {
+                villagers.map( (villager) => (
+                  <a class="cardlink villagerlink" href={`Villagers/${villager.name}`}>
+                    <img className="villagerphoto" src={`/Villager/${villager.name}.png`} alt={`${villager.name}'s portrait`} />
+                    <p>{villager.name}</p>
+                  </a>
+                ))
+              }
+            </div>
+          </main>
+        )
+      }
+    </>
+
+  );
+
+}// end AllVillagersPage()

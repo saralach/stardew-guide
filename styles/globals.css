@@ -462,7 +462,8 @@ table {
 
 .link:hover {
   font-weight: bold;
-  color: var(--alt-color-2);
+  /*color: var(--alt-color-2);*/
+  text-decoration: underline;
 }
 
 .monsterlist li {

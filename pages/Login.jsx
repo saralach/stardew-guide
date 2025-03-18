@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";

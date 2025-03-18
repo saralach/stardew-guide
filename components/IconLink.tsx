@@ -20,6 +20,8 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
         itemName = label;
     else
         itemName = altImgSrc;
+    
+    itemName = itemName.trim();
 
     let location = "/" + itemName?.replaceAll(" ", "_");
     if(typeof category !== 'undefined')
@@ -34,14 +36,14 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
 
     return (
         isLink ? (
-            <Link className={`${styles.iconlink} ${className} link`} href={`/Items/${location}`}>
-                <img className={styles.iconimg} width={width} /*width="36px"*/ 
+            <Link className={`${styles.iconlink} ${className} link`} href={`/Items${location}`}>
+                <img className={styles.iconimg} width={width}
                     src={`${location}.png`} alt={itemName}/>
                 {label}
             </Link>
         ) : (
             <div className={`${styles.iconlink} ${className}`}>
-                <img className={styles.iconimg} width={width} /*width="36px"*/ 
+                <img className={styles.iconimg} width={width}
                     src={`${location}.png`} alt={itemName}/>
                 {label}
             </div>

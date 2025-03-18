@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react';
 
 export default function CheckSection({ sectionId, desc, children }) {
   const [sectionVisible, setSectionVisible] = useState(true);
-  const noSpaceId = sectionId.replace(" ", "");
+  const noSpaceId = sectionId.replaceAll(" ", "");
 
   const changeVisibility = () => {
     setSectionVisible(!sectionVisible);

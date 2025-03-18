@@ -1,18 +1,15 @@
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from 'next/link'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const { data: session } = useSession();
-    
 
   const handleHamburgerClick = () => {
     setIsVisible(!isVisible);
   }
-
-
-
 
   return (
     <header>
@@ -25,15 +22,15 @@ export default function Header() {
             <Menu />
           </button>
           <div className={isVisible ? "blocktabs" : "navtabs"}>
-            <a  href="/Villagers">
+            <Link className="tab" href="/Villagers">
               Villagers
-            </a>
-            <a className="tab" href="/Items">
+            </Link>
+            <Link className="tab" href="/Items">
               Items
-            </a>
-            <a className="tab" href="/Tracker/Perfection">
-              Perfection Tracker
-            </a>
+            </Link>
+            <Link className="tab" href="/Tracker">
+              Trackers
+            </Link>
           </div>
         </div>    
         {

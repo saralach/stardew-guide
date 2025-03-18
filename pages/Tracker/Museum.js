@@ -1,10 +1,11 @@
+import Head from "next/head";
 import IconLink from "@/components/IconLink";
 import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
+import Loading from "@/components/Loading";
 import { CardWidth } from "@/types";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 
 export default function MuseumTracker() {
   const [artifacts, setArtifacts] = useState([]);
@@ -14,7 +15,8 @@ export default function MuseumTracker() {
   const { data: session, status } = useSession();
   const checkboxCategory = "Museum";
 
-  // ========== Get data to make checkboxes ==============
+
+  // ============ Fetch requirement data from database ============
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
@@ -33,7 +35,8 @@ export default function MuseumTracker() {
     fetchRequirements();
   }, []);
 
-  // ========== Get user's checkbox data ================
+
+  // ================= Get initial checkbox data ==================
   useEffect(() => {
     const fetchCheckboxData = async () => {
       if(status === "loading") {
@@ -57,7 +60,7 @@ export default function MuseumTracker() {
     fetchCheckboxData();
   }, [session, status]);
 
-  // =========== Handle checkbox changes ===============
+  // ================== Handle checkbox changes ===================
   const handleCheckboxChange = async (isChecked, checkboxId) => {
     if(status === "authenticated") {
       const res = await fetch("/../api/saveCheckboxData", {
@@ -80,49 +83,60 @@ export default function MuseumTracker() {
   }//end handleCheckboxChange()
   
 
-  // =========== Return page content ==================
-  if(loading) {
-    return <div>Loading...</div>;
-  }
+  // ================= Return page content ========================
   return (
-    <main>
-      <h1>Museum Tracker</h1>
-
-      <CheckSection sectionId="Artifacts" desc="Artifacts Donated">
+    <>
+      <Head>
+        <title>Museum Tracker</title>
+      </Head>
       {
-        artifacts.map((artifact) => {
-          return (
-            <CheckCard 
-              task={artifact.item_name} 
-              category="Artifact" 
-              cardWidth={CardWidth.Wide}
-              iconLabel={true}
-              isChecked={
-                checkboxData.find(item => item.checkbox_id === artifact.item_name.replaceAll(" ", ""))?.is_checked
-              }
-              onChange={handleCheckboxChange}/>
-          );
-        })
-      }
-      </CheckSection>
+        loading ? (
+          <Loading/>
+        ) : (
+          <main>
+            <h1>Museum Tracker</h1>
 
-      <CheckSection sectionId="Minerals" desc="Minerals Donated">
-      {
-        minerals.map((mineral) => {
-          return (
-            <CheckCard 
-              task={mineral.item_name} 
-              category="Mineral" 
-              cardWidth={CardWidth.Wide}
-              iconLabel={true}
-              isChecked={
-                checkboxData.find(item => item.checkbox_id === mineral.item_name.replaceAll(" ", ""))?.is_checked
-              }
-              onChange={handleCheckboxChange}/>
-          );
-        })
+            <CheckSection sectionId="Artifacts" desc="Artifacts Donated">
+            {
+              artifacts.map((artifact) => {
+                return (
+                  <CheckCard 
+                    task={artifact.item_name} 
+                    category="Artifact" 
+                    cardWidth={CardWidth.Wide}
+                    iconLabel={true}
+                    isChecked={
+                      checkboxData.find(item => item.checkbox_id === artifact.item_name.replaceAll(" ", ""))?.is_checked
+                    }
+                    onChange={handleCheckboxChange}/>
+                );
+              })
+            }
+            </CheckSection>
+
+            <CheckSection sectionId="Minerals" desc="Minerals Donated">
+            {
+              minerals.map((mineral) => {
+                return (
+                  <CheckCard 
+                    task={mineral.item_name} 
+                    category="Mineral" 
+                    cardWidth={CardWidth.Wide}
+                    iconLabel={true}
+                    isChecked={
+                      checkboxData.find(item => item.checkbox_id === mineral.item_name.replaceAll(" ", ""))?.is_checked
+                    }
+                    onChange={handleCheckboxChange}/>
+                );
+              })
+            }
+            </CheckSection>
+          </main>
+        )
       }
-      </CheckSection>
-    </main>
+
+    </>
+
   );
-}
+
+}// end MuseumPage()
