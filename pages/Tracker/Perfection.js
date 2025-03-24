@@ -107,8 +107,6 @@ export default function PerfectionTracker() {
             <h1>Perfection Tracker</h1>
 
             {
-              /* ------------ Items Shipped ------------ */
-
               requirements.map((reqGroup) => {
                 return (
                   <CheckSection key={reqGroup.subcategory_id}

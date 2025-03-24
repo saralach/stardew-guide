@@ -1,5 +1,70 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
+
+## Folder Structure
+stardew-guide/ 
+├── components/            # Reusable components 
+│   ├── CheckCard.tsx 
+│   ├── CheckSection.tsx
+│   ├── FishCard.tsx
+│   ├── Header.tsx
+│   ├── IconLink.tsx
+│   ├── Loading.tsx
+│   └── SourceSection.tsx
+├── lib/                   # Utility functions or API logic 
+│   └── mongodb.js 
+├── pages/                 # Next.js pages (routes) 
+│   ├── api/               # API routes 
+│   │   ├── auth/
+│   │   │   ├── [...nextauth].js
+│   │   │   ├── login.js
+│   │   │   └── register.js
+│   │   ├── getCheckboxData/
+│   │   │   └── [category].js
+│   │   ├── items/
+│   │   │   └── [itemname].js
+│   │   ├── villagers/
+│   │   │   └── [villagername].js
+│   │   ├── bundles.js 
+│   │   ├── cooking.js 
+│   │   ├── crafting.js 
+│   │   ├── fish.js 
+│   │   ├── getMuseumReqs.js 
+│   │   ├── getPerfectionReqs.js 
+│   │   ├── items.js 
+│   │   ├── saveCheckboxData.js 
+│   │   └── villagers.js 
+│   ├── index.js           # Home page 
+│   └── about.js           # About page 
+├── public/                # Static assets (images, fonts, etc.) 
+│   ├── logo.png 
+│   └── background.jpg 
+├── styles/                # Global styles 
+│   ├── globals.css 
+│   └── Home.module.css 
+├── .env.local             # Environment variables 
+├── next.config.js         # Next.js configuration 
+├── package.json           # Project dependencies and scripts 
+└── README.md              # Project documentation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Getting Started
 
 First, run the development server:
