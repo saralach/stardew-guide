@@ -8,47 +8,63 @@ interface IconLinkProps {
     altImgSrc?: string;
     isLink?: boolean;   
     className?: string;
-    width?: string;
+    iconSize?: string;
 }
 
-function IconLink({ category, label, qty, altImgSrc = "", isLink = true, className = "", width = "36px" }: IconLinkProps)  {
-    if(label == undefined && altImgSrc == "") // Error
-        return null;
-    // --- Set name of item & item location --------
-    let itemName = "";
-    if(altImgSrc === "")
-        itemName = label;
-    else
-        itemName = altImgSrc;
-    
-    itemName = itemName.trim();
+export const ICON_SIZES = {
+  XXS: styles.xxsicon,
+  XS: styles.xsicon,
+  SMALL: styles.smicon,
+  MEDIUM: styles.mdicon,
+  LARGE: styles.lgicon
+}
 
-    let location = "/" + itemName?.replaceAll(" ", "_").replaceAll(":", "");
-    if(typeof category !== 'undefined')
-        location = "/" + category + location;
+function IconLink({ category, label, qty, altImgSrc = "", isLink = true, className = "", iconSize = ICON_SIZES.SMALL }: IconLinkProps)  {
 
-    if(itemName === 'Gold')
-      width="18px";
+  if(label == undefined && altImgSrc == "") // Error
+    return null;
 
-    // --- Add quantity to label, if given ---------
-    if(qty !== undefined)
-        label = qty + " " + label;
+  // --- Set name of item & item location --------
 
-    return (
-        isLink ? (
-            <Link className={`${styles.iconlink} ${className} link`} href={`/Items${location}`}>
-                <img className={styles.iconimg} width={width}
-                    src={`${location}.png`} alt={itemName}/>
-                {label}
-            </Link>
-        ) : (
-            <div className={`${styles.iconlink} ${className}`}>
-                <img className={styles.iconimg} width={width}
-                    src={`${location}.png`} alt={itemName}/>
-                {label}
-            </div>
-        )
-    );
+  //let widthStyle = styles.smicon;
+  let itemName = "";
+
+  if(altImgSrc === "")
+    itemName = label;
+  else
+    itemName = altImgSrc;
+  
+  itemName = itemName.trim();
+
+  let location = "/" + itemName?.replaceAll(" ", "_").replaceAll(":", "");
+  if(typeof category !== 'undefined')
+    location = "/" + category + location;
+
+  if(itemName === 'Gold') {
+    //width="18px";
+    //widthStyle = styles.xsicon;
+    iconSize = ICON_SIZES.XS;
+  }
+
+  // --- Add quantity to label, if given ---------
+  if(qty !== undefined)
+      label = qty + " " + label;
+
+  return (
+      isLink ? (
+          <Link className={`${styles.iconlink} ${className} link`} href={`/Items${location}`}>
+              <img className={`${styles.iconimg} ${iconSize/*widthStyle*/}`} /*width={width}*/
+                  src={`${location}.png`} alt={itemName}/>
+              {label}
+          </Link>
+      ) : (
+          <div className={`${styles.iconlink} ${className}`}>
+              <img className={`${styles.iconimg} ${iconSize/*widthStyle*/}`} /*width={width}*/
+                  src={`${location}.png`} alt={itemName}/>
+              {label}
+          </div>
+      )
+  );
 }
 
 export default IconLink;

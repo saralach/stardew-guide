@@ -12,10 +12,11 @@ interface CheckCardProps {
   children?: React.ReactNode[] | undefined;
   cardWidth?: CardWidth;
   iconLabel?: boolean;
+  iconSrc: string;
 }
 
 
-export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false }: CheckCardProps) {
+export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false, iconSrc }: CheckCardProps) {
   const id = altId ? altId.replace(" ", "") : task.replace(" ", "");
 
   // Remove any children that are undefined; set array to undefined if no children remain
@@ -25,6 +26,8 @@ export default function CheckCard({ task, altId, isChecked, onChange, children, 
       children = undefined;
     }
   }
+  console.log("children after");
+  console.log(children);
 
 
   return (
@@ -38,7 +41,7 @@ export default function CheckCard({ task, altId, isChecked, onChange, children, 
             value={id} 
             checked={isChecked} 
             onChange={(e) => onChange(e.target.checked, id)} className="inline"/>
-          {iconLabel ? <IconLink label={task} isLink={false}/> : task}
+          {iconLabel ? <IconLink label={task} altImgSrc={iconSrc} isLink={false}/> : task}
         </label>
       </div>
       {

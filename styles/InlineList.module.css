@@ -1,0 +1,36 @@
+.inlinelist {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+
+  li {
+    display: inline;
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  &.none li {
+    margin-inline-end: 10px;
+  }
+
+  &.bullet li {
+    margin-inline-end: 20px;
+    position: relative; /* Necessary for positioning dot pseudo-element */
+
+    &:not(:last-child)::after {
+      content: "•";
+      margin-left: 10px; 
+      color: var(--text-color-dark);
+      position: absolute;
+      top: 50%;
+      right: -14px; /* Position the dot on the right side of the li */
+      transform: translateY(-50%);
+      font-size: .9rem; /* Make dot slightly smaller */
+    }
+  }
+}
+
+.listcontainer {
+  padding-block-end: .4rem;
+}

@@ -1,6 +1,4 @@
 .iconimg {
-  max-height: 32px;
-  max-width: 32px;
   width: auto;
   height: auto;
   
@@ -13,4 +11,23 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.xxsicon {
+  /*max-height: 16px;*/
+  max-width: 16px;
+  height: auto;
+}
+
+.xsicon {
+  /*max-height: 24px;*/
+  max-width: 24px;
+  height: auto;
+}
+
+.smicon {
+  /*max-height: 32px;*/
+  max-width: 32px;
+  height: auto;
+  /*object-fit: contain;*/
 }

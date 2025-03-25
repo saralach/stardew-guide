@@ -58,6 +58,7 @@ body {
   --font-size-md: 1.25rem;
   --font-size-sm: 1.1rem;
   --font-size-xs: 1rem;
+  --font-size-xxs: .9rem;
 
 
 
@@ -481,17 +482,7 @@ table {
   }
 }
 
-.inline-list {
-  li {
-      display: inline;
-      list-style: none;
-      padding-inline-start: 0;
-  }
 
-  li:not(li:last-child):after {
-      content: " \2022 "
-  }
-}
 
 .medium-font-weight {
   font-weight: 500;
@@ -499,6 +490,10 @@ table {
 
 .xs-font {
   font-size: var(--font-size-xs);
+}
+
+.xxs-font {
+  font-size: var(--font-size-xxs);
 }
 
 
