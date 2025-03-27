@@ -22,7 +22,7 @@ export default function PerfectionTracker() {
 
   const getCheckedStatus = (subcategory, checkboxId) => {
     return checkboxData.some((data) =>
-      data.subcategory === subcategory && data.completed_tasks.includes(checkboxId)
+      data.subcategory === subcategory && data.completed_tasks?.includes(checkboxId)
     );
   }
 
@@ -99,51 +99,45 @@ export default function PerfectionTracker() {
       if(!data.status === 200)
         console.log("Updated checkbox data not saved.");
       else {
-        if(isChecked)
-          addCheckboxData(checkboxId, subcategory);
-        else
-          removeCheckboxData(checkboxId, subcategory);
+        // Update checkbox data
+        setCheckboxData((prevCheckboxData) => {
+          const subcategoryExists = prevCheckboxData.some(subcategoryData => 
+            subcategoryData.subcategory === subcategory
+          );
+          if(subcategoryExists) { 
+            // Update existing subcategory's data
+            return prevCheckboxData.map((subcategoryData) => {
+              if(subcategoryData.subcategory === subcategory) {
+                let updatedTasks;
+                if(isChecked) {
+                  // Add checkboxId to completed_tasks array
+                  updatedTasks = [...subcategoryData.completed_tasks, checkboxId];
+                }
+                else {
+                  // Remove checkboxId from completed_tasks array
+                  updatedTasks = subcategoryData.completed_tasks.filter(id => id !== checkboxId);
+                }
+                return { subcategory: subcategory, completed_tasks: updatedTasks };
+              }
+              else
+                return subcategoryData;
+            });
+          }
+          else {
+            // Add new subcategory
+            const newSubcategoryData = {
+              subcategory: subcategory,
+              completed_tasks: [ checkboxId ]
+            }
+            return [...prevCheckboxData, newSubcategoryData]
+          }
+
+        });
       }
     }
   } //end handleCheckboxChange()
-
-  const removeCheckboxData = (checkboxId, subcategory) => {
-    setCheckboxData((prevData) => prevData.filter(data => !(data.checkbox_id === idToRemove && data.subcategory === subcategory)));
-    console.log("Checkbox data removed");
-  }
-
-  const addCheckboxData = (checkboxId, subcategory) => {
-    const dataToAdd = {
-      subcategory: subcategory, 
-      checkbox_id: checkboxId
-    };
-    setCheckboxData((prevData) => [...prevData, dataToAdd]);
-    console.log("Checkbox data added");
-  }
   
-  /* // OLD VERSION
-  const handleCheckboxChange = async (isChecked, checkboxId) => {
-    if(status === "authenticated") {
-      const res = await fetch("/../api/saveCheckboxData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${session.accessToken}`
-        },
-        body: JSON.stringify({
-          checkboxId: checkboxId,
-          isChecked: isChecked,
-          category: checkboxCategory
-        }),
-      });
-
-      const data = res.json();
-      if(!data.status === 200)
-        console.log("Updated checkbox data not saved.");
-    }
-  }//end handleCheckboxChange()*/
   
-
   // =================== Create Checkbox Cards ====================
   function PerfectionCard({subcategory, subcategoryId, req}) {
     let cardWidth = CardWidth.Wide;
