@@ -2,10 +2,16 @@ import { useState } from "react";
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 
+interface CheckSectionProps {
+  sectionId: string;
+  desc: string;
+  children?: React.ReactNode[] | undefined;
+  onChange: (isChecked: boolean, checkboxId: string, subcategory: string) => void;
+}
 
-export default function CheckSection({ sectionId, desc, children }) {
+export default function CheckSection({ sectionId, desc, children, onChange }: CheckSectionProps) {
   const [sectionVisible, setSectionVisible] = useState(true);
-  const noSpaceId = sectionId.replaceAll(" ", "");
+  //const noSpaceId = sectionId.replaceAll(" ", "");
 
   const changeVisibility = () => {
     setSectionVisible(!sectionVisible);
@@ -21,9 +27,10 @@ export default function CheckSection({ sectionId, desc, children }) {
             <label>
               <input 
                 type="checkbox" 
-                id={`${noSpaceId}Checkbox`} 
-                name={`${noSpaceId}Checkbox`} 
-                value={"Shipped Collection"} 
+                id={`${sectionId}-Checkbox`} 
+                name={sectionId} 
+                value={sectionId} 
+                onChange={(e) => onChange(e.target.checked, sectionId, "None")} 
                 /*checked={"isChecked"} 
                 onChange={handleOnChange}*/ />
               {desc}
@@ -52,44 +59,3 @@ export default function CheckSection({ sectionId, desc, children }) {
   );
 
 }
-
-
-
-
-
-
-
-/*
-interface CheckDropdownProps {
-  checkContent: string;
-  dropdownContent: string;
-  inputId: string;
-}
-
-function CheckDropdown({ checkContent, dropdownContent, inputId }: CheckDropdownProps)  {
-
-  const [isChecked, setIsChecked] = useState(false);
-  //const [isVisible, setIsVisible] = 
-  
-  const handleOnChange = () => {
-    setIsChecked(!isChecked);
-  }
-
-  return (
-    <div className="check-container flex justify-between">
-      <label>
-        <input 
-          type="checkbox" 
-          id={`${inputId}-checkbox`} 
-          name={inputId} 
-          value={inputId} 
-          checked={isChecked} 
-          onChange={handleOnChange} />
-        {checkContent}
-      </label>
-      <ChevronDown className="inline"/>
-    </div>
-  );
-}
-
-export default CheckDropdown;*/

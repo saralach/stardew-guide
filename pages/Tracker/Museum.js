@@ -106,7 +106,7 @@ export default function MuseumTracker() {
                     cardWidth={CardWidth.Wide}
                     iconLabel={true}
                     isChecked={
-                      checkboxData.find(item => item.checkbox_id === artifact.item_name.replaceAll(" ", ""))?.is_checked
+                      checkboxData.find(item => item.checkbox_id === artifact.item_name)?.is_checked
                     }
                     onChange={handleCheckboxChange}/>
                 );
@@ -124,7 +124,7 @@ export default function MuseumTracker() {
                     cardWidth={CardWidth.Wide}
                     iconLabel={true}
                     isChecked={
-                      checkboxData.find(item => item.checkbox_id === mineral.item_name.replaceAll(" ", ""))?.is_checked
+                      checkboxData.find(item => item.checkbox_id === mineral.item_name)?.is_checked
                     }
                     onChange={handleCheckboxChange}/>
                 );

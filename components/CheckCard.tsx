@@ -7,8 +7,8 @@ interface CheckCardProps {
   task: string;
   altId?: string;
   isChecked: boolean;
-  onChange: any;
-  category: string;
+  subcategory: string;
+  onChange: (isChecked: boolean, checkboxId: string, subcategory: string) => void;
   children?: React.ReactNode[] | undefined;
   cardWidth?: CardWidth;
   iconLabel?: boolean;
@@ -16,19 +16,16 @@ interface CheckCardProps {
 }
 
 
-export default function CheckCard({ task, altId, isChecked, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false, iconSrc }: CheckCardProps) {
-  const id = altId ? altId.replace(" ", "") : task.replace(" ", "");
+export default function CheckCard({ task, altId, isChecked, subcategory, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false, iconSrc }: CheckCardProps) {
+  const id = altId ? altId : task;
 
-  // Remove any children that are undefined; set array to undefined if no children remain
+  // Remove any children that are undefined; set children to undefined if no children remain in the array
   if(children != null) {
     children = children?.filter(child => child !== undefined);
     if(children.length === 0) {
       children = undefined;
     }
   }
-  console.log("children after");
-  console.log(children);
-
 
   return (
     <article className={`card card-${cardWidth}`}>
@@ -36,56 +33,17 @@ export default function CheckCard({ task, altId, isChecked, onChange, children, 
         <label className={children ? "flex flex-row" : "font-medium xs-font flex flex-row"}>
           <input 
             type="checkbox" 
-            id={`${id}Checkbox`} 
+            id={`${subcategory}-${id.replaceAll(" ", "")}`} 
             name={id} 
             value={id} 
             checked={isChecked} 
-            onChange={(e) => onChange(e.target.checked, id)} className="inline"/>
+            onChange={(e) => onChange(e.target.checked, id, subcategory)} className="inline"/>
           {iconLabel ? <IconLink label={task} altImgSrc={iconSrc} isLink={false}/> : task}
         </label>
       </div>
       {
         children && <div className="pt-3">{children}</div>
       }
-
     </article>
   );
 }
-
-
-
-
-
-
-
-/*
-interface CheckItemProps {
-  content: string;
-  inputId: string;
-}
-
-export default function CheckItem({ content, inputId }: CheckItemProps)  {
-  const [isChecked, setIsChecked] = useState(false);
-  //const [isVisible, setIsVisible] = 
-  
-  const handleOnChange = () => {
-      setIsChecked(!isChecked);
-  }
-
-  return (
-      <div className="check-container flex justify-between">
-          <label>
-              <input 
-                  type="checkbox" 
-                  id={`${inputId}-checkbox`} 
-                  name={inputId} 
-                  value={inputId} 
-                  checked={isChecked} 
-                  onChange={handleOnChange} />
-              {content}
-          </label>
-          <ChevronDown className="inline"/>
-      </div>
-  );
-}
-*/

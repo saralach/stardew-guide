@@ -44,4 +44,5 @@ yarn-error.log*
 next-env.d.ts
 playground-1.mongodb.js
 playground-2.mongodb.js
+playground-3.mongodb.js
 *.mongodb.js

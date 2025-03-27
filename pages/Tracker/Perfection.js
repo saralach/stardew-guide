@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 
-
 export default function PerfectionTracker() {
   const [isLoading, setIsLoading] = useState(true);
   const [requirements, setRequirements] = useState([]);
@@ -21,8 +20,10 @@ export default function PerfectionTracker() {
     'Crafting', 'Fishing'
   ];
 
-  const getCheckedStatus = (checkboxId) => {
-    return checkboxData.find((item) => item.checkbox_id === checkboxId)?.is_checked ? true : false;
+  const getCheckedStatus = (subcategory, checkboxId) => {
+    return checkboxData.some((data) =>
+      data.subcategory === subcategory && data.completed_tasks.includes(checkboxId)
+    );
   }
 
 
@@ -57,6 +58,7 @@ export default function PerfectionTracker() {
           if(session) {
             const res = await fetch(`/../api/getCheckboxData/${checkboxCategory}`);
             const data = await res.json();
+            console.log(data);
             setCheckboxData(data);
             console.log("checkboxData has been set.");
           }
@@ -77,6 +79,49 @@ export default function PerfectionTracker() {
 
 
   // ================== Handle checkbox changes ===================
+  const handleCheckboxChange = async (isChecked, checkboxId, subcategory) => {
+    if(status === "authenticated") {
+      const res = await fetch("/../api/saveCheckboxData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.accessToken}`
+        },
+        body: JSON.stringify({
+          checkboxId: checkboxId,
+          isChecked: isChecked,
+          category: checkboxCategory,
+          subcategory: subcategory
+        }),
+      });
+
+      const data = res.json();
+      if(!data.status === 200)
+        console.log("Updated checkbox data not saved.");
+      else {
+        if(isChecked)
+          addCheckboxData(checkboxId, subcategory);
+        else
+          removeCheckboxData(checkboxId, subcategory);
+      }
+    }
+  } //end handleCheckboxChange()
+
+  const removeCheckboxData = (checkboxId, subcategory) => {
+    setCheckboxData((prevData) => prevData.filter(data => !(data.checkbox_id === idToRemove && data.subcategory === subcategory)));
+    console.log("Checkbox data removed");
+  }
+
+  const addCheckboxData = (checkboxId, subcategory) => {
+    const dataToAdd = {
+      subcategory: subcategory, 
+      checkbox_id: checkboxId
+    };
+    setCheckboxData((prevData) => [...prevData, dataToAdd]);
+    console.log("Checkbox data added");
+  }
+  
+  /* // OLD VERSION
   const handleCheckboxChange = async (isChecked, checkboxId) => {
     if(status === "authenticated") {
       const res = await fetch("/../api/saveCheckboxData", {
@@ -96,7 +141,7 @@ export default function PerfectionTracker() {
       if(!data.status === 200)
         console.log("Updated checkbox data not saved.");
     }
-  }//end handleCheckboxChange()
+  }//end handleCheckboxChange()*/
   
 
   // =================== Create Checkbox Cards ====================
@@ -149,7 +194,7 @@ export default function PerfectionTracker() {
           <InlineList listItems={req.weather} listName="Weather" showIcons={true} />
         );
       }
-      
+
       if(req.times) {
         children.push(
           <InlineList listItems={req.times} listName="Time" delimiter="bullet" />
@@ -161,8 +206,6 @@ export default function PerfectionTracker() {
           <InlineList listItems={req.locations} listName="Locations" delimiter="bullet" />
         );
       }
-
-
     }
 
     if(showGold)
@@ -182,10 +225,11 @@ export default function PerfectionTracker() {
           task={taskLabel} 
           altId={req.label && req.req_id} 
           onChange={handleCheckboxChange} 
-          isChecked={checkboxData.find(item => item.checkbox_id === req.req_id)?.is_checked} 
+          isChecked={getCheckedStatus(subcategory, req.req_id)} 
+          subcategory={subcategory}
           iconLabel={showIcons}
           cardWidth={cardWidth}
-          iconSrc={iconSrc}>
+          iconSrc={iconSrc} >
         {children}
       </CheckCard>
     );
@@ -206,9 +250,13 @@ export default function PerfectionTracker() {
             {
               requirements.map((reqGroup) => {
                 return (
-                  reqGroup.subcategory_id && <CheckSection key={reqGroup.subcategory_id}
+                  //reqGroup.subcategory_id &&
+                  <CheckSection 
+                      key={reqGroup.subcategory_id}
                       sectionId={reqGroup.subcategory} 
-                      desc={reqGroup.label}>
+                      desc={reqGroup.label}
+                      onChange={handleCheckboxChange}
+                      isChecked={getCheckedStatus("None", reqGroup.subcategory)} >
                     {
                       reqGroup.reqs?.map((req) => {
                         return <PerfectionCard subcategory={reqGroup.subcategory} subcategoryId={reqGroup.subcategory_id} req={req} />
