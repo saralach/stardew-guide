@@ -33,7 +33,7 @@ export default function PerfectionTracker() {
 
   const getMainTaskCompletion = (subcategory) => {
     return initialCheckData.some((checkData) =>
-      checkData.subcategory && checkData.checkbox_id === subcategory
+      checkData.subcategory === undefined && checkData.checkbox_id === subcategory
     );
   }
 
