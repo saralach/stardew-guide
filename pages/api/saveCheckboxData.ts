@@ -1,8 +1,9 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 import { connectToDatabase } from '@/lib/mongodb';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // Confirm user is logged in
   const session = await getServerSession(req, res, authOptions);

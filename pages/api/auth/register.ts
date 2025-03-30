@@ -1,7 +1,8 @@
 import { hash } from "bcryptjs";
-import { connectToDatabase } from "../../../lib/mongodb";
+import { connectToDatabase } from "@/lib/mongodb";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { username, password } = req.body;
 
