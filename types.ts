@@ -17,3 +17,15 @@ export enum GiftPrefs {
   Dislike = 2,
   Hate    = 1
 }
+
+export interface ReqGroup {
+  label: string;
+  reqs: any[];
+  subcategory: string;
+  subcategory_id: number;
+}
+
+export interface SectionReq {
+  req_id: string;
+  id_num: number;
+}

@@ -7,7 +7,7 @@ interface InlineListProps {
   listItems: string[];
   listName: string;
   showIcons?: boolean;
-  delimiter: DelimiterTypes;
+  delimiter?: DelimiterTypes;
 }
 
 function InlineList({ listItems, listName = "", showIcons = false,  delimiter = "none"}: InlineListProps) {

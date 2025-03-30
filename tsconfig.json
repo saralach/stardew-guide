@@ -19,13 +19,14 @@
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
       "@/pages/api/*": ["pages/api/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["types/*"]
     }
   },
   "include": [
     "next-env.d.ts", 
     "**/*.ts", "**/*.tsx", 
-    "components/*.tsx", 
+    "components/*.tsx", "pages/Tracker/Perfection.jsx", 
     /*"components/CheckDropdown.tsx", "components/FishCard.jsx", "components/CheckCard.tsx", "components/CheckCard.tsx", "components/IconLink.tsx", "components/InlineList.tsx",*/
   ],
   "exclude": ["node_modules"]
