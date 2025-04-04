@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
-import styles from '../styles/Login.module.css';
+import styles from '@/styles/Login.module.css';
 
 
 export default function Login() {

@@ -8,12 +8,28 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 export default function MuseumTracker() {
-  const [artifacts, setArtifacts] = useState([]);
-  const [minerals, setMinerals] = useState([]);
+  /*const [artifacts, setArtifacts] = useState([]);
+  const [minerals, setMinerals] = useState([]);*/
+  const [requirements, setRequirements] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [checkboxData, setCheckboxData] = useState([]);
+  const [hideCompleted, setHideCompleted] = useState(false);
+  const [initialCheckData, setInitialCheckData] = useState([]);
   const { data: session, status } = useSession();
   const checkboxCategory = "Museum";
+
+
+  const toggleCompletedTasks = (event) => {
+    setHideCompleted(event.target.checked);
+  };
+
+  const getInitialSectionData = (subcategory) => {
+    const sectionInitialData = [];
+    initialCheckData.forEach((checkData) => {
+      if(checkData.subcategory === subcategory)
+        sectionInitialData.push(checkData.checkbox_id);
+    });
+    return sectionInitialData;
+  };
 
 
   // ============ Fetch requirement data from database ============
@@ -22,8 +38,9 @@ export default function MuseumTracker() {
       try {
         const res = await fetch('/../api/getMuseumReqs');
         const data = await res.json();
-        setArtifacts(data.artifacts);
-        setMinerals(data.minerals);
+        /*setArtifacts(data.artifacts);
+        setMinerals(data.minerals);*/
+        setRequirements(data);
       } 
       catch(error) {
         console.log('Error fetching documents');
@@ -46,7 +63,7 @@ export default function MuseumTracker() {
         if(session) {
           const res = await fetch(`/../api/getCheckboxData/${checkboxCategory}`);
           const data = await res.json();
-          setCheckboxData(data);
+          setInitialCheckData(data);
         }
         else {
           console.log("Error - user not authenticated")
@@ -95,8 +112,33 @@ export default function MuseumTracker() {
         ) : (
           <main>
             <h1>Museum Tracker</h1>
+            {
+              requirements.map((reqGroup) => {
+                return (
+                  <CheckSection 
+                    key={reqGroup.subcategory_id}
+                    category={checkboxCategory}
+                    sectionId={reqGroup.subcategory} 
+                    desc={reqGroup.label}
+                    reqs={reqGroup.reqs}
+                    initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
+                    hideCompleted={hideCompleted}
+                    showIcons={true}
+                    />
+                )
+              })
+            }
 
-            <CheckSection sectionId="Artifacts" desc="Artifacts Donated">
+          </main>
+        )
+      }
+
+    </>
+
+  );
+
+}// end MuseumPage()
+            /*<CheckSection sectionId="Artifacts" desc="Artifacts Donated">
             {
               artifacts.map((artifact) => {
                 return (
@@ -130,13 +172,4 @@ export default function MuseumTracker() {
                 );
               })
             }
-            </CheckSection>
-          </main>
-        )
-      }
-
-    </>
-
-  );
-
-}// end MuseumPage()
+            </CheckSection>*/

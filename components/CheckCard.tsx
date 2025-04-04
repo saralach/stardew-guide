@@ -3,37 +3,97 @@ import React from "react";
 import { CardWidth } from "@/types";
 import IconLink from "./IconLink";
 import handleChkChange from "@/lib/handleChkChange";
+import InlineList from "./InlineList";
 
 interface CheckCardProps {
-  initIsChecked: boolean;
   category: string;
   subcategory: string;
-  task: string;
-  altId?: string;
-  iconSrc?: string;
-  iconLabel?: boolean;
-  cardWidth?: CardWidth;
-  children?: React.ReactNode[] | null;
+  req: any;
+  initIsChecked: boolean;
+  showIcon?: boolean;
 }
 
-function CheckCard ({ initIsChecked, category, subcategory, task, altId, iconSrc, iconLabel=false,
-                      cardWidth=CardWidth.Thin, children=null }: CheckCardProps) {
-
+function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false }: CheckCardProps) {
   const [isChecked, setIsChecked] = useState(initIsChecked);
-  const checkboxId = altId ? altId : task;
+
+  // ================= Determine how to display ====================
+  // Determine whether to show icons & get icon url
+
+  let iconSrc = "";
+  //let showIcon = false;
+  
+  let cardWidth = CardWidth.Wide;
+  let showGold = false;
+  const checkboxId = req.req_id;
+  let taskLabel = req.label ? req.label : req.req_id;
+  let children: any[] | null = [];
+
+  /*if(iconSubcategories.includes(subcategory)) {
+    showIcons=true;*/
+    if(req.icon_name)
+      iconSrc = req.icon_name.trim().replace(" ", "_");
+  //}
+  // If gold is required, format it (add commas)
+  const formattedGold = req.gold_reqd ? `${req.gold_reqd.toLocaleString('en-US')}g` : null;
+
+  if(subcategory === "Obelisks" && req.gold_reqd)
+      showGold = true;
+
+  else if(subcategory === "Stardrops") {
+    cardWidth = CardWidth.Full;
+    if(req.gold_reqd)
+      taskLabel += ` (${formattedGold})`;
+  }
+
+  // ----- Create child components -----------------------------
+  if(subcategory === "Fishing") {
+    if(req.seasons) {
+      children.push(
+        <InlineList listItems={req.seasons} listName="Seasons" showIcons={true} />
+      );
+    }
+
+    if(req.weather && req.weather[0] !== "Any") {
+      children.push(
+        <InlineList listItems={req.weather} listName="Weather" showIcons={true} />
+      );
+    }
+
+    if(req.times) {
+      children.push(
+        <InlineList listItems={req.times} listName="Time" delimiter="bullet" />
+      );
+    }
+
+    if(req.locations) {
+      children.push(
+        <InlineList listItems={req.locations} listName="Locations" delimiter="bullet" />
+      );
+    }
+  }
+
+  if(showGold)
+    children.push(<IconLink label={`${req.gold_reqd}g`} altImgSrc="Gold" isLink={false} />);
+  
+  if(req.items_reqd) {
+    children.push(
+      req.items_reqd.map((item_reqd: any) => {
+        return <IconLink key={item_reqd.item} label={item_reqd.item} qty={item_reqd.qty} />
+      })
+    );
+  }
 
   const updateCompletion = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setIsChecked(event.target.checked);
     handleChkChange(category, subcategory, checkboxId, event.target.checked);
   };
 
-  // Remove any undefined children; if no children left in array, set children to null
-  if(children != null) {
-    children = children?.filter(child => child !== undefined);
-    if(children.length === 0)
-      children = null;
-  }
+  // Remove any undefined children; if children is empty array, set to null
+  children = children?.filter(child => child !== undefined);
+  if(children.length === 0)
+    children = null;
 
+  // ===================== Return Component ========================
   return (
     <article className={`card card-${cardWidth}`}>
       <div className={children ? "bottom-border" : ""}>
@@ -46,7 +106,7 @@ function CheckCard ({ initIsChecked, category, subcategory, task, altId, iconSrc
             checked={isChecked} 
             onChange={updateCompletion} 
             className="inline"/>
-          {iconLabel ? <IconLink label={task} altImgSrc={iconSrc} isLink={false}/> : task}
+          {showIcon ? <IconLink label={taskLabel} altImgSrc={iconSrc} isLink={false}/> : taskLabel}
         </label>
       </div>
       {
@@ -57,75 +117,3 @@ function CheckCard ({ initIsChecked, category, subcategory, task, altId, iconSrc
 };
 
 export default CheckCard;
-
-
-
-
-
-
-
-/*export default function CheckCard ({ task, altId, initIsChecked, subcategory, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false, iconSrc }: CheckCardProps) {
-  const [isChecked, setIsChecked] = useState(initIsChecked);
-  const id = altId ? altId : task;
-
-  // Remove any children that are undefined; set children to undefined if no children remain in the array
-  if(children != null) {
-    children = children?.filter(child => child !== undefined);
-    if(children.length === 0) {
-      children = undefined;
-    }
-  }
-
-  return (
-    <article className={`card card-${cardWidth}`}>
-      <div className={children ? "bottom-border" : ""}>
-        <label className={children ? "flex flex-row" : "font-medium xs-font flex flex-row"}>
-          <input 
-            type="checkbox" 
-            id={`${subcategory}${id.replaceAll(" ", "")}Checkbox`} 
-            name={id} 
-            value={id} 
-            checked={isChecked} 
-            onChange={(e) => onChange(e.target.checked, id, subcategory)} className="inline"/>
-          {iconLabel ? <IconLink label={task} altImgSrc={iconSrc} isLink={false}/> : task}
-        </label>
-      </div>
-      {
-        children && <div className="pt-3">{children}</div>
-      }
-    </article>
-  );
-};*/
-
-
-/*export default function CheckCard({ task, altId, isChecked, subcategory, onChange, children, cardWidth=CardWidth.Thin, iconLabel=false, iconSrc }: CheckCardProps) {
-  const id = altId ? altId : task;
-
-  // Remove any children that are undefined; set children to undefined if no children remain in the array
-  if(children != null) {
-    children = children?.filter(child => child !== undefined);
-    if(children.length === 0) {
-      children = undefined;
-    }
-  }
-
-  return (
-    <article className={`card card-${cardWidth}`}>
-      <div className={children ? "bottom-border" : ""}>
-        <label className={children ? "flex flex-row" : "font-medium xs-font flex flex-row"}>
-          <input 
-            type="checkbox" 
-            id={`${subcategory}-${id.replaceAll(" ", "")}`} 
-            name={id} 
-            value={id} 
-            checked={isChecked} 
-            onChange={(e) => onChange(e.target.checked, id, subcategory)} className="inline"/>
-          {iconLabel ? <IconLink label={task} altImgSrc={iconSrc} isLink={false}/> : task}
-        </label>
-      </div>
-      {
-        children && <div className="pt-3">{children}</div>
-      }
-    </article>
-  );
-}*/

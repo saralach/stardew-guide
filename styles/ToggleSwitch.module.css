@@ -1,0 +1,63 @@
+:root {
+  --switch-width: 36px;
+  --switch-height: 20px;
+  --circle-margin: 2px;
+}
+
+/* The container */
+.togglelabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: var(--font-size-xxs);
+  font-weight: 400;
+  margin-block-start: .25rem;
+  margin-inline: .5rem;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Hide the browser's default checkbox */
+.togglelabel input {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+/* Slider Outer Oval */
+.toggleslider {
+  height: var(--switch-height);
+  width: var(--switch-width);
+  margin-inline-end: .5rem;
+  background-color: var(--midgray0);
+  border-radius: var(--switch-height);
+}
+
+/* On mouse-over, add a darker background color */
+.togglelabel:hover input ~ .toggleslider {
+  background-color: var(--midgray1);
+}
+
+/* When checked, change background color */
+.togglelabel input:checked ~ .toggleslider {
+  background-color: /*#2196F3*/ var(--accent-color-bright);
+}
+
+/* Slider Inner Circle (Pseudo-element) */
+.toggleslider:before {
+  position: absolute;
+  content: "";
+  height: calc(var(--switch-height) - var(--circle-margin) * 2);
+  width: calc(var(--switch-height) - var(--circle-margin) * 2);
+  margin-block: var(--circle-margin);
+  margin-inline: var(--circle-margin);
+  background-color: #fff;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Move slider when checked/unchecked */
+input:checked + .toggleslider:before {
+  transform: translateX(calc(var(--switch-width) - var(--switch-height)));
+}

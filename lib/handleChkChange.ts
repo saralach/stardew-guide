@@ -27,20 +27,3 @@ const handleChkChange = async ( category: string, subcategory: string | null, ch
 }
 
 export default handleChkChange;
-
-
-/*
-  //if(session.status === "authenticated") {
-
-  //... 
-
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${session.accessToken}`
-  },
-
-  //... 
-
-  if(!(res.status === 200))
-    console.log("Updated checkbox data not saved.");
-*/

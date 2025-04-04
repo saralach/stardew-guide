@@ -3,7 +3,8 @@ import React from "react";
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import { SectionReq } from "@/types";
-import PerfectionCard from "@/components/PerfectionCard"
+//import PerfectionCard from "@/components/zPerfectionCard"
+import CheckCard from "./CheckCard";
 import { useSession } from "next-auth/react";
 import handleChkChange from "@/lib/handleChkChange";
 
@@ -14,11 +15,14 @@ interface CheckSectionProps {
   reqs?: SectionReq[];
   initCompletedTasks: string[];
   mainTaskIsComplete: boolean;
+  hideCompleted?: boolean;
+  showIcons?: boolean;
 }
 
-function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], mainTaskIsComplete }: 
-      CheckSectionProps) {
-  const { data: session, status } = useSession();
+function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], mainTaskIsComplete,
+                        hideCompleted=false, showIcons=false }: CheckSectionProps) {
+                          
+  //const { data: session, status } = useSession();
   const [sectionVisible, setSectionVisible] = useState(true);
   const [isComplete, setIsComplete] = useState(mainTaskIsComplete);
 
@@ -48,18 +52,20 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
                 name={sectionId}
                 value={sectionId}
                 onChange={updateCompletion}
-                checked={isComplete} />
+                checked={isComplete} 
+              />
               {desc}
             </label>
           )
         }
         {
           reqs && (
-          sectionVisible ? (
-            <ChevronUp onClick={toggleVisibility} className="inline chevron-btn" />
-          ) : (
-            <ChevronDown onClick={toggleVisibility} className="inline chevron-btn" />
-          ))
+            sectionVisible ? (
+              <ChevronUp onClick={toggleVisibility} className="inline chevron-btn" />
+            ) : (
+              <ChevronDown onClick={toggleVisibility} className="inline chevron-btn" />
+            )
+          )
         }
       </div>
       {
@@ -67,8 +73,13 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
         <div className="flex flex-row flex-wrap justify-center" >
           {
             reqs?.map((req) => {
-              return <PerfectionCard subcategory={sectionId} req={req} 
-                initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}/>
+              /*return <PerfectionCard subcategory={sectionId} req={req} 
+                initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}/>*/
+              return <CheckCard category={category} 
+                  subcategory={sectionId} 
+                  req={req} 
+                  initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}
+                  showIcon={showIcons}/>
             })
           }
         </div>
@@ -80,27 +91,3 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
 };
 
 export default CheckSection;
-
-
-
-/*const handleChkChange = async (isChecked: boolean, checkboxId: string, subcategory: string) => {
-  if(status === "authenticated") {
-    const res = await fetch("/../pages/api/saveCheckboxData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${session.accessToken}`
-      },
-      body: JSON.stringify({
-        checkboxId: checkboxId,
-        isChecked: isChecked,
-        category: category,
-        subcategory: subcategory
-      }),
-    });
-
-    const data = res.json();
-    if(!(data.status === 200))
-      console.log("Updated checkbox data not saved.");
-  }
-} //end handleChkChange()*/

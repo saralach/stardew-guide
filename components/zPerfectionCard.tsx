@@ -1,4 +1,3 @@
-import { useState } from "react";
 import InlineList from "./InlineList";
 import { CardWidth } from "@/types";
 import IconLink from "./IconLink";
@@ -10,9 +9,7 @@ interface PerfectionCardProps {
   initIsChecked: boolean;
 }
 
-
-function PerfectionCard({subcategory, req, initIsChecked}: PerfectionCardProps) {
-
+function PerfectionCard({ subcategory, req, initIsChecked }: PerfectionCardProps) {
   const reqIconLabelSections = [
     'Items Shipped', 'Monster Slayer','Great Friends', 'Level 10 Skills', 'Cooking', 
     'Crafting', 'Fishing'
