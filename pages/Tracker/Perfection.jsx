@@ -101,7 +101,7 @@ export default function PerfectionTracker() {
           <main>
             <h1>Perfection Tracker</h1>
             <div className="flex flex-row justify-end">
-              <ToggleSwitch label={"Hide Completed"}/>
+              <ToggleSwitch label={"Hide Completed"} onChange={toggleCompletedTasks}/>
             </div>
 
             {

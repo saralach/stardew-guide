@@ -73,8 +73,7 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
         <div className="flex flex-row flex-wrap justify-center" >
           {
             reqs?.map((req) => {
-              /*return <PerfectionCard subcategory={sectionId} req={req} 
-                initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}/>*/
+              if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) return;
               return <CheckCard category={category} 
                   subcategory={sectionId} 
                   req={req} 
