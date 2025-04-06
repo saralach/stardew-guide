@@ -92,7 +92,7 @@ export default function PerfectionTracker() {
   return (
     <>
       <Head>
-        <title>Perfection Tracker</title>
+        <title>Perfection Tracker | Stardew Guide</title>
       </Head>
       {
         isLoading ? (

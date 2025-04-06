@@ -71,38 +71,40 @@ export default function Login() {
     return <div>{`Silly ${session.user.username}, you are already logged in!`}</div>
   }
   return (
-    <main className={styles.logincontainer}>
-      <div className={styles.tabcontainer}>
-        <button disabled={!isLogin} onClick={switchMenu} className={styles.tab}>
-          Register
-        </button>
-        <button disabled={isLogin} onClick={switchMenu} className={styles.tab}>
-          Login
-        </button>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">
-          { 
-            isLogin ? "Login" : "Register"
-          }
-        </button>
-      </form>
-      {
-        message && <p>{message}</p>
-      }
-    </main>
+    <>
+      <Head>
+        <title>Page Not Found | Stardew Guide</title>
+      </Head>
+      <main className={styles.logincontainer}>
+        <div className={styles.tabcontainer}>
+          <button disabled={!isLogin} onClick={switchMenu} className={styles.tab}>
+            Register
+          </button>
+          <button disabled={isLogin} onClick={switchMenu} className={styles.tab}>
+            Login
+          </button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">{isLogin ? "Login" : "Register"}</button>
+        </form>
+        {
+          message && <p>{message}</p>
+        }
+      </main>
+    </>
+
   );
 }
 

@@ -2,9 +2,9 @@ import { useState } from "react";
 import React from "react";
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
-import { SectionReq } from "@/types";
+import { SingleReq } from "@/types/types";
 //import PerfectionCard from "@/components/zPerfectionCard"
-import CheckCard from "./CheckCard";
+import CheckCard from "@/components/CheckCard";
 import { useSession } from "next-auth/react";
 import handleChkChange from "@/lib/handleChkChange";
 
@@ -12,7 +12,7 @@ interface CheckSectionProps {
   category: string;
   sectionId: string;
   desc: string;
-  reqs?: SectionReq[];
+  reqs?: SingleReq[];
   initCompletedTasks: string[];
   mainTaskIsComplete: boolean;
   hideCompleted?: boolean;
@@ -73,7 +73,8 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
         <div className="flex flex-row flex-wrap justify-center" >
           {
             reqs?.map((req) => {
-              if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) return;
+              if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) 
+                return;
               return <CheckCard category={category} 
                   subcategory={sectionId} 
                   req={req} 

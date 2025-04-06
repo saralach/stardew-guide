@@ -1,0 +1,70 @@
+.pagehead nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 1rem;
+  padding-block: .5rem;
+  background-color: var(--accent-color-1);
+  box-shadow: 1px 1px 7px var(--midgray2);
+
+  /* Prevent users from selecting text */
+  user-select: none;
+
+  .lefthead > * {
+    display: inline;
+  }
+
+  a:has(.sitelogo) {
+    padding: 0;
+    margin: 0;
+  }
+
+  .sitelogo {
+    margin-inline-start: .25rem;
+    margin-inline-end: 1rem;
+    height: 88px;
+    display: inline;
+  }
+
+  .navtabs {
+    li {
+      display: inline;
+      list-style-type: none;
+      padding-inline-start: 0;
+    }
+  }
+  
+  li, button, a {
+    color: var(--text-color-med);
+  }
+
+  li, button {
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding-inline: 1.25rem;
+  }
+
+  a:hover, button:hover {
+    color: var(--lightgray0);
+  }
+}
+
+/* =============== xs screens =============== */
+@media screen and (max-width: 575px) {
+  .pagehead nav { 
+    padding-inline: .5rem;
+    
+    .sitelogo {
+      margin-inline-end: .25rem;
+      height: 66px;
+      display: inline;
+    }
+
+    .navtabs {
+      display: none;
+    }
+  }
+}

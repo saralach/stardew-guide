@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import { CardWidth } from "@/types";
+import { CardWidth } from "@/types/enums";
 import IconLink from "./IconLink";
 import handleChkChange from "@/lib/handleChkChange";
 

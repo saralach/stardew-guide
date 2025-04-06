@@ -1,4 +1,5 @@
-import { connectToDatabase } from '../../../lib/mongodb';
+import { FullVillagerData } from '@/types/villagerInfoTypes';
+import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
 
     //----- Query the database for villager info & prefs ----------  
-    const villager = await collection.aggregate([
+    const villager: FullVillagerData[] = await collection.aggregate([
       { 
         // Get villager info from villagers collection
         $match: { name: villagername } 
@@ -40,6 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       {
         $project: {
+          _id: 0,
           // Exclude _id & villager_name fields from the gift_prefs documents
           gift_prefs: { _id: 0, villager_name: 0 }  
         }

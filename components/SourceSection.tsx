@@ -1,9 +1,18 @@
+import { SourceInfo } from "@/types/itemInfoTypes";
 import IconLink from "./IconLink";
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { useState } from "react";
+import InlineList from "./InlineList";
 
+interface SourceSectionProps {
+  sourceCategory: string;
+  sources: SourceInfo[];
+  itemName: string;
+}
 
-export default function SourceSection({ category, sources, itemName }) {
+export default function SourceSection({ sourceCategory: category, sources, itemName }: 
+      SourceSectionProps) {
+        
   const [sectionVisible, setSectionVisible] = useState(true);
 
   // ==================== Set Up Content ====================
@@ -13,15 +22,19 @@ export default function SourceSection({ category, sources, itemName }) {
     setSectionVisible(!sectionVisible);
   };
 
-  const getLocationListItems = (locations) => {
-    let locationListItems = [];
+  const getLocationListItems = (locations: any[]) => {
+    let locationListItems: any[] = [];
     
     locations.forEach( (location) => {
       locationListItems.push(
         <li className="list-none">
-          {
-            location.details ? `${location.location_name} (${location.details})` : location.location_name
-          }
+        {
+          location.details ? (
+            `${location.location_name} (${location.details})`
+          ) : (
+            location.location_name
+          )
+        }
         </li>
       );
     });
@@ -33,9 +46,9 @@ export default function SourceSection({ category, sources, itemName }) {
       return (
             <article className="card card-wide">
               <div className="bottom-border block w-full">
-                <h4>
+                <h6>
                   <IconLink label={itemName} />
-                </h4>
+                </h6>
               </div>
                 <div className="pt-3">
                   {
@@ -56,7 +69,7 @@ export default function SourceSection({ category, sources, itemName }) {
   else if(category === "Buying") {
     sectionContent = sources.map( (source) => {
       return (
-        source.source_name && <div className="card card-wide">
+        source.source_name && <article className="card card-wide">
           {
             <div className="flex flex-row items-center justify-between">
               <IconLink 
@@ -74,7 +87,7 @@ export default function SourceSection({ category, sources, itemName }) {
             </div>
           }
           {source.locations && <ul className="ps-6">{getLocationListItems(source.locations)}</ul>}
-        </div>
+        </article>
       );
     }); //end sources.map()
   }
@@ -82,26 +95,83 @@ export default function SourceSection({ category, sources, itemName }) {
   else if(category === "Equipment") {
     sectionContent = sources.map( (source) => {
       return (
-            <article className="card card-wide">
-              <div className="bottom-border block w-full">
-                <h4>
-                  {source.source_name}
-                </h4>
-              </div>
-                <div className="pt-3">
-                  {
-                    source.item_costs?.map( (item) => (
-                      <IconLink 
-                        label={item.item}
-                        qty={item.qty ? item.qty : undefined}
-                        isLink={false}
-                      />
-                    ))
-                  }
-                </div>
-            </article>
+        <article className="card card-wide">
+          <div className="bottom-border block w-full">
+            <h6>
+              {source.source_name}
+            </h6>
+          </div>
+            <div className="pt-3">
+              {
+                source.item_costs?.map( (item) => (
+                  <IconLink 
+                    label={item.item}
+                    qty={item.qty ? item.qty : undefined}
+                    isLink={false}
+                  />
+                ))
+              }
+            </div>
+        </article>
       );
     });
+  }
+  else if (category === "Artifact Spot" || category === "Foraging") {
+    sectionContent = sources.map( (source) => {
+      return source.locations?.map( (location) => {
+        return (
+          <div className="card card-wide">
+              <h6>
+              {
+                location.location_name
+              }
+              {
+                source.probability && (
+                  <span className="font-normal">
+                    {` (${source.probability * 100}%)`}
+                  </span>
+                )
+              }
+              </h6>
+              {
+                source.seasons && (
+                  <InlineList listItems={source.seasons} listName={"Seasons"} delimiter="bullet" />
+                )
+              }
+          </div>
+        );
+      })
+    });
+  }
+
+  else if (category === "Geodes") {
+    sectionContent = sources.map( (source) => {
+      return (
+        source.source_name && <div className="card card-wide">
+          {
+             <div className="flex flex-row items-center">
+                <IconLink key={source.source_name} 
+                  label={source.source_name} 
+                  isLink={false} 
+                  className="font-bold" 
+                />
+                {
+                  source.probability && (
+                    <span className="font-normal ps-1">
+                      {` (${parseFloat((source.probability * 100).toFixed(2))}%)`}
+                    </span>
+                  )
+                }
+             </div>
+
+          }
+          {
+
+          }
+          {source.locations && <ul className="ps-6">{getLocationListItems(source.locations)}</ul>}
+        </div>
+      );
+    }); //end sources.map()
   }
 
   else {
@@ -109,7 +179,7 @@ export default function SourceSection({ category, sources, itemName }) {
       return (
         source.source_name && <div className="card card-wide">
           {
-             <IconLink key={source.source_name} category={category} label={source.source_name} 
+             <IconLink key={source.source_name} /*category={category}*/ label={source.source_name} 
               isLink={false} className="font-bold"
             />
           }
@@ -127,7 +197,7 @@ export default function SourceSection({ category, sources, itemName }) {
   return (
     <div id={`${category}Sources`} className="mb-8">
       
-      <div className="flex flex-row items-center bottom-border" >
+      <div className="flex flex-row items-center" >
         <h3 className="text-center">
           {category}
         </h3>
@@ -141,14 +211,12 @@ export default function SourceSection({ category, sources, itemName }) {
           )
         }
       </div>
-
       {
         sectionContent &&
           <div className={sectionVisible ? "ps-1 flex flex-row flex-wrap justify-center" : "hidden"}>
             { sectionContent }
           </div>
       }
-
     </div>
   );
 

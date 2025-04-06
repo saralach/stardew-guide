@@ -1,7 +1,12 @@
+import { ItemCategory } from '@/types/itemInfoTypes';
 import { connectToDatabase } from '../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { ErrorResponse } from '@/types/types';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest, 
+  res: NextApiResponse<ItemCategory | ErrorResponse>
+) {
 
   try {
     // Connect to MongoDB database
@@ -9,11 +14,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const collection = db.collection('items');
 
     // Query the database
-    const query = { };
-    const projection = { _id: 0 };  //exclude _id field
+    /*const query = { };
+
+    //exclude _id field
+    const projection = { 
+      _id: 0
+    };  
   
-    const items = await collection.find(query, {projection}).toArray();
-  
+    const items = await collection.find(query, {projection}).toArray();*/
+
+    //const items = await collection.distinct("item_name")
+
+    const items = await collection.aggregate([
+      { // Get item names grouped by category
+        $group: {
+          _id: "$category",
+          items: { $push: '$item_name'}
+        },
+      },
+      { // Sort by _id (ascending)
+        $sort: {
+          _id: 1
+        }
+      }
+    ]).toArray();
+ 
     res.status(200).json(items);
   }
   catch (error) {

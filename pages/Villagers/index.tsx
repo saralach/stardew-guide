@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from 'react';
+import { BasicVillagerData } from "@/types/villagerInfoTypes";
 
 export default function AllVillagersPage() {
 
-  const [villagers, setVillagers] = useState([]);
+  const [villagers, setVillagers] = useState<BasicVillagerData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function AllVillagersPage() {
   return (
     <>
       <Head>
-        <title>Villagers</title>
+        <title>Villagers | Stardew Guide</title>
       </Head>
       {
         loading ? (
@@ -35,10 +36,10 @@ export default function AllVillagersPage() {
         ) : (
           <main>
             <h1>Villagers</h1>
-            <div class="cards-container">
+            <div className="cards-container">
               {
                 villagers.map( (villager) => (
-                  <a class="cardlink villagerlink" href={`Villagers/${villager.name}`}>
+                  <a className="cardlink villagerlink" href={`Villagers/${villager.name}`}>
                     <img className="villagerphoto" src={`/Villager/${villager.name}.png`} alt={`${villager.name}'s portrait`} />
                     <p>{villager.name}</p>
                   </a>

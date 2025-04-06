@@ -3,13 +3,10 @@ import IconLink from "@/components/IconLink";
 import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
 import Loading from "@/components/Loading";
-import { CardWidth } from "@/types";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 export default function MuseumTracker() {
-  /*const [artifacts, setArtifacts] = useState([]);
-  const [minerals, setMinerals] = useState([]);*/
   const [requirements, setRequirements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hideCompleted, setHideCompleted] = useState(false);
@@ -104,7 +101,7 @@ export default function MuseumTracker() {
   return (
     <>
       <Head>
-        <title>Museum Tracker</title>
+        <title>Museum Tracker | Stardew Guide</title>
       </Head>
       {
         loading ? (

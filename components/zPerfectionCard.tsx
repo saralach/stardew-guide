@@ -1,5 +1,5 @@
 import InlineList from "./InlineList";
-import { CardWidth } from "@/types";
+import { CardWidth } from "@/types/enums";
 import IconLink from "./IconLink";
 import CheckCard from "./CheckCard";
 

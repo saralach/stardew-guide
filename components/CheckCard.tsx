@@ -1,9 +1,9 @@
 import { useState } from "react";
 import React from "react";
-import { CardWidth } from "@/types";
-import IconLink from "./IconLink";
+import { CardWidth } from "@/types/enums";
+import IconLink from "@/components/IconLink";
 import handleChkChange from "@/lib/handleChkChange";
-import InlineList from "./InlineList";
+import InlineList from "@/components/InlineList";
 
 interface CheckCardProps {
   category: string;
