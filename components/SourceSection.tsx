@@ -163,7 +163,6 @@ export default function SourceSection({ sourceCategory: category, sources, itemN
                   )
                 }
              </div>
-
           }
           {
 
