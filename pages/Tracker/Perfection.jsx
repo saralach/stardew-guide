@@ -18,9 +18,9 @@ export default function PerfectionTracker() {
     'Cooking', 'Crafting', 'Fishing'
   ];
 
-  const toggleCompletedTasks = (event) => {
+  /*const toggleCompletedTasks = (event) => {
     setHideCompleted(event.target.checked);
-  };
+  };*/
 
   const getInitialSectionData = (subcategory) => {
     const sectionInitialData = [];
@@ -100,10 +100,6 @@ export default function PerfectionTracker() {
         ) : (
           <main>
             <h1>Perfection Tracker</h1>
-            <div className="flex flex-row justify-end">
-              <ToggleSwitch label={"Hide Completed"} onChange={toggleCompletedTasks}/>
-            </div>
-
             {
               requirements.map((reqGroup) => {
                 return (
@@ -115,7 +111,6 @@ export default function PerfectionTracker() {
                     reqs={reqGroup.reqs}
                     initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
                     mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}
-                    hideCompleted={hideCompleted}
                     showIcons={iconSubcategories.includes(reqGroup.subcategory)}
                   />
                 )

@@ -9,6 +9,21 @@ export interface ItemInfo {
   health?: number;
   max_quality?: string;
   sources: SourceCategory[];
+  uses: UsageCategory[];
+
+}
+
+export interface UsageCategory {
+  use_category: string;
+  uses: UsageInfo[];
+}
+
+export interface UsageInfo {
+  product_name: string;
+  equipment_name: string;
+  qty_obtained: number;
+  item_costs: ItemCost[];
+  other_detail: string;
 }
 
 export interface SourceCategory {
@@ -22,6 +37,7 @@ export interface SourceInfo {
   locations?: SourceLocation[];
   probability?: number;
   qty_obtained?: number;
+  max_qty_obtained?: number;
   item_costs?: ItemCost[];
   gold_cost?: number;
   seasons?: string[];

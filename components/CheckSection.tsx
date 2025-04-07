@@ -3,9 +3,7 @@ import React from "react";
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import { SingleReq } from "@/types/types";
-//import PerfectionCard from "@/components/zPerfectionCard"
 import CheckCard from "@/components/CheckCard";
-import { useSession } from "next-auth/react";
 import handleChkChange from "@/lib/handleChkChange";
 
 interface CheckSectionProps {
@@ -15,19 +13,16 @@ interface CheckSectionProps {
   reqs?: SingleReq[];
   initCompletedTasks: string[];
   mainTaskIsComplete: boolean;
-  hideCompleted?: boolean;
+  //hideCompleted?: boolean;
   showIcons?: boolean;
 }
 
 function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], mainTaskIsComplete,
-                        hideCompleted=false, showIcons=false }: CheckSectionProps) {
+                        /*hideCompleted=false,*/ showIcons=false }: CheckSectionProps) {
                           
   //const { data: session, status } = useSession();
   const [sectionVisible, setSectionVisible] = useState(true);
   const [isComplete, setIsComplete] = useState(mainTaskIsComplete);
-
-  console.log(`initCompletedTasks in ${sectionId}'s CheckSection:`);
-  console.log(initCompletedTasks);
 
   const toggleVisibility = () => {
     setSectionVisible(!sectionVisible);
@@ -52,7 +47,7 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
                 name={sectionId}
                 value={sectionId}
                 onChange={updateCompletion}
-                checked={isComplete} 
+                checked={isComplete}
               />
               {desc}
             </label>
@@ -73,10 +68,10 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
         <div className="flex flex-row flex-wrap justify-center" >
           {
             reqs?.map((req) => {
-              if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) 
-                return;
-              return <CheckCard category={category} 
-                  subcategory={sectionId} 
+              /*if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) 
+                return;*/
+              return <CheckCard category={category}
+                  subcategory={sectionId}
                   req={req} 
                   initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}
                   showIcon={showIcons}/>

@@ -1,201 +1,182 @@
 import { SourceInfo } from "@/types/itemInfoTypes";
-import IconLink from "./IconLink";
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import { useState } from "react";
-import InlineList from "./InlineList";
+import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
+import { ChevronUp, ChevronDown, Icon } from 'lucide-react';
+import { ReactNode, useState } from "react";
+import InlineList from "@/components/InlineList";
+import SourceCard from "@/components/SourceUseCard";
 
 interface SourceSectionProps {
-  sourceCategory: string;
+  category: string;
   sources: SourceInfo[];
   itemName: string;
 }
 
-export default function SourceSection({ sourceCategory: category, sources, itemName }: 
+export default function SourceSection({ category, sources, itemName }: 
       SourceSectionProps) {
         
   const [sectionVisible, setSectionVisible] = useState(true);
 
-  // ==================== Set Up Content ====================
-  let sectionContent;
-
   const changeVisibility = () => {
     setSectionVisible(!sectionVisible);
   };
-
-  const getLocationListItems = (locations: any[]) => {
-    let locationListItems: any[] = [];
-    
-    locations.forEach( (location) => {
-      locationListItems.push(
-        <li className="list-none">
-        {
-          location.details ? (
-            `${location.location_name} (${location.details})`
-          ) : (
-            location.location_name
-          )
-        }
-        </li>
-      );
-    });
-    return locationListItems;
+  
+  const formatProbability = (probability: number | undefined): ReactNode | undefined => {
+    if(probability === undefined)
+      return undefined;
+    return (
+      <p>{`${parseFloat((probability * 100).toFixed(2))}%`}</p>
+    );
   };
 
-  if(category === "Cooking" || category === "Crafting") {
-    sectionContent = sources.map( (source) => {
-      return (
-            <article className="card card-wide">
-              <div className="bottom-border block w-full">
-                <h6>
-                  <IconLink label={itemName} />
-                </h6>
-              </div>
-                <div className="pt-3">
-                  {
-                    source.item_costs?.map( (item) => (
-                      <IconLink 
-                        label={item.item}
-                        qty={item.qty ? item.qty : undefined}
-                        isLink={false}
-                      />
-                    ))
-                  }
-                </div>
-            </article>
-      );
-    });
-  }
+  // ==================== Set Up Content ====================
+  const getSourceCards = (source: SourceInfo): ReactNode | ReactNode[] => {
 
-  else if(category === "Buying") {
-    sectionContent = sources.map( (source) => {
-      return (
-        source.source_name && <article className="card card-wide">
-          {
-            <div className="flex flex-row items-center justify-between">
-              <IconLink 
-                label={source.source_name}
-                category="Icon"
-                altImgSrc={`${source.source_name}_Icon`}
-                isLink={false}
-                className="font-bold"
-              />
-              <IconLink 
-                label={`${source.gold_cost}g`}
-                altImgSrc="Gold"
-                isLink={false}
-              />
-            </div>
-          }
-          {source.locations && <ul className="ps-6">{getLocationListItems(source.locations)}</ul>}
-        </article>
-      );
-    }); //end sources.map()
-  }
+    switch(category) {
 
-  else if(category === "Equipment") {
-    sectionContent = sources.map( (source) => {
-      return (
-        <article className="card card-wide">
-          <div className="bottom-border block w-full">
-            <h6>
-              {source.source_name}
-            </h6>
-          </div>
-            <div className="pt-3">
-              {
-                source.item_costs?.map( (item) => (
-                  <IconLink 
-                    label={item.item}
-                    qty={item.qty ? item.qty : undefined}
-                    isLink={false}
-                  />
-                ))
-              }
-            </div>
-        </article>
-      );
-    });
-  }
-  else if (category === "Artifact Spot" || category === "Foraging") {
-    sectionContent = sources.map( (source) => {
-      return source.locations?.map( (location) => {
-        return (
-          <div className="card card-wide">
-              <h6>
-              {
-                location.location_name
-              }
-              {
-                source.probability && (
-                  <span className="font-normal">
-                    {` (${source.probability * 100}%)`}
-                  </span>
-                )
-              }
-              </h6>
-              {
-                source.seasons && (
-                  <InlineList listItems={source.seasons} listName={"Seasons"} delimiter="bullet" />
-                )
-              }
+      case "Cooking":
+      case "Crafting":
+      case "Equipment":
+        const additionalRows = [];
+
+        category === "Equipment" && source.source_name && additionalRows.push(
+          <div className="bottom-border">
+            <IconLabel label={source.source_name} iconSize={ICON_SIZES.XS} />
           </div>
         );
-      })
-    });
-  }
+        source.item_costs && additionalRows.push(
+          <div className="pt-3">
+            {
+              source.item_costs?.map( (item) => (
+                <IconLabel label={item.item} qty={item.qty} />
+              ))
+            }
+          </div>
+        );
+        
+        return (
+          <SourceCard 
+            topRowHead={
+              <IconLabel label={itemName} 
+                qty={source.qty_obtained} 
+                maxQty={source.max_qty_obtained} 
+                qtyAfter={true}
+              />
+            }
+            additionalRows={additionalRows}
+          />
+        );
 
-  else if (category === "Geodes") {
-    sectionContent = sources.map( (source) => {
-      return (
-        source.source_name && <div className="card card-wide">
-          {
-             <div className="flex flex-row items-center">
-                <IconLink key={source.source_name} 
-                  label={source.source_name} 
-                  isLink={false} 
-                  className="font-bold" 
-                />
+      case "Trading":
+      case "Buying":
+        return source.source_name && (
+          <SourceCard 
+            topRowHead={
+              <IconLabel 
+                label={source.source_name} 
+                category="Icon" 
+                altImgSrc={`${source.source_name}_Icon`}
+              />
+            } 
+            topRowDetails={
+              source.gold_cost && <IconLabel label={`${source.gold_cost}g`} altImgSrc="Gold" />
+            }
+            additionalRows={
+              source.item_costs && <div>
                 {
-                  source.probability && (
-                    <span className="font-normal ps-1">
-                      {` (${parseFloat((source.probability * 100).toFixed(2))}%)`}
-                    </span>
-                  )
+                  source.item_costs?.map( (itemCost) => (
+                    <IconLabel 
+                      label={itemCost.item}
+                      qty={itemCost.qty}
+                    />
+                  )) 
                 }
-             </div>
-          }
-          {
+              </div>
+            }
+          />
+        );
 
-          }
-          {source.locations && <ul className="ps-6">{getLocationListItems(source.locations)}</ul>}
-        </div>
-      );
-    }); //end sources.map()
-  }
-
-  else {
-    sectionContent = sources.map( (source) => {
-      return (
-        source.source_name && <div className="card card-wide">
-          {
-             <IconLink key={source.source_name} /*category={category}*/ label={source.source_name} 
-              isLink={false} className="font-bold"
+      case "Artifact Spot":
+      case "Foraging":
+        return (
+          source.locations?.map( (location) => (
+            <SourceCard 
+              topRowHead={location.location_name} 
+              topRowDetails={formatProbability(source.probability)} 
             />
-          }
-          {source.locations && <ul className="ps-6">{getLocationListItems(source.locations)}</ul>}
-        </div>
-      );
-    }); //end sources.map()
-  }
+          ))
+        )
 
 
 
+      case "Fishing":
+        let catchingDetails = (
+          <div className="pt-2">
+            {
+              source.locations && (
+                <InlineList 
+                  listName="Locations"
+                  listItems={source.locations?.map((location) => location.location_name)}
+                  delimiter="bullet"
+                />
+              )
+            }
+            {
+              source.seasons && (
+                <InlineList 
+                  listName="Seasons"
+                  listItems={source.seasons}
+                  delimiter="bullet"
+                  showIcons={source.seasons[0] === "Any"}
+                />
+              )
+            }
+            {
+              source.weather && (
+                <InlineList 
+                  listName="Weather"
+                  listItems={source.weather}
+                  delimiter="bullet"
+                  showIcons={source.weather[0] === "All"}
+                />
+              )
+            }
+          </div>
+        );
+        return (
+          <SourceCard
+            topRowHead={<IconLabel label={itemName} />}
+            additionalRows={catchingDetails}
+          />
+        );
+
+      default: // "Geodes", "Animal", "Mining", "Monster", "Farming" ("Panning", "Crab Pot")
+        return source.source_name && (
+          <SourceCard
+              topRowHead={<IconLabel label={source.source_name} 
+              category={category === "Mining" || category === "Monster" ? category : undefined}/>}
+              topRowDetails={formatProbability(source.probability)}  
+            />
+        );
+
+    }// end switch
+
+  }//end getSourceContent()
+
+
+  // ------- Get Source Cards -------------------------
+  let sectionContent: ReactNode[] | null = sources.map( (source) =>  
+    getSourceCards(source)
+  );
+
+  // ------- Remove Any Undefined Source Cards --------
+  sectionContent = sectionContent.filter(sourceCard => sourceCard !== undefined);
+  if(sectionContent.length === 0)
+    sectionContent = null;
 
 
   // ======================== Return ========================
   return (
     <div id={`${category}Sources`} className="mb-8">
-      
       <div className="flex flex-row items-center" >
         <h3 className="text-center">
           {category}
@@ -212,7 +193,7 @@ export default function SourceSection({ sourceCategory: category, sources, itemN
       </div>
       {
         sectionContent &&
-          <div className={sectionVisible ? "ps-1 flex flex-row flex-wrap justify-center" : "hidden"}>
+          <div className={sectionVisible ? "ps-1 flex flex-row flex-wrap justify-center":"hidden"}>
             { sectionContent }
           </div>
       }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { CardWidth } from "@/types/enums";
-import IconLink from "@/components/IconLink";
+import IconLabel from "@/components/IconLabel";
 import handleChkChange from "@/lib/handleChkChange";
 import InlineList from "@/components/InlineList";
 
@@ -73,12 +73,12 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
   }
 
   if(showGold)
-    children.push(<IconLink label={`${req.gold_reqd}g`} altImgSrc="Gold" isLink={false} />);
+    children.push(<IconLabel label={`${req.gold_reqd}g`} altImgSrc="Gold" />);
   
   if(req.items_reqd) {
     children.push(
       req.items_reqd.map((item_reqd: any) => {
-        return <IconLink key={item_reqd.item} label={item_reqd.item} qty={item_reqd.qty} />
+        return <IconLabel key={item_reqd.item} label={item_reqd.item} qty={item_reqd.qty} isLink={true}/>
       })
     );
   }
@@ -106,7 +106,7 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
             checked={isChecked} 
             onChange={updateCompletion} 
             className="inline"/>
-          {showIcon ? <IconLink label={taskLabel} altImgSrc={iconSrc} isLink={false}/> : taskLabel}
+          {showIcon ? <IconLabel label={taskLabel} altImgSrc={iconSrc} /> : taskLabel}
         </label>
       </div>
       {

@@ -45,14 +45,32 @@ export default function Header() {
               )
             }
             </li>
-            <li>
-            {
-              router.pathname !== '/Tracker' ? (
-                <Link href='/Tracker'>Trackers</Link>
-              ) : (
-                "Trackers"
-              )
-            }
+            <li className={styles.dropdowncontainer}>
+              <span className={styles.dropdowntrigger}>
+                Tracker
+              </span>
+              {
+                <ul className={styles.dropdownlist}>
+                  <li>
+                    {
+                      router.pathname !== '/Tracker/Perfection' ? (
+                        <Link href='/Tracker/Perfection'>Perfection Tracker</Link>
+                      ) : (
+                        "Perfection Tracker"
+                      )
+                    }
+                  </li>
+                  <li>
+                    {
+                      router.pathname !== '/Tracker/Museum' ? (
+                        <Link href='/Tracker/Museum'>Museum Tracker</Link>
+                      ) : (
+                        "Museum Tracker"
+                      )
+                    }
+                  </li>
+                </ul>
+              }
             </li>
           </ul>
         </div>    

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import IconLink from "@/components/IconLink";
+import IconLabel from "@/components/IconLabel";
 import Loading from "@/components/Loading";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -95,7 +95,7 @@ export default function VillagerPage() {
                         return (
                           gift.pref_num === 5 && (
                             <li className="list-none h-fit">
-                              <IconLink label={gift.item_name}/>
+                              <IconLabel label={gift.item_name} isLink={true}/>
                             </li>
                           )
                         )

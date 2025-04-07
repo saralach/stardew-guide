@@ -13,7 +13,13 @@ export default async function handler(
 
   // If parameter from URL included a querystring beyond the item name, take only
   // the item name, then replace all underscores with spaces for db lookup
-  const itemName = (Array.isArray(itemname) ? itemname[0] : itemname)?.replaceAll("_", " ");
+  let itemName = (Array.isArray(itemname) ? itemname[0] : itemname)?.replaceAll("_", " ");
+
+  // Adjust name for DB lookup for pages where items may be referred to as something else
+  if(itemName === "Egg")
+    itemName = "Egg (white)";
+  else if(itemName === "Large Egg")
+    itemName = "Large Egg (white)"
 
   try {
     // Connect to MongoDB database
@@ -24,90 +30,63 @@ export default async function handler(
     const projection = { _id: 0 }; 
   
     const item = await collection.findOne(query, {projection});
-  
-    const itemSources = item.sources.reduce((accumulator: any[], currSource: any) => {
-      // Store currSource's category
-      const currCategory = currSource.source_category;
-      console.log(currSource);
-
-      // Remove category from currSource object
-      delete currSource.source_category;
-      console.log(currSource);
-
-      // Get group that matches the category (if it exists)
-      console.log(accumulator)
-      console.log(Array.isArray(accumulator))
-      const sourceGroup = accumulator.find((group) => group.source_category === currCategory);
-      console.log("sourceGroup: ");
-      console.log(sourceGroup);
-
-      // If group exists for the specific category, add the element to the existing group's array
-      if(sourceGroup) {
-        sourceGroup.sources.push(currSource);
-      }
-      // If no group exists for that category yet, create that group
-      else {
-        const newArray = [currSource];
-        accumulator.push({
-          source_category: currCategory,
-          sources: newArray
-        });
-      }
-
-      return accumulator;
-    }, []);
-
-    item.sources = itemSources;
-
-    // Query the database
-    /*const item: SourceCategory[] = await collection.aggregate([
-      { // Get specific item info
-        $match: { item_name: itemName }
-      },
-      {
-        $unwind: "$sources"
-      },
-      { // Group sources by source categories & keep other 
-        $group: {
-          _id: {
-            source_category: "$sources.source_category",
-            item_name: itemName
-          },
-          sources: { $push: "$sources" }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          item_name: 1,
-          sources: 1
-        }
-      }
-    ]).toArray();*/
     
-    /*const query = { item_name: itemName }; 
-    const projection = { _id: 0 }; 
+    if(item.sources) {
+      const itemSources = item.sources.reduce((accumulator: any[], currSource: any) => {
+        // Store currSource's category
+        const currCategory = currSource.source_category;
   
-    const item = await collection.findOne(query, {projection});
+        // Remove category from currSource object
+        delete currSource.source_category;
+  
+        // Get group that matches the category (if it exists)
+        const sourceGroup = accumulator.find((group) => group.source_category === currCategory);
+  
+        // If group exists for the specific category, add the element to the existing 
+        // group's array; Otherwise, create a group for that category
+        if(sourceGroup)
+          sourceGroup.sources.push(currSource);
+        else {
+          const newArray = [currSource];
+          accumulator.push({
+            source_category: currCategory,
+            sources: newArray
+          });
+        }
 
-    console.log(item);
+        return accumulator;
+      }, []);
+  
+      item.sources = itemSources;
+    }
 
-    // Sort sources into arrays based on their source_category
-    const sourcesGroupedByCategory = item.sources.reduce((accumulator: any[], currSource: any) => {
-      // Remove any spaces from category name
-      let sourceCategory = currSource.source_category.replace("_", "");
-      
-      // If the category does not already have an array, create it
-      if(!accumulator[sourceCategory])
-        accumulator[sourceCategory] = [];
-
-      // Add source to the array
-      accumulator[currSource.source_category].push(currSource);
-
-      return accumulator;
-    }, {});
-
-    item.sources = sourcesGroupedByCategory;*/
+    if(item.uses) {
+      const itemUses = item.uses.reduce((accumulator: any[], currUse: any) => {
+        // Store currUse's category
+        const currCategory = currUse.use_category;
+  
+        // Remove category from currUse object
+        delete currUse.use_category;
+  
+        // Get group that matches the category (if it exists)
+        const useGroup = accumulator.find((group) => group.use_category === currCategory);
+  
+        // If group exists for the specific category, add the element to the existing 
+        // group's array; Otherwise, create a group for that category
+        if(useGroup)
+          useGroup.uses.push(currUse);
+        else {
+          const newArray = [currUse];
+          accumulator.push({
+            use_category: currCategory,
+            uses: newArray
+          });
+        }
+  
+        return accumulator;
+      }, []);
+      item.uses = itemUses;
+    }
 
     
     

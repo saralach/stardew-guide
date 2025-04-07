@@ -7,7 +7,7 @@
   display: inline;
 }
 
-.iconlink {
+.iconlabel {
   display: flex;
   flex-wrap: wrap;
   align-items: center;

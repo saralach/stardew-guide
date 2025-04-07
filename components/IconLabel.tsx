@@ -1,14 +1,16 @@
 import styles from '@/styles/IconLink.module.css';
 import Link from 'next/link';
 
-interface IconLinkProps {
+interface IconLabelProps {
     category?: string;
     label: string;
     qty?: number;
+    maxQty?: number;
     altImgSrc?: string;
     isLink?: boolean;   
     className?: string;
     iconSize?: string;
+    qtyAfter?: boolean;
 }
 
 export const ICON_SIZES = {
@@ -19,7 +21,8 @@ export const ICON_SIZES = {
   LARGE: styles.lgicon
 }
 
-function IconLink({ category, label, qty, altImgSrc = "", isLink = true, className = "", iconSize = ICON_SIZES.SMALL }: IconLinkProps)  {
+function IconLabel({ category, label, qty, maxQty, altImgSrc = "", isLink = false, className = "", 
+                     iconSize = ICON_SIZES.SMALL, qtyAfter=false}: IconLabelProps)  {
 
   if(label == undefined && altImgSrc == "") // Error
     return null;
@@ -38,7 +41,7 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
 
   let location = "/" + itemName?.replaceAll(" ", "_").replaceAll(":", "");
   if(typeof category !== 'undefined')
-    location = "/" + category + location;
+    location = "/" + category.replaceAll(" ", "_") + location;
 
   if(itemName === 'Gold') {
     //width="18px";
@@ -47,19 +50,24 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
   }
 
   // --- Add quantity to label, if given ---------
-  if(qty !== undefined)
-      label = qty + " " + label;
+  if(qty !== undefined) {
+    const qtyStr = maxQty ? `${qty}-${maxQty}` : qty.toString();
+    if(qtyAfter)
+      label = `${label} (${qtyStr})`;
+    else
+      label = `${qtyStr} ${label}`;
+  }
 
   return (
       isLink ? (
-          <Link className={`${styles.iconlink} ${className} link`} href={`/Items${location}`}>
-              <img className={`${styles.iconimg} ${iconSize/*widthStyle*/}`} /*width={width}*/
+          <Link className={`${styles.iconlabel} ${className} link`} href={`/Items${location}`}>
+              <img className={`${styles.iconimg} ${iconSize}`}
                   src={`${location}.png`} alt={itemName}/>
               {label}
           </Link>
       ) : (
-          <div className={`${styles.iconlink} ${className}`}>
-              <img className={`${styles.iconimg} ${iconSize/*widthStyle*/}`} /*width={width}*/
+          <div className={`${styles.iconlabel} ${className}`}>
+              <img className={`${styles.iconimg} ${iconSize}`}
                   src={`${location}.png`} alt={itemName}/>
               {label}
           </div>
@@ -67,4 +75,4 @@ function IconLink({ category, label, qty, altImgSrc = "", isLink = true, classNa
   );
 }
 
-export default IconLink;
+export default IconLabel;

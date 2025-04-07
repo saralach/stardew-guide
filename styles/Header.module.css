@@ -45,10 +45,58 @@
     font-size: 1.125rem;
     font-weight: 600;
     padding-inline: 1.25rem;
+    padding-block: .75rem;
   }
 
   a:hover, button:hover {
     color: var(--lightgray0);
+  }
+
+  .dropdowncontainer {
+    position: relative;
+
+
+  }
+
+  .dropdowncontainer:hover .dropdownlist, .dropdownlist:hover {
+    display: flex;
+  }
+
+  /*.dropdowncontainer:hover 
+  .dropdowntrigger:hover + .dropdownlist {
+    display: flex;
+    flex-direction: column;
+    background-color: violet;
+  }*/
+
+  .dropdownlist {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    width: max-content;
+    top: 2.5rem;
+    left: -0.5rem;
+
+    li {
+      font-size: var(--font-size-xxs);
+      font-weight: 500;
+      padding-block: .25rem;
+      padding-inline: .75rem;
+      border: var(--light-border);
+      background-color: var(--lightgray0);
+
+      & + li {
+        border-block-start: none;
+      }
+
+      &:hover {
+        background-color: var(--accent-color-light);
+
+        a {
+          color: var(--accent-color-2);
+        }
+      }
+    }
   }
 }
 

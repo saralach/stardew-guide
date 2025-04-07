@@ -373,6 +373,10 @@ table {
   border-block-end: 1px solid var(--midgray1);
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
 .medium-font-weight {
   font-weight: 500;
 }
@@ -383,5 +387,3 @@ table {
 .sm-font  { font-size: var(--font-size-sm);  }
 .xs-font  { font-size: var(--font-size-xs);  }
 .xxs-font { font-size: var(--font-size-xxs); }
-
-

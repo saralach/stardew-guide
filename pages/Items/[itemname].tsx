@@ -1,9 +1,10 @@
-import Head from "next/head";
+import Head from 'next/head';
 import styles from '@/styles/Item.module.css';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import SourceSection from '@/components/SourceSection';
-import { ItemInfo } from "@/types/itemInfoTypes";
+import { ItemInfo } from '@/types/itemInfoTypes';
+import UsageSection from '@/components/UsageSection';
 
 export default function ItemPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function ItemPage() {
       }
       finally {
           setLoading(false);
-          console.log("in finally");
+          console.log('in finally');
       }
     }
 
@@ -36,50 +37,57 @@ export default function ItemPage() {
 
   }, [itemname]); /* executes when itemname is changed */
 
-
+  // ==================== Return Page Content =====================
   return (
     <>
       <Head>
-        <title>{`${item ? item.item_name : "Item Not Found"} | Stardew Guide"`}</title>
+        <title>{`${item ? item.item_name : 'Item Not Found'} | Stardew Guide'`}</title>
       </Head>
       {
         item ? (
           <main>
             <div className={styles.itemintro}>
               <div className={styles.itemheader}>
-                <img className="item-pic" alt={item.item_name} 
-                  src={`/${itemname?.replace(" ", "_")}.png`} 
+                <img className='item-pic' alt={item.item_name} 
+                  src={`/${itemname?.replace(' ', '_')}.png`} 
                 />
-                <h1 className="ps-2">
+                <h1 className='ps-2'>
                   {item.item_name}
                 </h1>
               </div>
               <p className={styles.caption}>{item.desc}</p>
             </div>
     
-            <section className={styles.btmborder} id="Sources">
+            <section className={styles.btmborder} id='Sources'>
               <h2 className={`text-center pb-3`}>SOURCES</h2>
               {
                 // Create a SourceSection for each source subcategory
                 item.sources && item.sources?.map( (sourceCategory) => (
                   <SourceSection key={sourceCategory.source_category}
-                      sourceCategory={sourceCategory.source_category}
+                      category={sourceCategory.source_category}
                       sources={sourceCategory.sources}
                       itemName={item.item_name}
                   />
                 ))
               }
             </section>
-            <section id="Usage">
+            <section id='Usage'>
               <h2 className={`text-center pb-3`}>USAGE</h2>
+              {
+                // Create a SourceSection for each use subcategory
+                item.uses && item.uses?.map( (useCategory) => (
+                  <UsageSection key={useCategory.use_category}
+                      category={useCategory.use_category}
+                      uses={useCategory.uses}
+                  />
+                ))
+              }
             </section>
           </main>
         ) : (
           <p>Oops, item not found.</p>
         )
       }
-
     </>
-
   );
 }

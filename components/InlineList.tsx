@@ -1,16 +1,17 @@
 import styles from '@/styles/InlineList.module.css';
-import IconLink, { ICON_SIZES } from '@/components/IconLink';
+import IconLabel, { ICON_SIZES } from '@/components/IconLabel';
 
 type DelimiterTypes = "none" | "bullet";
 
 interface InlineListProps {
   listItems: string[];
-  listName: string;
+  listName?: string;
   showIcons?: boolean;
   delimiter?: DelimiterTypes;
 }
 
 function InlineList({ listItems, listName = "", showIcons = false,  delimiter = "none"}: InlineListProps) {
+  if(listItems === undefined) return;
 
   const delimiterStyle = delimiter === "bullet" ? styles.bullet : styles.none;
 
@@ -20,7 +21,19 @@ function InlineList({ listItems, listName = "", showIcons = false,  delimiter = 
         {
           listItems.map((listItem) => {
             return (
-              showIcons ? <li><IconLink label={listItem} isLink={false} category={listName} iconSize={ICON_SIZES.XS}/></li> : <li>{listItem}</li>
+              <li>
+                {
+                  showIcons ? (
+                    <IconLabel 
+                      label={listItem} 
+                      category={listName} 
+                      iconSize={ICON_SIZES.XS}
+                    />
+                  ) : (
+                    listItem
+                  )
+                }
+              </li>
             )
           })
         }

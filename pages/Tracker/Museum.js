@@ -1,5 +1,5 @@
 import Head from "next/head";
-import IconLink from "@/components/IconLink";
+import IconLabel from "@/components/IconLabel";
 import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
 import Loading from "@/components/Loading";
@@ -15,9 +15,9 @@ export default function MuseumTracker() {
   const checkboxCategory = "Museum";
 
 
-  const toggleCompletedTasks = (event) => {
+  /*const toggleCompletedTasks = (event) => {
     setHideCompleted(event.target.checked);
-  };
+  };*/
 
   const getInitialSectionData = (subcategory) => {
     const sectionInitialData = [];
@@ -135,38 +135,3 @@ export default function MuseumTracker() {
   );
 
 }// end MuseumPage()
-            /*<CheckSection sectionId="Artifacts" desc="Artifacts Donated">
-            {
-              artifacts.map((artifact) => {
-                return (
-                  <CheckCard 
-                    task={artifact.item_name} 
-                    category="Artifact" 
-                    cardWidth={CardWidth.Wide}
-                    iconLabel={true}
-                    isChecked={
-                      checkboxData.find(item => item.checkbox_id === artifact.item_name)?.is_checked
-                    }
-                    onChange={handleCheckboxChange}/>
-                );
-              })
-            }
-            </CheckSection>
-
-            <CheckSection sectionId="Minerals" desc="Minerals Donated">
-            {
-              minerals.map((mineral) => {
-                return (
-                  <CheckCard 
-                    task={mineral.item_name} 
-                    category="Mineral" 
-                    cardWidth={CardWidth.Wide}
-                    iconLabel={true}
-                    isChecked={
-                      checkboxData.find(item => item.checkbox_id === mineral.item_name)?.is_checked
-                    }
-                    onChange={handleCheckboxChange}/>
-                );
-              })
-            }
-            </CheckSection>*/
