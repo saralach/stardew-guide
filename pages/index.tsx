@@ -1,115 +1,114 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Link from 'next/link';
+import styles from '@/styles/Home.module.css';
+import NavigationCard from "@/components/NavigationCard";
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Head>
+        <title>Home | Stardew Guide</title>
+        <meta name="description" content="Find the information you need about the villagers and items that Stardew Valley has to offer, and track your game progress using our Museum and Perfection trackers." />
+      </Head>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+      <main className={styles.homecontent}>
+        <h1>Welcome to Stardew Guide!</h1>
+
+
+        <section id="features">
+          <h2>What does Stardew Guide have to offer?</h2>
+          <p>Stardew Guide has all the tools and information you need, including:</p>
+          <ul>
+            <li>A wealth of information about the villagers and items in the game</li>
+            <li>Museum and Perfection Trackers to keep track of your progress</li>
+          </ul>
+        </section>
+
+
+        <section id="links">
+          <h2>New to Stardew Guide?</h2>
+          <p>
+            Check out all that we have to offer below.
+          </p>
+
+          <div className={styles.imglinkscontainer}>
+            <NavigationCard
+              href="/Villagers"
+              pageType="INFO"
+              label="Villagers"
+              imgSrc="/Villager/Alex.png"
+              imgAlt="Portrait of Villager Alex"
+              imgWidth={128} // intrinsic size = 128 x 128
+            />
+            <NavigationCard
+              href="/Items"
+              pageType="INFO"
+              label="Items"
+              imgSrc="/Prismatic_Shard.png"
+              imgAlt="Prismatic Shard Item"
+              imgWidth={96} // intrinsic size = 48 x 48; 48 * 2 = 96
+            />
+            <NavigationCard
+              href="/Tracker/Perfection"
+              pageType="TRACKER"
+              label="Perfection"
+              imgSrc="/Buildings/Gold_Clock.png"
+              imgAlt="Golden Clock"
+              imgWidth={72} // intrinsic size = 144; 144 / 2 = 72
+              imgHeight={120} //intrinsic size = 240; 240 / 2 = 120
+            />
+            <NavigationCard
+              href="/Tracker/Museum"
+              pageType="TRACKER"
+              label="Museum"
+              imgSrc="/NPC/Gunther.png"
+              imgAlt="Portrait of Museum Curator Gunther"
+              imgWidth={128} // intrinsic size = 128 x 128
+            />
+          </div>
+        </section>
+
+
+        <section id="disclaimer">
+          <h2>Disclaimer</h2>
+          <p>
+            The creator of Stardew Guide did not create Stardew Valley. The game as well as the
+            artwork that can be found on this site are the work of ConcernedApe.
+          </p>
+
+          <p>
+            If you haven't already, check out the game here:
+          </p>
+          <a 
+            className={styles.gamelinkbtn} 
+            href="https://store.steampowered.com/app/413150/Stardew_Valley/"
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/steam_icon_white.svg"
+              alt="Steam Logo"
+              width={32}
+              height={32}
             />
-            Deploy now
+            Stardew Valley on Steam
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a 
+            className={styles.gamelinkbtn} 
+            href="https://www.nintendo.com/us/store/products/stardew-valley-switch/"
           >
-            Read our docs
+            <Image
+              src="/nintendo_switch_icon_white.svg"
+              alt="Nintendo Switch Logo"
+              width={32}
+              height={32}
+            />
+            Stardew Valley for Nintendo Switch
           </a>
-        </div>
+        </section>
+
+
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

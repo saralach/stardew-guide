@@ -18,10 +18,6 @@ export default function PerfectionTracker() {
     'Cooking', 'Crafting', 'Fishing'
   ];
 
-  /*const toggleCompletedTasks = (event) => {
-    setHideCompleted(event.target.checked);
-  };*/
-
   const getInitialSectionData = (subcategory) => {
     const sectionInitialData = [];
     initialCheckData.forEach((checkData) => {

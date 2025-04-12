@@ -1,6 +1,4 @@
 import Head from "next/head";
-import IconLabel from "@/components/IconLabel";
-import CheckCard from "@/components/CheckCard";
 import CheckSection from "@/components/CheckSection";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";

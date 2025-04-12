@@ -47,11 +47,13 @@ body {
   --yellow-light: #ece2c8;
   --yellow-light-2: #dbc395;
   --yellow-3: #e0a100;
+  --brown-color-0: #c6913b;
+  --brown-color-1: #ae6b34;
+  --brown-color-2: #774524;
   
   --alt-color-1: #93b4e5;
   --alt-color-2: #305da0;
 
-  --brown-color-1: #ae6b34;
 
   /* -------- Font Sizes -------- */
   --font-size-xl: 2rem;
@@ -62,17 +64,16 @@ body {
   --font-size-xxs: .9rem;
 
 
-
-
   /* ------- Card Widths -------- */
   --card-width-thin: 12rem;
   --card-width-full: 100%;
 
+
   /* ----- Borders/Shadows ------ */
   --shadow-1: 1px 1px 7px var(--midgray0);
-
   --light-border: 1px solid var(--midgray0);
-}
+  
+} /* end :root */
 
 /*============================================================*/
 /*                       General Styles                       */

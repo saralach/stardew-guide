@@ -1,5 +1,5 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
-import Link from 'next/link'
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '@/styles/Header.module.css';
 
