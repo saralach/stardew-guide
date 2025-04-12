@@ -1,7 +1,7 @@
 import { ItemCategory } from '@/types/itemInfoTypes';
 import { connectToDatabase } from '../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ErrorResponse } from '@/types/types';
+import { ErrorResponse } from '@/types/apiResponseTypes';
 
 export default async function handler(
   req: NextApiRequest, 

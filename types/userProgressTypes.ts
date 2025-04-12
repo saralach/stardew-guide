@@ -1,6 +1,6 @@
 
 export interface CheckData {
-  message: string;
+  message?: string;
   checkbox_id: string;
   subcategory: string;
 }

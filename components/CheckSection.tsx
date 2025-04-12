@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import { ChevronUp } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
-import { SingleReq } from "@/types/types";
+import { SingleReq } from "@/types/trackerReqTypes";
 import CheckCard from "@/components/CheckCard";
 import handleChkChange from "@/lib/handleChkChange";
 
@@ -12,17 +12,18 @@ interface CheckSectionProps {
   desc: string;
   reqs?: SingleReq[];
   initCompletedTasks: string[];
-  mainTaskIsComplete: boolean;
-  //hideCompleted?: boolean;
+  mainTaskIsComplete?: boolean;
   showIcons?: boolean;
 }
 
-function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], mainTaskIsComplete,
-                        /*hideCompleted=false,*/ showIcons=false }: CheckSectionProps) {
+function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
+                        mainTaskIsComplete=false, showIcons=false }: CheckSectionProps) {
                           
-  //const { data: session, status } = useSession();
   const [sectionVisible, setSectionVisible] = useState(true);
   const [isComplete, setIsComplete] = useState(mainTaskIsComplete);
+
+  console.log(`CheckSection -- category = ${category}, sectionId = ${sectionId}`)
+  console.log(initCompletedTasks);
 
   const toggleVisibility = () => {
     setSectionVisible(!sectionVisible);
@@ -31,6 +32,13 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
   const updateCompletion = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsComplete(!isComplete);
     handleChkChange(category, null, sectionId, event.target.checked);
+  };
+
+  function getInitialCompletion(req: SingleReq) {
+    const isComplete = initCompletedTasks.some((task) => task === req.req_id);
+    if(isComplete)
+      console.log(`INITIAL COMPLETION for ${req.req_id}: ${isComplete}`);
+    return isComplete;
   };
 
   return (
@@ -68,18 +76,20 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[], 
         <div className="flex flex-row flex-wrap justify-center" >
           {
             reqs?.map((req) => {
-              /*if(hideCompleted && initCompletedTasks.some((task) => task === req.req_id)) 
-                return;*/
-              return <CheckCard category={category}
+              return (
+                <CheckCard
+                  key={req.req_id}
+                  category={category}
                   subcategory={sectionId}
                   req={req} 
-                  initIsChecked={initCompletedTasks.some((task) => task === req.req_id)}
-                  showIcon={showIcons}/>
+                  initIsChecked={getInitialCompletion(req)}
+                  showIcon={showIcons}
+                />
+              )
             })
           }
         </div>
       }
-
     </section>
   );
 

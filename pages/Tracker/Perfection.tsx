@@ -1,16 +1,17 @@
 import Head from "next/head";
 import CheckSection from "@/components/CheckSection";
-import ToggleSwitch from "@/components/ToggleSwitch";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { ReqGroup } from "@/types/trackerReqTypes";
+import { CheckData } from "@/types/userProgressTypes";
 
 export default function PerfectionTracker() {
+
   const rootUrl = process.env.NEXT_PUBLIC_ROOT_URL;
-  const [hideCompleted, setHideCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [requirements, setRequirements] = useState([]);
-  const [initialCheckData, setInitialCheckData] = useState([]);
+  const [requirements, setRequirements] = useState<ReqGroup[]>([]);
+  const [initialCheckData, setInitialCheckData] = useState<CheckData[]>([]);
   const { data: session, status } = useSession();
   const checkboxCategory = "Perfection";
   const iconSubcategories = [
@@ -18,8 +19,8 @@ export default function PerfectionTracker() {
     'Cooking', 'Crafting', 'Fishing'
   ];
 
-  const getInitialSectionData = (subcategory) => {
-    const sectionInitialData = [];
+  function getInitialSectionData(subcategory: string) {
+    const sectionInitialData: string[] = [];
     initialCheckData.forEach((checkData) => {
       if(checkData.subcategory === subcategory)
         sectionInitialData.push(checkData.checkbox_id);
@@ -27,13 +28,13 @@ export default function PerfectionTracker() {
     return sectionInitialData;
   };
 
-  const getMainTaskCompletion = (subcategory) => {
+  const getMainTaskCompletion = (subcategory: string) => {
     return initialCheckData.some((checkData) =>
       checkData.subcategory === undefined && checkData.checkbox_id === subcategory
     );
   };
 
-  // ============ Fetch requirement data from database ============
+  // ============ Fetch requirement data from database =====================
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
@@ -54,22 +55,24 @@ export default function PerfectionTracker() {
   }, []);
 
 
-  // ================= Get initial checkbox data ==================
+  // ============ Get initial checkbox data ================================
   useEffect(() => {
       const fetchInitialCheckboxData = async () => {
-        if(status === "loading") {
-          return; //session not yet loaded
-        }
+        if(status === "loading") //session not yet loaded
+          return;
+
         try {
-          if(session) {
-            const res = await fetch(`${rootUrl}/api/getCheckboxData/${checkboxCategory}`);
-            const data = await res.json();
-            console.log(data);
-            setInitialCheckData(data);
-            console.log("initialCheckboxData has been set.");
-          }
-          else {
+          if(!session) 
             console.log("Error - user not authenticated")
+          else {
+            const res = await fetch(`${rootUrl}/api/getCheckboxData/${checkboxCategory}`);
+            
+            if(!res.ok)
+              console.log(`uh oh - status ${res.status}, "${res.statusText}"`);
+            else {
+              const data = await res.json();
+              setInitialCheckData(data);
+            }
           }
         } 
         catch(error) {
@@ -83,8 +86,7 @@ export default function PerfectionTracker() {
       fetchInitialCheckboxData();
   }, [session, status]);
 
-
-  // ==================== Return page content =====================
+  // ============ Return page content =========================-============
   return (
     <>
       <Head>

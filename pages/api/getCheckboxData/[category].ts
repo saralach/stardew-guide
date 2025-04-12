@@ -2,8 +2,14 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { GeneralResponse } from '@/types/apiResponseTypes';
+import { CheckData } from '@/types/userProgressTypes';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest, 
+  res: NextApiResponse<CheckData | GeneralResponse>
+) {
+  
   const session = await getServerSession(req, res, authOptions);
   const { category } = req.query;
   

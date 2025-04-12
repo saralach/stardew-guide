@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { CardWidth } from "@/types/enums";
 import IconLabel from "@/components/IconLabel";
@@ -14,31 +14,36 @@ interface CheckCardProps {
 }
 
 function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false }: CheckCardProps) {
-  const [isChecked, setIsChecked] = useState(initIsChecked);
 
-  // ================= Determine how to display ====================
-  // Determine whether to show icons & get icon url
-
+  const [isChecked, setIsChecked] = useState(false);
   let iconSrc = "";
-  //let showIcon = false;
-  
   let cardWidth = CardWidth.Wide;
   let showGold = false;
   const checkboxId = req.req_id;
   let taskLabel = req.label ? req.label : req.req_id;
   let children: any[] | null = [];
 
-  /*if(iconSubcategories.includes(subcategory)) {
-    showIcons=true;*/
-    if(req.icon_name)
-      iconSrc = req.icon_name.trim().replace(" ", "_");
-  //}
+  const updateCompletion = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setIsChecked(event.target.checked);
+    handleChkChange(category, subcategory, checkboxId, event.target.checked);
+  };
+
+  // Make sure component rerenders when initIsChecked is changed (in case component is rendered 
+  // before all data is retrieved)
+  useEffect(() => {
+    if(initIsChecked !== undefined)
+      setIsChecked(initIsChecked);
+  }, [initIsChecked])
+
+  // ================= Determine how to display ====================
+  if(req.icon_name)
+    iconSrc = req.icon_name.trim().replace(" ", "_");
+
   // If gold is required, format it (add commas)
   const formattedGold = req.gold_reqd ? `${req.gold_reqd.toLocaleString('en-US')}g` : null;
 
   if(subcategory === "Obelisks" && req.gold_reqd)
       showGold = true;
-
   else if(subcategory === "Stardrops") {
     cardWidth = CardWidth.Full;
     if(req.gold_reqd)
@@ -52,19 +57,16 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
         <InlineList listItems={req.seasons} listName="Seasons" showIcons={true} />
       );
     }
-
     if(req.weather && req.weather[0] !== "Any") {
       children.push(
         <InlineList listItems={req.weather} listName="Weather" showIcons={true} />
       );
     }
-
     if(req.times) {
       children.push(
         <InlineList listItems={req.times} listName="Time" delimiter="bullet" />
       );
     }
-
     if(req.locations) {
       children.push(
         <InlineList listItems={req.locations} listName="Locations" delimiter="bullet" />
@@ -77,16 +79,20 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
   
   if(req.items_reqd) {
     children.push(
-      req.items_reqd.map((item_reqd: any) => {
-        return <IconLabel key={item_reqd.item} label={item_reqd.item} qty={item_reqd.qty} isLink={true}/>
+      req.items_reqd.map((item_reqd: any, index: number) => {
+        return (
+          <IconLabel 
+            key={`${req.label}-${item_reqd.item}-${index}`} 
+            label={item_reqd.item} 
+            qty={item_reqd.qty}
+            isLink={true}
+          />
+        )
       })
     );
   }
 
-  const updateCompletion = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setIsChecked(event.target.checked);
-    handleChkChange(category, subcategory, checkboxId, event.target.checked);
-  };
+
 
   // Remove any undefined children; if children is empty array, set to null
   children = children?.filter(child => child !== undefined);

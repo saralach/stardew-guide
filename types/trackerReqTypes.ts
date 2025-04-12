@@ -1,4 +1,3 @@
-
 export interface ReqGroup {
   label: string;
   reqs: any[];
@@ -26,8 +25,4 @@ export interface SingleReq {
 export interface ReqItem {
   item: string;
   qty: number;
-}
-
-export interface ErrorResponse {
-  error: string;
 }
