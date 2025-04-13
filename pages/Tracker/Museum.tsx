@@ -85,21 +85,24 @@ export default function MuseumTracker() {
           <main>
             <h1>Museum Tracker</h1>
             {
-              requirements.map((reqGroup) => {
-                return (
-                  <CheckSection 
-                    key={reqGroup.subcategory_id}
-                    category={checkboxCategory}
-                    sectionId={reqGroup.subcategory} 
-                    desc={reqGroup.label}
-                    reqs={reqGroup.reqs}
-                    initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
-                    showIcons={true}
-                    />
-                )
-              })
+              session ? (
+                requirements.map((reqGroup) => {
+                  return (
+                    <CheckSection 
+                      key={reqGroup.subcategory_id}
+                      category={checkboxCategory}
+                      sectionId={reqGroup.subcategory} 
+                      desc={reqGroup.label}
+                      reqs={reqGroup.reqs}
+                      initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
+                      showIcons={true}
+                      />
+                  )
+                })
+              ) : (
+                <h3>Please sign in to use this tool.</h3>
+              )
             }
-
           </main>
         )
       }

@@ -40,7 +40,7 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
     iconSrc = req.icon_name.trim().replace(" ", "_");
 
   // If gold is required, format it (add commas)
-  const formattedGold = req.gold_reqd ? `${req.gold_reqd.toLocaleString('en-US')}g` : null;
+  const formattedGold = req.gold_reqd ? `${req.gold_reqd.toLocaleString("en-US")}g` : null;
 
   if(subcategory === "Obelisks" && req.gold_reqd)
       showGold = true;

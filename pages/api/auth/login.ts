@@ -1,4 +1,4 @@
-import { compare } from "bcryptjs";
+/*import { compare } from "bcryptjs";
 import { connectToDatabase } from "@/lib/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -24,11 +24,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!isValid)
       return res.status(401).json({ message: "Invalid credentials" });
 
-    // Handle Session logic here (JWT or session cookies)
-
     res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong!" });
   }
 
 }
+*/

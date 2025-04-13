@@ -3,6 +3,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Folder Structure
 stardew-guide/ 
+├── __tests__/             # Actual test files for testing pages & components
+├── tests/                 # Shared/universal/reusable test setup/config, helpers, mocks, etc.
+│   ├── setupTests.tsx     # Jest + MSW setup (starts MSW server, sets globals, etc.)
 ├── components/            # Reusable components 
 │   ├── CheckCard.tsx 
 │   ├── CheckSection.tsx

@@ -99,20 +99,24 @@ export default function PerfectionTracker() {
           <main>
             <h1>Perfection Tracker</h1>
             {
-              requirements.map((reqGroup) => {
-                return (
-                  <CheckSection 
-                    key={reqGroup.subcategory_id}
-                    category={checkboxCategory}
-                    sectionId={reqGroup.subcategory} 
-                    desc={reqGroup.label}
-                    reqs={reqGroup.reqs}
-                    initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
-                    mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}
-                    showIcons={iconSubcategories.includes(reqGroup.subcategory)}
-                  />
-                )
-              })
+              session ? (
+                requirements.map((reqGroup) => {
+                  return (
+                    <CheckSection 
+                      key={reqGroup.subcategory_id}
+                      category={checkboxCategory}
+                      sectionId={reqGroup.subcategory} 
+                      desc={reqGroup.label}
+                      reqs={reqGroup.reqs}
+                      initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
+                      mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}
+                      showIcons={iconSubcategories.includes(reqGroup.subcategory)}
+                    />
+                  )
+                })
+              ) : (
+                <h3>Please sign in to use this tool.</h3>
+              )
             }
           </main>
         )

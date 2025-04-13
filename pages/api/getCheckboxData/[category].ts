@@ -9,6 +9,7 @@ export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse<CheckData | GeneralResponse>
 ) {
+
   
   const session = await getServerSession(req, res, authOptions);
   const { category } = req.query;
