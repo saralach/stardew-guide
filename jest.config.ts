@@ -11,27 +11,18 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
-  /*
-  // Stop running tests after `n` failures
-  // bail: 0,
-
-  // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "C:\\Users\\Sara\\AppData\\Local\\Temp\\jest",
-
-  // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
-
-  // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
-
-  // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",*/
 
   // The test environment that will be used for testing
   testEnvironment: "jsdom",
-  setupFiles: ['<rootDir>/jest/setup.js'],
-  setupFilesAfterEnv: ['<rootDir>/jest/set-env-vars.js'],
+  //setupFiles: ['<rootDir>/jest/setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest/setup.js', '<rootDir>/jest/set-env-vars.js'],
+
+  /*transformIgnorePatterns: [
+    "/node_modules/(?!lucide-react)/" //transform lucide-react files
+  ],
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",  // Transform JS/JSX/TS/TSX files with Babel
+  }*/
 };
 
-//export default config;
 export default createJestConfig(config);

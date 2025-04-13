@@ -19,7 +19,7 @@ const usersCollection = {
   insertOne: jest.fn()
 };
 
-describe('Register API Route', () => {
+describe('Register API Route -- /api/auth/register', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (connectToDatabase as jest.Mock).mockResolvedValue({ db: mockDb });

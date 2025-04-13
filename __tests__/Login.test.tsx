@@ -12,7 +12,7 @@ jest.mock('next/router', () => ({
 import { useRouter } from 'next/router';
 
 // ========================== Login Page Test Suite =============================
-describe('Login Page', () => {
+describe('Login Page -- /Login', () => {
 
   const mockPush = jest.fn();
 

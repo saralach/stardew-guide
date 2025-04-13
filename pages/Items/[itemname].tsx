@@ -9,7 +9,6 @@ import UsageSection from '@/components/UsageSection';
 export default function ItemPage() {
   const router = useRouter();
   const { itemname } = Array.isArray(router.query) ? router.query[0] : router.query;
-
   const [item, setItem] = useState<ItemInfo>();
   const [loading, setLoading] = useState(true);
 
@@ -21,14 +20,12 @@ export default function ItemPage() {
         const data = await res.json();
         if(res.ok)
           setItem(data);
-        console.log(data);
       } 
       catch(error) {
         console.log('Error fetching documents');
       }
       finally {
-          setLoading(false);
-          console.log('in finally');
+        setLoading(false);
       }
     }
 
@@ -85,7 +82,7 @@ export default function ItemPage() {
             </section>
           </main>
         ) : (
-          <p>Oops, item not found.</p>
+          <p data-testid='error-msg'>{`Oops! Item '${itemname}' was not found.`}</p>
         )
       }
     </>
