@@ -16,10 +16,8 @@ export default async function handler(
   let itemName = (Array.isArray(itemname) ? itemname[0] : itemname)?.replaceAll("_", " ");
 
   // Adjust name for DB lookup for pages where items may be referred to as something else
-  if(itemName === "Egg")
-    itemName = "Egg (white)";
-  else if(itemName === "Large Egg")
-    itemName = "Large Egg (white)"
+  if(itemName === "Egg" || itemName === "Large Egg")
+    itemName += " (white)";
 
   try {
     // Connect to MongoDB database
@@ -88,8 +86,6 @@ export default async function handler(
       item.uses = itemUses;
     }
 
-    
-    
     res.status(200).json(item);
   }
   catch (error) {

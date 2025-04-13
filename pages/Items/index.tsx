@@ -10,23 +10,23 @@ export default function AllItemsPage() {
   const [loading, setLoading] = useState(true);
   const noSCategories = [
     "Fish", "Forage", "Artisan Goods", "Monster Loot", "Misc", "Cooking", "Trash"
-  ]
+  ];
 
   useEffect(() => {
-      const fetchItems = async () => {
-          try {
-              const res = await fetch('/../api/items');
-              const data = await res.json();
-              setItemGroups(data);
-          } 
-          catch(error) {
-              console.log('Error fetching documents');
-          }
-          finally {
-              setLoading(false);
-          }
+    const fetchItems = async () => {
+      try {
+        const res = await fetch('/../api/items');
+        const data = await res.json();
+        setItemGroups(data);
+      } 
+      catch(error) {
+        console.log('Error fetching documents');
       }
-      fetchItems();
+      finally {
+        setLoading(false);
+      }
+    }
+    fetchItems();
   }, []);
 
   return (
@@ -57,12 +57,10 @@ export default function AllItemsPage() {
                 </div>
               ))
             }
-
           </main>
         )
       }
     </>
-
   );
 
 }// end AllItemsPage()

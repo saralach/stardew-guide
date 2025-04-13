@@ -1,8 +1,4 @@
-import { SourceInfo } from "@/types/itemInfoTypes";
-import IconLabel, { ICON_SIZES } from "./IconLabel";
-import { ChevronUp, ChevronDown, Icon } from 'lucide-react';
-import { ReactNode, useState } from "react";
-import InlineList from "./InlineList";
+import { ReactNode } from "react";
 
 interface SourceCardProps {
   topRowHead: ReactNode | string;

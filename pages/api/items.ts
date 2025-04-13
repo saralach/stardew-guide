@@ -13,18 +13,6 @@ export default async function handler(
     const { db } = await connectToDatabase();
     const collection = db.collection('items');
 
-    // Query the database
-    /*const query = { };
-
-    //exclude _id field
-    const projection = { 
-      _id: 0
-    };  
-  
-    const items = await collection.find(query, {projection}).toArray();*/
-
-    //const items = await collection.distinct("item_name")
-
     const items = await collection.aggregate([
       { // Get item names grouped by category
         $group: {
@@ -33,9 +21,7 @@ export default async function handler(
         },
       },
       { // Sort by _id (ascending)
-        $sort: {
-          _id: 1
-        }
+        $sort: { _id: 1 }
       }
     ]).toArray();
  

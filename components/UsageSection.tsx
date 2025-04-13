@@ -1,9 +1,9 @@
 import { UsageInfo } from "@/types/itemInfoTypes";
 import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
-import { ChevronUp, ChevronDown, Icon } from 'lucide-react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import { ReactNode, useState } from "react";
 import InlineList from "@/components/InlineList";
-import SourceCard from "@/components/SourceUseCard";
+import SourceCard from "@/components/SourceCard";
 
 interface SourceSectionProps {
   category: string;

@@ -15,14 +15,9 @@ if (typeof global.TextDecoder === 'undefined')
 // ------------ Global Mocks (necessary to prevent errors) ------------
 jest.mock('lucide-react', () => ({
   __esModule: true, // if you're using ESModule interop
+  ChevronUp: () => <div>Mocked ChevronUp</div>,
+  ChevronDown: () => <div>Mocked ChevronDown</div>,
+  Icon: () => <div>Mocked Icon</div>,
   default: () => <div>Mocked Icon</div>, // simple functional mock
 }));
 
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    query: { itemname: 'strawberry' },
-    pathname: '/Items/[itemname]',
-    push: jest.fn(),
-    prefetch: jest.fn(),
-  }),
-}));

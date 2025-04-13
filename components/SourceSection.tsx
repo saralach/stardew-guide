@@ -1,9 +1,9 @@
 import { SourceInfo } from "@/types/itemInfoTypes";
 import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
-import { ChevronUp, ChevronDown, Icon } from 'lucide-react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import { ReactNode, useState } from "react";
 import InlineList from "@/components/InlineList";
-import SourceCard from "@/components/SourceUseCard";
+import SourceCard from "@/components/SourceCard";
 
 interface SourceSectionProps {
   category: string;
@@ -29,7 +29,7 @@ export default function SourceSection({ category, sources, itemName }:
   };
 
   // ==================== Set Up Content ====================
-  const getSourceCards = (source: SourceInfo): ReactNode | ReactNode[] => {
+  const getSourceCards = (source: SourceInfo, index: number): ReactNode | ReactNode[] => {
 
     switch(category) {
 
@@ -47,14 +47,15 @@ export default function SourceSection({ category, sources, itemName }:
           <div className="pt-3">
             {
               source.item_costs?.map( (item) => (
-                <IconLabel label={item.item} qty={item.qty} />
+                <IconLabel key={item.item} label={item.item} qty={item.qty} />
               ))
             }
           </div>
         );
         
         return (
-          <SourceCard 
+          <SourceCard
+            key={index}
             topRowHead={
               <IconLabel label={itemName} 
                 qty={source.qty_obtained} 
@@ -70,6 +71,7 @@ export default function SourceSection({ category, sources, itemName }:
       case "Buying":
         return source.source_name && (
           <SourceCard 
+            key={index}
             topRowHead={
               <IconLabel 
                 label={source.source_name} 
@@ -85,6 +87,7 @@ export default function SourceSection({ category, sources, itemName }:
                 {
                   source.item_costs?.map( (itemCost) => (
                     <IconLabel 
+                      key={`${itemCost.qty}-${itemCost.item}`}
                       label={itemCost.item}
                       qty={itemCost.qty}
                     />
@@ -100,6 +103,7 @@ export default function SourceSection({ category, sources, itemName }:
         return (
           source.locations?.map( (location) => (
             <SourceCard 
+              key={`${index}-${category}-${location.location_name}`} 
               topRowHead={location.location_name} 
               topRowDetails={formatProbability(source.probability)} 
             />
@@ -144,6 +148,7 @@ export default function SourceSection({ category, sources, itemName }:
         );
         return (
           <SourceCard
+            key={index}
             topRowHead={<IconLabel label={itemName} />}
             additionalRows={catchingDetails}
           />
@@ -152,10 +157,11 @@ export default function SourceSection({ category, sources, itemName }:
       default: // "Geodes", "Animal", "Mining", "Monster", "Farming" ("Panning", "Crab Pot")
         return source.source_name && (
           <SourceCard
-              topRowHead={<IconLabel label={source.source_name} 
-              category={category === "Mining" || category === "Monster" ? category : undefined}/>}
-              topRowDetails={formatProbability(source.probability)}  
-            />
+            key={index}
+            topRowHead={<IconLabel label={source.source_name} 
+            category={category === "Mining" || category === "Monster" ? category : undefined}/>}
+            topRowDetails={formatProbability(source.probability)}  
+          />
         );
 
     }// end switch
@@ -164,8 +170,8 @@ export default function SourceSection({ category, sources, itemName }:
 
 
   // ------- Get Source Cards -------------------------
-  let sectionContent: ReactNode[] | null = sources.map( (source) =>  
-    getSourceCards(source)
+  let sectionContent: ReactNode[] | null = sources.map( (source, index) =>  
+    getSourceCards(source, index)
   );
 
   // ------- Remove Any Undefined Source Cards --------
