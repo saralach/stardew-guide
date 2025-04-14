@@ -7,7 +7,7 @@ import { CheckData } from '@/types/userProgressTypes';
 
 export default async function handler(
   req: NextApiRequest, 
-  res: NextApiResponse<CheckData | GeneralResponse>
+  res: NextApiResponse<CheckData[] | GeneralResponse>
 ) {
 
   

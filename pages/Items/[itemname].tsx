@@ -48,9 +48,7 @@ export default function ItemPage() {
                 <img className='item-pic' alt={item.item_name} 
                   src={`/${itemname?.replace(' ', '_')}.png`} 
                 />
-                <h1 className='ps-2'>
-                  {item.item_name}
-                </h1>
+                <h1 className='ps-2'>{item.item_name}</h1>
               </div>
               <p className={styles.caption}>{item.desc}</p>
             </div>
@@ -60,10 +58,11 @@ export default function ItemPage() {
               {
                 // Create a SourceSection for each source subcategory
                 item.sources && item.sources?.map( (sourceCategory) => (
-                  <SourceSection key={sourceCategory.source_category}
-                      category={sourceCategory.source_category}
-                      sources={sourceCategory.sources}
-                      itemName={item.item_name}
+                  <SourceSection 
+                    key={`${sourceCategory.source_category}-Sources`}
+                    category={sourceCategory.source_category}
+                    sources={sourceCategory.sources}
+                    itemName={item.item_name}
                   />
                 ))
               }
@@ -73,9 +72,10 @@ export default function ItemPage() {
               {
                 // Create a SourceSection for each use subcategory
                 item.uses && item.uses?.map( (useCategory) => (
-                  <UsageSection key={useCategory.use_category}
-                      category={useCategory.use_category}
-                      uses={useCategory.uses}
+                  <UsageSection 
+                    key={`${useCategory.use_category}-Sources`}
+                    category={useCategory.use_category}
+                    uses={useCategory.uses}
                   />
                 ))
               }

@@ -1,15 +1,8 @@
 export interface ReqGroup {
-  label: string;
-  reqs: any[];
-  subcategory: string;
-  subcategory_id: number;
-}
-
-export interface SubcategoryReqs {
-  subcategory: string;
-  subcategory_id: number;
-  reqs: SingleReq[];
   label?: string;
+  reqs: SingleReq[];
+  subcategory: string;
+  subcategory_id: number;
 }
 
 export interface SingleReq {

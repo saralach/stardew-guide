@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactNode } from "react";
 
 interface SourceCardProps {
@@ -7,10 +8,14 @@ interface SourceCardProps {
 }
 
 export default function SourceCard({ topRowHead, topRowDetails, additionalRows }: SourceCardProps) {
+  additionalRows = Array.isArray(additionalRows) ? 
+      React.Children.toArray(additionalRows) : additionalRows;
 
   return (
     <article className="card card-wide">
-      <div className={`flex flex-row items-center justify-between ${additionalRows && "bottom-border"}`}>
+      <div 
+        className={`flex flex-row items-center justify-between ${additionalRows && "bottom-border"}`}
+      >
         <h6>
           {topRowHead}
         </h6>
@@ -19,7 +24,7 @@ export default function SourceCard({ topRowHead, topRowDetails, additionalRows }
         }
       </div>
       {
-        additionalRows
+        React.Children.toArray(additionalRows)
       }
     </article>
   )

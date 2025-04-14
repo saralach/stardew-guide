@@ -35,10 +35,7 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[],
   };
 
   function getInitialCompletion(req: SingleReq) {
-    const isComplete = initCompletedTasks.some((task) => task === req.req_id);
-    if(isComplete)
-      console.log(`INITIAL COMPLETION for ${req.req_id}: ${isComplete}`);
-    return isComplete;
+    return initCompletedTasks.some((task) => task === req.req_id);
   };
 
   return (

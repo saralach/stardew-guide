@@ -36,7 +36,7 @@ describe('Login Page -- /Login', () => {
           <Login />
         </SessionProvider>
       );
-    })
+    });
 
     it('allows users to input username and password', () => {
       // Get username & password input fields ("/StrHere/i" is reg exp for case-insensitive string)
@@ -190,16 +190,16 @@ describe('Login Page -- /Login', () => {
         username: "totallyRealUser"
       },
       expires: '2099-01-01T00:00:00.000Z'
-    }
+    };
 
     beforeEach(() => {
-      // Render Login page, simulating a user who is not logged in
+      // Render Login page, simulating a user who is logged in
       render(
         <SessionProvider session={mockSession}> 
           <Login />
         </SessionProvider>
       );
-    })
+    });
     
     it('does not display form content to logged in user', () => {
       const buttons = screen.queryAllByRole('button');

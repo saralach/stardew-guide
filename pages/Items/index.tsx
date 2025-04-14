@@ -17,7 +17,8 @@ export default function AllItemsPage() {
       try {
         const res = await fetch('/../api/items');
         const data = await res.json();
-        setItemGroups(data);
+        if(res.ok)
+          setItemGroups(data);
       } 
       catch(error) {
         console.log('Error fetching documents');
@@ -38,26 +39,41 @@ export default function AllItemsPage() {
         loading ? (
           <Loading/>
         ) : (
-          <main>
-            <h1>Items</h1>
-            {
-              itemGroups.map( (category) => (
-                <div key={category._id} className="bottom-border py-3">
-                  <h2>{ noSCategories.includes(category._id) ? category._id : `${category._id}s`}</h2>
-                  <div className="cards-container">
-                    {
-                      category.items.map( (itemName) => (
-                        <Link key={itemName} className="cardlink itemlink card-tiny" href={`Items/${itemName.trim().replaceAll(" ", "_")}`}>
-                          <img className="itemphoto" src={`/${itemName.trim().replaceAll(" ", "_")}.png`} alt={`${itemName}`} />
-                          <p>{itemName}</p>
-                        </Link>
-                      ))
-                    }
+          itemGroups.length > 0 ? (
+            <main>
+              <h1>Items</h1>
+              {
+                itemGroups.map( (category) => (
+                  <div key={category._id} className="bottom-border py-3">
+                    <h2>
+                      { noSCategories.includes(category._id) ? category._id : `${category._id}s` }
+                    </h2>
+                    <div className="cards-container">
+                      {
+                        category.items.map( (itemName) => (
+                          <Link 
+                            key={itemName} 
+                            className="cardlink itemlink card-tiny"
+                            href={ `Items/${itemName.trim().replaceAll(" ", "_")}` }
+                          >
+                            <img 
+                              className="itemphoto" 
+                              src={`/${itemName.trim().replaceAll(" ", "_")}.png`} 
+                              alt={`${itemName}`} 
+                            />
+                            <p>{itemName}</p>
+                          </Link>
+                        ))
+                      }
+                    </div>
                   </div>
-                </div>
-              ))
-            }
-          </main>
+                ))
+              }
+            </main>
+          ) : (
+            <p data-testid='error-msg'>Oops! Items could not be retrieved.</p>
+          )
+
         )
       }
     </>

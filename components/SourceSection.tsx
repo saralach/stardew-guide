@@ -4,6 +4,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 import { ReactNode, useState } from "react";
 import InlineList from "@/components/InlineList";
 import SourceCard from "@/components/SourceCard";
+import React from "react";
 
 interface SourceSectionProps {
   category: string;
@@ -55,7 +56,7 @@ export default function SourceSection({ category, sources, itemName }:
         
         return (
           <SourceCard
-            key={index}
+            //key={`index-cooking`}
             topRowHead={
               <IconLabel label={itemName} 
                 qty={source.qty_obtained} 
@@ -71,7 +72,7 @@ export default function SourceSection({ category, sources, itemName }:
       case "Buying":
         return source.source_name && (
           <SourceCard 
-            key={index}
+            //key={index}
             topRowHead={
               <IconLabel 
                 label={source.source_name} 
@@ -103,7 +104,7 @@ export default function SourceSection({ category, sources, itemName }:
         return (
           source.locations?.map( (location) => (
             <SourceCard 
-              key={`${index}-${category}-${location.location_name}`} 
+              //key={`${index}-${category}-${location.location_name}`} 
               topRowHead={location.location_name} 
               topRowDetails={formatProbability(source.probability)} 
             />
@@ -148,7 +149,7 @@ export default function SourceSection({ category, sources, itemName }:
         );
         return (
           <SourceCard
-            key={index}
+            //key={index}
             topRowHead={<IconLabel label={itemName} />}
             additionalRows={catchingDetails}
           />
@@ -157,7 +158,7 @@ export default function SourceSection({ category, sources, itemName }:
       default: // "Geodes", "Animal", "Mining", "Monster", "Farming" ("Panning", "Crab Pot")
         return source.source_name && (
           <SourceCard
-            key={index}
+            //key={index}
             topRowHead={<IconLabel label={source.source_name} 
             category={category === "Mining" || category === "Monster" ? category : undefined}/>}
             topRowDetails={formatProbability(source.probability)}  
@@ -200,7 +201,7 @@ export default function SourceSection({ category, sources, itemName }:
       {
         sectionContent &&
           <div className={sectionVisible ? "ps-1 flex flex-row flex-wrap justify-center":"hidden"}>
-            { sectionContent }
+            { React.Children.toArray(sectionContent) }
           </div>
       }
     </div>

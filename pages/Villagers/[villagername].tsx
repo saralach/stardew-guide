@@ -15,29 +15,28 @@ export default function VillagerPage() {
   useEffect(() => {
     const fetchVillagerInfo = async () => {
       try {
-          const res = await fetch(`/api/villagers/${villagername}`);
-          const data = await res.json();
+        const res = await fetch(`/api/villagers/${villagername}`);
+        const data = await res.json();
+        if(res.ok)
           setVillagerInfo(data);
       } 
       catch(error) {
-          console.log('Error fetching documents');
+        console.log('Error fetching documents');
       }
       finally {
-          setLoading(false);
-          console.log("in finally");
+        setLoading(false);
       }
     }
 
-    if(villagername) {
+    if(villagername)
       fetchVillagerInfo();
-    }
   }, [villagername]); /* executes again when villagername is changed */
 
 
   return (
     <div>
       <Head>
-        <title>{`{router.query.villagername} | Stardew Guide`}</title>
+        <title>{`${router.query.villagername} | Stardew Guide`}</title>
       </Head>
       {
         loading ? (
@@ -48,7 +47,10 @@ export default function VillagerPage() {
               <h1>{router.query.villagername}</h1>
 
               <div className="flex flex-col justify-center items-center flex-nowrap">
-                <img className="villager-pic-lg block" src={`/Villager/${router.query.villagername}.png`}/>
+                <img 
+                  className="villager-pic-lg block"
+                  src={`/Villager/${router.query.villagername}.png`}
+                />
 
                 <table className="villagerinfo">
                   <tbody>
@@ -91,10 +93,10 @@ export default function VillagerPage() {
                   <h4>Loved Gifts</h4>
                   <ul>
                     {
-                      villagerInfo.gift_prefs.items.map((gift) => {
+                      villagerInfo.gift_prefs.items.map((gift, index) => {
                         return (
                           gift.pref_num === 5 && (
-                            <li className="list-none h-fit">
+                            <li className="list-none h-fit" key={index}>
                               <IconLabel label={gift.item_name} isLink={true}/>
                             </li>
                           )
@@ -107,7 +109,7 @@ export default function VillagerPage() {
 
             </main>
           ) : (
-            <p>
+            <p data-testid='error-msg'>
               {`No villager found with the name '${router.query.villagername}'.`}
             </p>
           )

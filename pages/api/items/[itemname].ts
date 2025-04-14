@@ -1,7 +1,6 @@
-import { sources } from 'next/dist/compiled/webpack/webpack';
 import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SourceCategory, SourceInfo } from '@/types/itemInfoTypes';
+import { SourceCategory } from '@/types/itemInfoTypes';
 import { ErrorResponse } from '@/types/apiResponseTypes';
 
 export default async function handler(

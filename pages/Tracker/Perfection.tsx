@@ -106,7 +106,7 @@ export default function PerfectionTracker() {
                       key={reqGroup.subcategory_id}
                       category={checkboxCategory}
                       sectionId={reqGroup.subcategory} 
-                      desc={reqGroup.label}
+                      desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}
                       reqs={reqGroup.reqs}
                       initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
                       mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}

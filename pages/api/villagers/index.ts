@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../lib/mongodb';
+import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -9,8 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const collection = db.collection('villagers');
 
     // Query the MongoDB database
-    const query = {};                 //get all villagers
-    const projection = { _id: 0 };    //exclude _id field
+    const query = {};    //get all villagers
+
+    // Exclude _id field
+    const projection = {_id: 0 };
 
     const villagers = await collection.find(query, {projection}).toArray();
 

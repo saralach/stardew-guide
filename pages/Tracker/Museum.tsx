@@ -12,6 +12,8 @@ export default function MuseumTracker() {
   const [requirements, setRequirements] = useState<ReqGroup[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [initialCheckData, setInitialCheckData] = useState<CheckData[]>([]);
+  const [retrievedCheckData, setRetrievedCheckData] = useState(false);
+  //const [isError, setIsError] = useState(false);
   const { data: session, status } = useSession();
   const checkboxCategory = 'Museum';
 
@@ -33,7 +35,7 @@ export default function MuseumTracker() {
         setRequirements(data);
       } 
       catch(error) {
-        console.log('Error fetching documents');
+        console.log('error fetching requirement data');
       }
     }
     fetchRequirements();
@@ -51,18 +53,18 @@ export default function MuseumTracker() {
           console.log('Error - user not authenticated');
         else {
           const res = await fetch(`${rootUrl}/api/getCheckboxData/${checkboxCategory}`);
-
-          if(!res.ok)
-            console.log(`uh oh - status ${res.status}, '${res.statusText}'`);
-          else {
-            const data = await res.json();
+          const data = await res.json();
+          if(res.ok) {
             setInitialCheckData(data);
+            setRetrievedCheckData(true);
+          }
+          else {
+            console.log(`uh oh - status ${res.status}, '${res.statusText}'`);
           }
         }          
       } 
       catch(error) {
-        console.log('Error fetching documents');
-        console.log(error);
+        console.log('error fetching checkbox data');
       }
       finally {
         setIsLoading(false);
@@ -71,7 +73,6 @@ export default function MuseumTracker() {
     fetchInitialCheckboxData();
   }, [session, status]);
   
-
   // ============ Return page content ======================================
   return (
     <>
@@ -86,21 +87,26 @@ export default function MuseumTracker() {
             <h1>Museum Tracker</h1>
             {
               session ? (
-                requirements.map((reqGroup) => {
-                  return (
-                    <CheckSection 
-                      key={reqGroup.subcategory_id}
-                      category={checkboxCategory}
-                      sectionId={reqGroup.subcategory} 
-                      desc={reqGroup.label}
-                      reqs={reqGroup.reqs}
-                      initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
-                      showIcons={true}
+                (requirements !== undefined && retrievedCheckData) ? (
+                  requirements.map((reqGroup) => {
+                    return (
+                      <CheckSection 
+                        key={reqGroup.subcategory_id}
+                        category={checkboxCategory}
+                        sectionId={reqGroup.subcategory} 
+                        desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}
+                        reqs={reqGroup.reqs}
+                        initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
+                        showIcons={true}
                       />
-                  )
-                })
+                    )
+                  })
+                ) : (
+                  <p data-testid='error-msg'>Oops! Error retrieving data.</p>
+                )
+
               ) : (
-                <h3>Please sign in to use this tool.</h3>
+                <p>Please sign in to use this tool.</p>
               )
             }
           </main>
