@@ -1,15 +1,25 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MuseumTracker from '@/pages/Tracker/Museum';
 import { SessionProvider } from 'next-auth/react';
+import handleChkChange from '../../lib/handleChkChange';
 
-beforeEach(() => {
+jest.mock('../../lib/handleChkChange');
+
+/*beforeEach(() => {
   jest.resetAllMocks();
-});
+});*/
 
+
+const getMockSession = () => {
+  return {
+    user: { username: 'totallyRealUser' },
+    expires: '2099-01-01T00:00:00.000Z'
+  };
+};
 const mockSession = {
   user: { username: "totallyRealUser" },
   expires: '2099-01-01T00:00:00.000Z'
-}
+};
 
 // -------------- getMock() functions -----------------------------
 function getMockReqsResponse() {
@@ -62,141 +72,313 @@ function getMockChkResponse(isEmpty: boolean) {
 };
 
 
-// =========================== MUSEUM TRACKER TESTS ===========================
+// ============================== MUSEUM TRACKER TESTS ==============================
 describe('Museum Tracker Page -- /Tracker/Museum', () => {
 
-  // =========================== Signed in user ===========================
+  afterEach(() => {
+    // Clear call history
+    jest.clearAllMocks();
+    
+    // Clear mock implementation
+    jest.resetAllMocks();
+    delete (global as any).fetch;
+
+    // Restore Original Implementation
+    jest.restoreAllMocks();
+  });
+
+  // ================================ Signed in user ================================
   describe('user is signed in', () => {
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
+    // ----------------------- Testing display of checkboxes -----------------------
+    describe('test display of checkboxes depending on different API responses', () => {
 
-    it('displays error msg when fails to fetch reqs & user data', async () => {
-      // Mock fetch API & responses
-      global.fetch = jest.fn()
-        .mockResolvedValueOnce( getMockErrorResponse() )
-        .mockResolvedValueOnce( getMockErrorResponse() );
-  
-      render(
-        <SessionProvider session={mockSession}>
-          <MuseumTracker />
-        </SessionProvider>
-      );
-  
-      // Confirm error message gets displayed
-      await waitFor(() => {
-        expect(screen.getByTestId('error-msg'))
-          .toHaveTextContent('Oops! Error retrieving data.');
-      });
-    });
-  
-  
-    it('displays error message when fails to fetch user checkbox data', async () => {
-      // Mock fetch API & responses
-      global.fetch = jest.fn()
-        .mockResolvedValueOnce( getMockReqsResponse() )   // Requirements
-        .mockResolvedValueOnce( getMockErrorResponse() ); // User Chk Data
-  
-      render(
-        <SessionProvider session={mockSession}> 
-          <MuseumTracker />
-        </SessionProvider>
-      );
-  
-      // Confirm error message gets displayed
-      await waitFor(() => {
-        expect(screen.getByTestId('error-msg'))
-          .toHaveTextContent('Oops! Error retrieving data.');
-      });
-    });
-
+      it('displays error msg when fails to fetch reqs & user data', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn()
+          .mockResolvedValueOnce( getMockErrorResponse() )
+          .mockResolvedValueOnce( getMockErrorResponse() );
     
-    it('displays unchecked checkboxes when user has no checkbox data', async () => {
-      // Mock fetch API & responses
-      global.fetch = jest.fn((url: string | URL | Request) => {
-        const urlStr = url.toString();
-
-        if(urlStr.includes('api/getMuseumReqs'))
-          return getMockReqsResponse();
-        else if(urlStr.includes('api/getCheckboxData'))
-          return getMockChkResponse(true);
-        
-        return Promise.reject('Invalid URL');
+        render(
+          <SessionProvider session={getMockSession()}>
+            <MuseumTracker />
+          </SessionProvider>
+        );
+    
+        // Confirm error message gets displayed
+        await waitFor(() => {
+          expect(screen.getByTestId('error-msg'))
+            .toHaveTextContent('Oops! Error retrieving data.');
+        });
       });
+    
+    
+      it('displays error message when fails to fetch user checkbox data', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn()
+          .mockResolvedValueOnce( getMockReqsResponse() )   // Requirements
+          .mockResolvedValueOnce( getMockErrorResponse() ); // User Chk Data
+    
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+    
+        // Confirm error message gets displayed
+        await waitFor(() => {
+          expect(screen.getByTestId('error-msg'))
+            .toHaveTextContent('Oops! Error retrieving data.');
+        });
+      });
+  
+      
+      it('displays all unchecked checkboxes when user has no checkbox data', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(true);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+  
+        // Confirm checkboxes are displayed correctly
+        await waitFor(() => {
+          const checkboxes = screen.getAllByRole('checkbox');
+          expect(checkboxes).toHaveLength(6); 
+  
+          // Confirm checkboxes from both subcategories are present & have their proper labels
+          expect(screen.getByLabelText(/Earth Crystal/)).toBeInTheDocument();
+          expect(screen.getByLabelText(/Arrowhead/)).toBeInTheDocument();
+          
+  
+          // Confirm subcategory headers are present
+          expect(screen.getByText('Artifacts')).toBeInTheDocument();
+          expect(screen.getByText('Minerals')).toBeInTheDocument();
+  
+          // Confirm that no checkboxes are checked
+          checkboxes.forEach((checkbox) => {
+            expect(checkbox).not.toBeChecked();
+          })
+        });
+      });
+  
+  
+      it('displays checkboxes when both requests are successful and user has data', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(false);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+  
+        // Confirm checkboxes are displayed correctly
+        await waitFor(() => {
+          const checkboxes = screen.getAllByRole('checkbox');
+          expect(checkboxes).toHaveLength(6);
+  
+          // Confirm checkboxes from both subcategories are present & have their proper labels
+          expect(screen.getByLabelText(/Earth Crystal/)).toBeInTheDocument();
+          expect(screen.getByLabelText(/Arrowhead/)).toBeInTheDocument();
+          
+  
+          // Confirm subcategory headers are present
+          expect(screen.getByText('Artifacts')).toBeInTheDocument();
+          expect(screen.getByText('Minerals')).toBeInTheDocument();
+  
+          // Confirm checkbox that should be checked is checked
+          expect(screen.getByLabelText(/Frozen Tear/)).toBeChecked();
+  
+          // Confirm checkbox that should not be checked is not checked
+          expect(screen.getByLabelText(/Dwarf Scroll IV/)).not.toBeChecked();
+        });
+      });
+    }); // end chkbox display testing
 
-      render(
-        <SessionProvider session={mockSession}> 
-          <MuseumTracker />
-        </SessionProvider>
-      );
 
-      // Confirm checkboxes are displayed correctly
-      await waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox');
-        expect(checkboxes).toHaveLength(6); 
 
-        // Confirm checkboxes from both subcategories are present & have their proper labels
-        expect(screen.getByLabelText(/Earth Crystal/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Arrowhead/)).toBeInTheDocument();
-        
-
-        // Confirm subcategory headers are present
-        expect(screen.getByText('Artifacts')).toBeInTheDocument();
-        expect(screen.getByText('Minerals')).toBeInTheDocument();
-
-        // Confirm that no checkboxes are checked
-        checkboxes.forEach((checkbox) => {
+    // --------------- Testing checking and unchecking functionality ---------------
+    describe('test checking and unchecking functionality', () => {
+      
+      /*it('checks box & calls handleChkChange when an unchecked checkbox is clicked', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(false);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+  
+        await waitFor(() => {
+          const chkLabelText = 'Dwarf Scroll IV';
+  
+          // Confirm checkbox starts out unchecked
+          const checkbox = screen.getByLabelText(chkLabelText);
           expect(checkbox).not.toBeChecked();
-        })
+  
+          // Click checkbox, then confirm it calls handleChkChange() & checkbox becomes checked
+          fireEvent.click(checkbox);
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Artifacts', chkLabelText, true);
+          expect(checkbox).toBeChecked();
+        });
       });
-    });
+  
+      // -------- test if checked box can be unchecked and rechecked ---------------------
+      it('unchecks box & calls handleChkChange when a checked checkbox is clicked', async () => {
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(false);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+  
+        await waitFor(() => {
+          const chkLabelText = 'Frozen Tear';
 
+          // Confirm checkbox starts out checked
+          const checkbox = screen.getByLabelText(chkLabelText);
+          expect(checkbox).toBeChecked();
+  
+          // Click checkbox, then confirm it calls handleChkChange() & checkbox becomes unchecked
+          fireEvent.click(checkbox);
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Minerals', chkLabelText, false);
+          expect(checkbox).not.toBeChecked();
+        });
+      });*/
+  
+      it('allows an unchecked checkbox to be checked, then unchecked', async () => {
+        const chkLabelText = 'Dwarf Scroll IV';
 
-    it('displays checkboxes both requests are successful and user has data', async () => {
-      // Mock fetch API & responses
-      global.fetch = jest.fn((url: string | URL | Request) => {
-        const urlStr = url.toString();
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(false);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
 
-        if(urlStr.includes('api/getMuseumReqs'))
-          return getMockReqsResponse();
-        else if(urlStr.includes('api/getCheckboxData'))
-          return getMockChkResponse(false);
-
-        return Promise.reject('Invalid URL');
-      });
-
-      render(
-        <SessionProvider session={mockSession}> 
-          <MuseumTracker />
-        </SessionProvider>
-      );
-
-      // Confirm checkboxes are displayed correctly
-      await waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox');
-        expect(checkboxes).toHaveLength(6);
-
-        // Confirm checkboxes from both subcategories are present & have their proper labels
-        expect(screen.getByLabelText(/Earth Crystal/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Arrowhead/)).toBeInTheDocument();
+        const checkbox = await screen.findByLabelText(chkLabelText);
         
+        // Confirm checkbox starts out unchecked
+        await waitFor(() => {
+          const checkbox = screen.getByLabelText(chkLabelText);
+          expect(checkbox).not.toBeChecked();
+        });
 
-        // Confirm subcategory headers are present
-        expect(screen.getByText('Artifacts')).toBeInTheDocument();
-        expect(screen.getByText('Minerals')).toBeInTheDocument();
+        // Click checkbox, then confirm it calls handleChkChange() & checkbox becomes checked
+        fireEvent.click(checkbox);
 
-        // Confirm checkbox that should be checked is checked
-        expect(screen.getByLabelText(/Frozen Tear/)).toBeChecked();
+        await waitFor(() => {  
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Artifacts', chkLabelText, true);
+          expect(checkbox).toBeChecked();
+        });
 
-        // Confirm checkbox that should not be checked is not checked
-        expect(screen.getByLabelText(/Dwarf Scroll IV/)).not.toBeChecked();
+        // Click checkbox again, confirm it calls handleChkChange() & checkbox becomes unchecked
+        fireEvent.click(checkbox);
+
+        await waitFor(() => {
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Artifacts', chkLabelText, false);
+          expect(checkbox).not.toBeChecked();
+        });
       });
-    });
+      
+      //---------------------------------------------------------------------------------------
+      it('allows a checked checkbox to be unchecked, then checked again', async () => {
+        const chkLabelText = 'Frozen Tear';
+
+        // Mock fetch API & responses
+        global.fetch = jest.fn((url: string | URL | Request) => {
+          const urlStr = url.toString();
+          if(urlStr.includes('api/getMuseumReqs'))
+            return getMockReqsResponse();
+          else if(urlStr.includes('api/getCheckboxData'))
+            return getMockChkResponse(false);
+          return Promise.reject('Invalid URL');
+        });
+  
+        render(
+          <SessionProvider session={getMockSession()}> 
+            <MuseumTracker />
+          </SessionProvider>
+        );
+        
+        const checkbox = await screen.findByLabelText(chkLabelText);
+
+        // Confirm checkbox starts out unchecked
+        await waitFor(() => {
+          expect(checkbox).toBeInTheDocument();
+          expect(checkbox).toBeChecked();
+        });
+
+        fireEvent.click(checkbox);
+        await waitFor(() => {
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Minerals', chkLabelText, false);
+          expect(checkbox).not.toBeChecked();
+        });
+
+        fireEvent.click(checkbox);
+        await waitFor(() => {
+          expect(handleChkChange).toHaveBeenCalled();
+          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Minerals', chkLabelText, true);
+          expect(checkbox).toBeChecked();
+        });
+      });
+
+    }); // end check & uncheck functionality tests
+
+
+
 
   }); // end signed in user tests
 
-  // ========================= Not signed in user =========================
+  // ============================== Not signed in user ==============================
   describe('user is NOT signed in', () => {
 
     it('displays prompt to sign in if user is not signed in', async () => {
