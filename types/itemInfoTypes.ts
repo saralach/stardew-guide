@@ -10,7 +10,6 @@ export interface ItemInfo {
   max_quality?: string;
   sources: SourceCategory[];
   uses: UsageCategory[];
-
 }
 
 export interface UsageCategory {
@@ -20,10 +19,10 @@ export interface UsageCategory {
 
 export interface UsageInfo {
   product_name: string;
-  equipment_name: string;
-  qty_obtained: number;
-  item_costs: ItemCost[];
-  other_detail: string;
+  equipment_name?: string;
+  qty_obtained?: number;
+  item_costs?: ItemCost[];
+  other_detail?: string;
 }
 
 export interface SourceCategory {

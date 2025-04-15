@@ -1,10 +1,10 @@
-import Head from "next/head";
-import CheckSection from "@/components/CheckSection";
-import Loading from "@/components/Loading";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { ReqGroup } from "@/types/trackerReqTypes";
-import { CheckData } from "@/types/userProgressTypes";
+import Head from 'next/head';
+import CheckSection from '@/components/CheckSection';
+import Loading from '@/components/Loading';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { ReqGroup } from '@/types/trackerReqTypes';
+import { CheckData } from '@/types/userProgressTypes';
 
 export default function PerfectionTracker() {
 
@@ -13,7 +13,7 @@ export default function PerfectionTracker() {
   const [requirements, setRequirements] = useState<ReqGroup[]>([]);
   const [initialCheckData, setInitialCheckData] = useState<CheckData[]>([]);
   const { data: session, status } = useSession();
-  const checkboxCategory = "Perfection";
+  const checkboxCategory = 'Perfection';
   const iconSubcategories = [
     'Items Shipped', 'Monster Slayer','Great Friends', 'Level 10 Skills', 
     'Cooking', 'Crafting', 'Fishing'
@@ -38,9 +38,10 @@ export default function PerfectionTracker() {
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
-        const res = await fetch(`${rootUrl}/api/getPerfectionReqs`);
+        //const res = await fetch(`${rootUrl}/api/getPerfectionReqs`);
+        const res = await fetch(`${rootUrl}/api/getTrackerReqs/${checkboxCategory}`);
         const data = await res.json();
-        console.log("requirements:");
+        console.log('requirements:');
         console.log(data);
         setRequirements(data);
       } 
@@ -58,12 +59,12 @@ export default function PerfectionTracker() {
   // ============ Get initial checkbox data ================================
   useEffect(() => {
       const fetchInitialCheckboxData = async () => {
-        if(status === "loading") //session not yet loaded
+        if(status === 'loading') //session not yet loaded
           return;
 
         try {
           if(!session) 
-            console.log("Error - user not authenticated")
+            console.log('Error - user not authenticated')
           else {
             const res = await fetch(`${rootUrl}/api/getCheckboxData/${checkboxCategory}`);
             
@@ -76,7 +77,7 @@ export default function PerfectionTracker() {
           }
         } 
         catch(error) {
-            console.log("Error fetching documents");
+            console.log('Error fetching documents');
             console.log(error);
         }
         finally {

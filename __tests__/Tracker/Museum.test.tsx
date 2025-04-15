@@ -5,23 +5,14 @@ import handleChkChange from '../../lib/handleChkChange';
 
 jest.mock('../../lib/handleChkChange');
 
-/*beforeEach(() => {
-  jest.resetAllMocks();
-});*/
-
-
+// -------------- getMock() functions -----------------------------
 const getMockSession = () => {
   return {
     user: { username: 'totallyRealUser' },
     expires: '2099-01-01T00:00:00.000Z'
   };
 };
-const mockSession = {
-  user: { username: "totallyRealUser" },
-  expires: '2099-01-01T00:00:00.000Z'
-};
 
-// -------------- getMock() functions -----------------------------
 function getMockReqsResponse() {
   return Promise.resolve({
     ok: true,
@@ -137,7 +128,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
         // Mock fetch API & responses
         global.fetch = jest.fn((url: string | URL | Request) => {
           const urlStr = url.toString();
-          if(urlStr.includes('api/getMuseumReqs'))
+          if(urlStr.includes('api/getTrackerReqs'))
             return getMockReqsResponse();
           else if(urlStr.includes('api/getCheckboxData'))
             return getMockChkResponse(true);
@@ -176,7 +167,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
         // Mock fetch API & responses
         global.fetch = jest.fn((url: string | URL | Request) => {
           const urlStr = url.toString();
-          if(urlStr.includes('api/getMuseumReqs'))
+          if(urlStr.includes('api/getTrackerReqs'))
             return getMockReqsResponse();
           else if(urlStr.includes('api/getCheckboxData'))
             return getMockChkResponse(false);
@@ -220,7 +211,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
         // Mock fetch API & responses
         global.fetch = jest.fn((url: string | URL | Request) => {
           const urlStr = url.toString();
-          if(urlStr.includes('api/getMuseumReqs'))
+          if(urlStr.includes('api/getTrackerReqs'))
             return getMockReqsResponse();
           else if(urlStr.includes('api/getCheckboxData'))
             return getMockChkResponse(false);

@@ -92,6 +92,10 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
     );
   }
 
+  if(req.num_slots !== req.items_reqd?.length) {
+    children.push(<p className="pt-3 font-bold">{`Items Required: ${req.num_slots}`}</p>)
+  }
+
 
 
   // Remove any undefined children; if children is empty array, set to null

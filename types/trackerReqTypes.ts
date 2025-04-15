@@ -13,6 +13,7 @@ export interface SingleReq {
   icon_name?: string;
   label?: string;
   qty?: number;
+  num_slots?: number;
 }
 
 export interface ReqItem {

@@ -6,16 +6,15 @@ import { useSession } from 'next-auth/react';
 import { ReqGroup } from '@/types/trackerReqTypes';
 import { CheckData } from '@/types/userProgressTypes';
 
-export default function MuseumTracker() {
+export default function BundleTracker() {
 
   const rootUrl = process.env.NEXT_PUBLIC_ROOT_URL;
   const [requirements, setRequirements] = useState<ReqGroup[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [initialCheckData, setInitialCheckData] = useState<CheckData[]>([]);
   const [retrievedCheckData, setRetrievedCheckData] = useState(false);
-  //const [isError, setIsError] = useState(false);
   const { data: session, status } = useSession();
-  const checkboxCategory = 'Museum';
+  const checkboxCategory = 'Bundles';
 
   function getInitialSectionData(subcategory: string) {
     const sectionInitialData: string[] = [];
@@ -30,7 +29,6 @@ export default function MuseumTracker() {
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
-        //const res = await fetch(`${rootUrl}/api/getMuseumReqs`);
         const res = await fetch(`${rootUrl}/api/getTrackerReqs/${checkboxCategory}`);
         const data = await res.json();
         setRequirements(data);
@@ -97,7 +95,6 @@ export default function MuseumTracker() {
                         desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}
                         reqs={reqGroup.reqs}
                         initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
-                        showIcons={true}
                       />
                     )
                   })

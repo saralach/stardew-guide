@@ -13,7 +13,7 @@
 use('stardew');
 const collection = db.getCollection('tracker_reqs');
 
-collection.updateOne(
+/*collection.updateOne(
 	{
 		"subcategory": "Fishing",
 		"reqs.req_id": "Sea Jelly"
@@ -45,7 +45,7 @@ collection.updateOne(
 			"reqs.$.locations": [ "The Mines (Floor 20, 60, and 100)" ]
 		}
 	}
-);
+);*/
 
 
 /*collection.updateOne(
