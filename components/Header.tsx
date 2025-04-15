@@ -19,7 +19,7 @@ export default function Header() {
                      alt='Stardew Guide Logo'
                 />
               </Link>
-            ): (
+            ) : (
               <img className={styles.sitelogo} 
                    src='/stardew-guide-logo.png'
                    alt='Stardew Guide Logo'
@@ -29,46 +29,42 @@ export default function Header() {
           <ul className={styles.navtabs}>
             <li>
             { 
-              router.pathname !== '/Villagers' ? (
-                <Link href='/Villagers'>Villagers</Link>
-              ) : (
-                "Villagers"
-              )
+              router.pathname !== '/Villagers' ? 
+                <Link href='/Villagers'>Villagers</Link> : "Villagers"
             }
             </li>
             <li>
             {
-              router.pathname !== '/Items' ? (
-                <Link href='/Items'>Items</Link>
-              ) : (
-                "Items"
-              )
+              router.pathname !== '/Items' ?
+                <Link href='/Items'>Items</Link> : "Items"
             }
             </li>
             <li className={styles.dropdowncontainer}>
               <span className={styles.dropdowntrigger}>
-                Tracker
+                Trackers
               </span>
               {
                 <ul className={styles.dropdownlist}>
                   <li>
                     {
-                      router.pathname !== '/Tracker/Perfection' ? (
-                        <Link href='/Tracker/Perfection'>Perfection Tracker</Link>
-                      ) : (
-                        "Perfection Tracker"
-                      )
+                      router.pathname !== '/Tracker/Bundles' ?
+                        <Link href='/Tracker/Bundles'>Bundles</Link> : "Bundles"
                     }
                   </li>
                   <li>
                     {
-                      router.pathname !== '/Tracker/Museum' ? (
-                        <Link href='/Tracker/Museum'>Museum Tracker</Link>
-                      ) : (
-                        "Museum Tracker"
-                      )
+                      router.pathname !== '/Tracker/Museum' ?
+                        <Link href='/Tracker/Museum'>Museum</Link> : "Museum"
                     }
                   </li>
+                  <li>
+                    {
+                      router.pathname !== '/Tracker/Perfection' ?
+                        <Link href='/Tracker/Perfection'>Perfection</Link> : 
+                        "Perfection"
+                    }
+                  </li>
+
                 </ul>
               }
             </li>
