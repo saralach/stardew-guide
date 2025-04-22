@@ -3,12 +3,19 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { SourceCategory } from '@/types/itemInfoTypes';
 import { ErrorResponse } from '@/types/apiResponseTypes';
 
+// HTTP Method Available: GET
+// This endpoint retrieves information about a specific item. Item names must have any spaces 
+// replaced with underscores. Item names are case insensitive.
+
 export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse<SourceCategory | ErrorResponse>
 ) {
 
   const { itemname } = req.query;
+
+  if (req.method !== 'GET')
+    res.status(405).json({ error: 'Method Not Allowed' });
 
   // If parameter from URL included a querystring beyond the item name, take only
   // the item name, then replace all underscores with spaces for db lookup
@@ -23,10 +30,13 @@ export default async function handler(
     const { db } = await connectToDatabase();
     const collection = db.collection('items');
 
-    const query = { item_name: itemName }; 
-    const projection = { _id: 0 }; 
-  
-    const item = await collection.findOne(query, {projection});
+    const item = await collection.findOne(
+      { item_name: itemName }, 
+      {
+        collation: { locale: "en", strength: 1 },   // Makes query case & accent insensitive
+        projection: { _id: 0 }                      // Excludes _id field
+      }
+    );
     
     if(item.sources) {
       const itemSources = item.sources.reduce((accumulator: any[], currSource: any) => {

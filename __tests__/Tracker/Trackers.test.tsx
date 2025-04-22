@@ -1,70 +1,28 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MuseumTracker from '@/pages/Tracker/Museum';
+import PerfectionTracker from '@/pages/Tracker/Perfection';
+import BundlesTracker from '@/pages/Tracker/Bundles';
 import { SessionProvider } from 'next-auth/react';
+import { ComponentType } from 'react';
 import handleChkChange from '../../lib/handleChkChange';
+import { getMockSession, getMockErrorResponse, getMockChkResponse, getMockReqsResponse } from '@/jest/testHelpers';
+
 
 jest.mock('../../lib/handleChkChange');
 
-// -------------- getMock() functions -----------------------------
-const getMockSession = () => {
-  return {
-    user: { username: 'totallyRealUser' },
-    expires: '2099-01-01T00:00:00.000Z'
-  };
-};
+interface Tracker {
+  trackerCategory: string;
+  PageComponent: ComponentType;
+}
 
-function getMockReqsResponse() {
-  return Promise.resolve({
-    ok: true,
-    status: 200,
-    json: () => Promise.resolve([
-      {
-        subcategory: 'Minerals',
-        subcategory_id: 1,
-        reqs: [ 
-          { req_id: 'Quartz' }, 
-          { req_id: 'Earth Crystal' }, 
-          { req_id: 'Frozen Tear' }
-        ]
-      },
-      {
-        subcategory: 'Artifacts',
-        subcategory_id: 2,
-        reqs: [
-          { req_id: 'Dwarf Scroll IV' },
-          { req_id: 'Arrowhead' },
-          { req_id: 'Ancient Doll' }
-        ]
-      }
-    ])
-  } as unknown as Response );
-};
-
-function getMockErrorResponse() {
-  return Promise.resolve({
-    ok: false,
-    status: 500,
-    json: () => Promise.resolve({ error: 'Failed to fetch documents' })
-  } as unknown as Response );
-};
-
-function getMockChkResponse(isEmpty: boolean) {
-  const userChkData = isEmpty ? [] : [
-    { subcategory: 'Minerals', checkbox_id: 'Quartz' },
-    { subcategory: 'Minerals', checkbox_id: 'Frozen Tear' },
-    { subcategory: 'Minerals', checkbox_id: 'Arrowhead' },
-    { subcategory: 'Minerals', checkbox_id: 'Ancient Doll' }
-  ];
-  return Promise.resolve({
-    ok: true,
-    status: 200,
-    json: () => Promise.resolve(userChkData)
-  } as unknown as Response );
-};
-
+const trackersToTest: Tracker[] = [
+  { trackerCategory: 'Museum', PageComponent: MuseumTracker },
+  { trackerCategory: 'Perfection', PageComponent: PerfectionTracker },
+  { trackerCategory: 'Bundles', PageComponent: BundlesTracker }
+];
 
 // ============================== MUSEUM TRACKER TESTS ==============================
-describe('Museum Tracker Page -- /Tracker/Museum', () => {
+describe.each(trackersToTest)('$trackerCategory Tracker Page -- /Tracker/$trackerCategory', ({trackerCategory, PageComponent}) => {
 
   afterEach(() => {
     // Clear call history
@@ -92,7 +50,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
     
         render(
           <SessionProvider session={getMockSession()}>
-            <MuseumTracker />
+            <PageComponent />
           </SessionProvider>
         );
     
@@ -112,7 +70,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
     
         render(
           <SessionProvider session={getMockSession()}> 
-            <MuseumTracker />
+            <PageComponent />
           </SessionProvider>
         );
     
@@ -137,7 +95,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
   
         render(
           <SessionProvider session={getMockSession()}> 
-            <MuseumTracker />
+            <PageComponent />
           </SessionProvider>
         );
   
@@ -176,7 +134,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
   
         render(
           <SessionProvider session={getMockSession()}> 
-            <MuseumTracker />
+            <PageComponent />
           </SessionProvider>
         );
   
@@ -220,7 +178,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
   
         render(
           <SessionProvider session={getMockSession()}> 
-            <MuseumTracker />
+            <PageComponent />
           </SessionProvider>
         );
       });
@@ -240,7 +198,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
 
         await waitFor(() => {  
           expect(handleChkChange).toHaveBeenCalled();
-          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Artifacts', chkLabelText, true);
+          expect(handleChkChange).toHaveBeenCalledWith(trackerCategory, 'Artifacts', chkLabelText, true);
           expect(checkbox).toBeChecked();
         });
 
@@ -249,7 +207,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
 
         await waitFor(() => {
           expect(handleChkChange).toHaveBeenCalled();
-          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Artifacts', chkLabelText, false);
+          expect(handleChkChange).toHaveBeenCalledWith(trackerCategory, 'Artifacts', chkLabelText, false);
           expect(checkbox).not.toBeChecked();
         });
       });
@@ -268,7 +226,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
         fireEvent.click(checkbox);
         await waitFor(() => {
           expect(handleChkChange).toHaveBeenCalled();
-          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Minerals', chkLabelText, false);
+          expect(handleChkChange).toHaveBeenCalledWith(trackerCategory, 'Minerals', chkLabelText, false);
           expect(checkbox).not.toBeChecked();
         });
 
@@ -276,7 +234,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
         fireEvent.click(checkbox);
         await waitFor(() => {
           expect(handleChkChange).toHaveBeenCalled();
-          expect(handleChkChange).toHaveBeenCalledWith('Museum', 'Minerals', chkLabelText, true);
+          expect(handleChkChange).toHaveBeenCalledWith(trackerCategory, 'Minerals', chkLabelText, true);
           expect(checkbox).toBeChecked();
         });
       });
@@ -296,7 +254,7 @@ describe('Museum Tracker Page -- /Tracker/Museum', () => {
       // Render Museum page, simulating a user who is logged in
       render(
         <SessionProvider session={null}> 
-          <MuseumTracker />
+          <PageComponent />
         </SessionProvider>
       );
   

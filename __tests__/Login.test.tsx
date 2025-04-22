@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Login from '@/pages/Login';
 import { SessionProvider } from 'next-auth/react';
 
-// Set up mock
+// Set up mock next/router
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));

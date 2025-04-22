@@ -24,13 +24,12 @@
       "@/tests/*": ["tests/*"],
       "@/__tests__/*": ["__tests__/*"],
       "@/__mocks__/*": ["__mocks__/*"],
+      "@/jest/*": ["jest/*"],
     }
   },
   "include": [
     "next-env.d.ts", 
-    "**/*.ts", "**/*.tsx", 
-    "components/*.tsx", "pages/Tracker/Perfection.tsx", "pages/Villagers/[villagername].js", "__tests__/Login.test.jsx", "__tests__/mocks/handlers.jsx", "__mocks__/lib/mongodb.js", 
-    /*"components/CheckDropdown.tsx", "components/FishCard.jsx", "components/CheckCard.tsx", "components/CheckCard.tsx", "components/IconLink.tsx", "components/InlineList.tsx",*/
+    "**/*.ts", "**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

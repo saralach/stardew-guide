@@ -98,7 +98,7 @@ export default function Login() {
   return (
     <>
       <Head>
-        <title>Page Not Found | Stardew Guide</title>
+        <title>Login | Stardew Guide</title>
       </Head>
       <main className={styles.logincontainer}>
         <div className={styles.tabcontainer}>

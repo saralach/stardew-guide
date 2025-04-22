@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { ReqGroup } from '@/types/trackerReqTypes';
 import { CheckData } from '@/types/userProgressTypes';
 
-export default function BundleTracker() {
+export default function BundlesTracker() {
 
   const rootUrl = process.env.NEXT_PUBLIC_ROOT_URL;
   const [requirements, setRequirements] = useState<ReqGroup[]>([]);
@@ -75,14 +75,14 @@ export default function BundleTracker() {
   return (
     <>
       <Head>
-        <title>Museum Tracker | Stardew Guide</title>
+        <title>Bundles Tracker | Stardew Guide</title>
       </Head>
       {
         isLoading ? (
           <Loading/>
         ) : (
           <main>
-            <h1>Museum Tracker</h1>
+            <h1>Bundles Tracker</h1>
             {
               session ? (
                 (requirements !== undefined && retrievedCheckData) ? (
@@ -114,4 +114,4 @@ export default function BundleTracker() {
 
   );
 
-}// end MuseumPage()
+}// end BundlesTracker()

@@ -2,22 +2,21 @@ import { FullVillagerData } from '@/types/villagerInfoTypes';
 import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+// HTTP Method Available: GET
+// This endpoint retrieves data corresponding to a specific villager.
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { villagername } = req.query;
+
+  if (req.method !== 'GET')
+    res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
     //----- Connect to MongoDB database ---------------------------
     const { db } = await connectToDatabase();
     const collection = db.collection('villagers');
 
-    //----- Query the database for basic villager info ------------
-    /*const query = { name: villagername }; 
-    const projection = { _id: 0 }; 
-  
-    const villager = await collection.findOne(query, {projection});*/
-  
-
-    //----- Query the database for villager info & prefs ----------  
+    //------ Query the database for all villager info -------------
     const villager: FullVillagerData[] = await collection.aggregate([
       { 
         // Get villager info from villagers collection

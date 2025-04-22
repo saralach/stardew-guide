@@ -42,9 +42,12 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
   // If gold is required, format it (add commas)
   const formattedGold = req.gold_reqd ? `${req.gold_reqd.toLocaleString("en-US")}g` : null;
 
-  if(subcategory === "Obelisks" && req.gold_reqd)
+  if(req.gold_reqd) {
+    if(category === "Bundles" || subcategory === "Obelisks")
       showGold = true;
-  else if(subcategory === "Stardrops") {
+  }
+  
+  if(subcategory === "Stardrops") {
     cardWidth = CardWidth.Full;
     if(req.gold_reqd)
       taskLabel += ` (${formattedGold})`;
@@ -74,8 +77,8 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
     }
   }
 
-  if(showGold)
-    children.push(<IconLabel label={`${req.gold_reqd}g`} altImgSrc="Gold" />);
+  if(showGold && formattedGold)
+    children.push(<IconLabel label={formattedGold} altImgSrc="Gold" />);
   
   if(req.items_reqd) {
     children.push(
@@ -92,11 +95,10 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
     );
   }
 
-  if(req.num_slots !== req.items_reqd?.length) {
-    children.push(<p className="pt-3 font-bold">{`Items Required: ${req.num_slots}`}</p>)
+  if(category === 'Bundles') {
+    if(req.num_slots !== req.items_reqd?.length)
+      children.push(<p className="pt-3 font-bold">{`Items Required: ${req.num_slots}`}</p>);
   }
-
-
 
   // Remove any undefined children; if children is empty array, set to null
   children = children?.filter(child => child !== undefined);

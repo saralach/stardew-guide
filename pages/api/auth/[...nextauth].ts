@@ -5,6 +5,8 @@ import { connectToDatabase } from "@/lib/mongodb";
 import { compare } from "bcryptjs";
 import { Session } from "next-auth";
 
+// Set up NextAuth
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider ({
@@ -59,7 +61,7 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: "/Login", // Customize the sign-in page
+    signIn: "/Login", // Use my custom sign-in page
   },
 };
 

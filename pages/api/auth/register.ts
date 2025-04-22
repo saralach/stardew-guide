@@ -8,9 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
   const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
-  }
+  if (!username || !password)
+    return res.status(400).json({ message: 'Username and password are required' })
 
   try {
     const { db } = await connectToDatabase();

@@ -12,6 +12,7 @@ export default function PerfectionTracker() {
   const [isLoading, setIsLoading] = useState(true);
   const [requirements, setRequirements] = useState<ReqGroup[]>([]);
   const [initialCheckData, setInitialCheckData] = useState<CheckData[]>([]);
+  const [retrievedCheckData, setRetrievedCheckData] = useState(false);
   const { data: session, status } = useSession();
   const checkboxCategory = 'Perfection';
   const iconSubcategories = [
@@ -73,6 +74,7 @@ export default function PerfectionTracker() {
             else {
               const data = await res.json();
               setInitialCheckData(data);
+              setRetrievedCheckData(true);
             }
           }
         } 
@@ -101,20 +103,24 @@ export default function PerfectionTracker() {
             <h1>Perfection Tracker</h1>
             {
               session ? (
-                requirements.map((reqGroup) => {
-                  return (
-                    <CheckSection 
-                      key={reqGroup.subcategory_id}
-                      category={checkboxCategory}
-                      sectionId={reqGroup.subcategory} 
-                      desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}
-                      reqs={reqGroup.reqs}
-                      initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
-                      mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}
-                      showIcons={iconSubcategories.includes(reqGroup.subcategory)}
-                    />
-                  )
-                })
+                (requirements !== undefined && retrievedCheckData) ? (
+                  requirements.map((reqGroup) => {
+                    return (
+                      <CheckSection 
+                        key={reqGroup.subcategory_id}
+                        category={checkboxCategory}
+                        sectionId={reqGroup.subcategory} 
+                        desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}
+                        reqs={reqGroup.reqs}
+                        initCompletedTasks={getInitialSectionData(reqGroup.subcategory)} 
+                        mainTaskIsComplete={getMainTaskCompletion(reqGroup.subcategory)}
+                        showIcons={iconSubcategories.includes(reqGroup.subcategory)}
+                      />
+                    )
+                  })
+                ) : (
+                  <p data-testid='error-msg'>Oops! Error retrieving data.</p>
+                )
               ) : (
                 <h3>Please sign in to use this tool.</h3>
               )

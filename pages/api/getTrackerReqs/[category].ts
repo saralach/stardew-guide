@@ -1,9 +1,18 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+// HTTP Method Available: GET
+// This endpoint is used for retrieving the tracker requirements for the specified category. 
+// The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  
   let trackerReqs;
   const { category } = req.query;
+
+  if (req.method !== 'GET')
+    res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
     // Connect to MongoDB database
@@ -73,7 +82,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
       trackerReqs = await collection.find(query, { projection }).toArray();
     }
-    
+    console.log(trackerReqs);
     res.status(200).json( trackerReqs );
   }
   catch (error) {

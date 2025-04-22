@@ -16,7 +16,7 @@ beforeEach(() => {
 
 describe('Dynamic Villagers Page -- /Villagers/[villagername]', () => {
 
-  it('displays error message when the API fails to fetch document', async () => {
+  it('displays error message when the API fails to fetch data', async () => {
     // Mock fetch API & error response
     global.fetch = jest.fn(() =>
       Promise.resolve({

@@ -5,7 +5,7 @@ import { BasicVillagerData } from "@/types/villagerInfoTypes";
 
 export default function AllVillagersPage() {
 
-  const [villagers, setVillagers] = useState<BasicVillagerData[]>([]);
+  const [villagers, setVillagers] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,9 +41,9 @@ export default function AllVillagersPage() {
               <div className="cards-container">
                 {
                   villagers.map( (villager) => (
-                    <a className="cardlink villagerlink" href={`Villagers/${villager.name}`}>
-                      <img className="villagerphoto" src={`/Villager/${villager.name}.png`} alt={`${villager.name}'s portrait`} />
-                      <p>{villager.name}</p>
+                    <a className="cardlink villagerlink" href={`Villagers/${villager}`}>
+                      <img className="villagerphoto" src={`/Villager/${villager}.png`} alt={`${villager}'s portrait`} />
+                      <p>{villager}</p>
                     </a>
                   ))
                 }

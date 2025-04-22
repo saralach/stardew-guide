@@ -5,14 +5,20 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { GeneralResponse } from '@/types/apiResponseTypes';
 import { CheckData } from '@/types/userProgressTypes';
 
+// HTTP Method Available: GET
+// This endpoint is used for retrieving a user’s checkbox data for the specified category. 
+// The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+
 export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse<CheckData[] | GeneralResponse>
 ) {
 
-  
   const session = await getServerSession(req, res, authOptions);
   const { category } = req.query;
+
+  if (req.method !== 'GET')
+    res.status(405).json({ error: 'Method Not Allowed' });
   
   if (!session)
     return res.status(401).json({ message: "Unauthorized" });
