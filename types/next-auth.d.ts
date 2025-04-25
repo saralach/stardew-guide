@@ -1,3 +1,12 @@
+/**
+ * MODULE:  types/next-auth.d.ts
+ * 
+ * SUMMARY:
+ *   Extends NextAuth's built-in types to include username in session data and to adjust the
+ *   User type to match what is applicable for this application.
+ */
+
+
 import NextAuth from "next-auth";
 import { Session } from "next-auth";
 

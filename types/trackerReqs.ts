@@ -1,3 +1,11 @@
+/**
+ * MODULE:  types/trackerReqs.ts
+ * 
+ * SUMMARY:
+ *   Defines TypeScript types (interfaces) for objects containing tracker requirement data; 
+ *   for use across the app.
+ */
+
 export interface ReqGroup {
   label?: string;
   reqs: SingleReq[];

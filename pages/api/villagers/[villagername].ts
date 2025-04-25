@@ -1,9 +1,20 @@
-import { FullVillagerData } from '@/types/villagerInfoTypes';
-import { connectToDatabase } from '@/lib/mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+/**
+ * MODULE:  pages/api/villagers/[villagername].ts
+ * 
+ * SUMMARY:
+ *   This endpoint retrieves data corresponding to a specific villager.
+ * 
+ *   HTTP Method Available:  GET
+ * 
+ * DEPENDENCIES:
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - lib/mongodb: for connecting to the database
+ *   - types/villagers: TypeScript type for retrieved data
+ */
 
-// HTTP Method Available: GET
-// This endpoint retrieves data corresponding to a specific villager.
+import { NextApiRequest, NextApiResponse } from 'next';
+import { connectToDatabase } from '@/lib/mongodb';
+import { FullVillagerData } from '@/types/villagers';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { villagername } = req.query;

@@ -1,3 +1,16 @@
+/**
+ * MODULE:  components/ToggleSwitch
+ * 
+ * SUMMARY:
+ *   NOT YET IN USE! It is intended to be used for toggling settings on and off.
+ *
+ * DEPENDENCIES:
+ *   - styles/ToggleSwitch: styling
+ * 
+ * USED BY:
+ *   not in use
+ */
+
 import styles from "@/styles/ToggleSwitch.module.css";
 
 interface ToggleSwitchProps {

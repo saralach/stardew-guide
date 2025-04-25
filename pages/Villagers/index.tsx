@@ -1,17 +1,30 @@
+/**
+ * MODULE:  pages/Villagers/index.tsx
+ * 
+ * SUMMARY:
+ *   Displays a link for each villager with their name and photo.
+ * 
+ * API USAGE:
+ *   - GET /api/villagers - retrieve an array of all villager names
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - react: for states and handling async behavior with useEffect
+ *   - components/Loading: component to display while page is loading
+ */
+
 import Head from "next/head";
-import Loading from "@/components/Loading";
 import { useEffect, useState } from 'react';
-import { BasicVillagerData } from "@/types/villagerInfoTypes";
+import Loading from "@/components/Loading";
 
 export default function AllVillagersPage() {
-
   const [villagers, setVillagers] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchVillagers = async () => {
       try {
-        const res = await fetch('/../api/villagers');
+        const res = await fetch('/api/villagers');
         const data = await res.json();
         if(res.ok)
           setVillagers(data);
@@ -24,7 +37,7 @@ export default function AllVillagersPage() {
       }
     }
     fetchVillagers();
-  }, []);
+  }, []); /* []: run only once after the component mounts */
 
   return (
     <>
@@ -42,7 +55,10 @@ export default function AllVillagersPage() {
                 {
                   villagers.map( (villager) => (
                     <a className="cardlink villagerlink" href={`Villagers/${villager}`}>
-                      <img className="villagerphoto" src={`/Villager/${villager}.png`} alt={`${villager}'s portrait`} />
+                      <img
+                        className="villagerphoto" src={`/Villager/${villager}.png`}
+                        alt={`${villager}'s portrait`} 
+                      />
                       <p>{villager}</p>
                     </a>
                   ))

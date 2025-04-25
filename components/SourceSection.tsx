@@ -1,10 +1,27 @@
-import { SourceInfo } from "@/types/itemInfoTypes";
+/**
+ * MODULE:  components/SourceSection
+ * 
+ * SUMMARY:
+ *   Displays a single category of item sources.
+ *
+ * DEPENDENCIES:
+ *   - lucide-react: icons
+ *   - react: ReactNode type, component states, etc.
+ *   - components/IconLabel: display
+ *   - components/InlineList: display
+ *   - components/ItemDetailCard: display
+ *   - types/items: SourceInfo type
+ * 
+ * USED BY:
+ *   - pages/Items/[itemname].tsx
+ */
+
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { ReactNode, useState } from "react";
 import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import { ReactNode, useState } from "react";
 import InlineList from "@/components/InlineList";
-import SourceCard from "@/components/SourceCard";
-import React from "react";
+import ItemDetailCard from "@/components/ItemDetailCard";
+import { SourceInfo } from "@/types/items";
 
 interface SourceSectionProps {
   category: string;
@@ -12,8 +29,7 @@ interface SourceSectionProps {
   itemName: string;
 }
 
-export default function SourceSection({ category, sources, itemName }: 
-      SourceSectionProps) {
+export default function SourceSection({ category, sources, itemName }: SourceSectionProps) {
         
   const [sectionVisible, setSectionVisible] = useState(true);
 
@@ -55,7 +71,7 @@ export default function SourceSection({ category, sources, itemName }:
         );
         
         return (
-          <SourceCard
+          <ItemDetailCard
             //key={`index-cooking`}
             topRowHead={
               <IconLabel label={itemName} 
@@ -71,7 +87,7 @@ export default function SourceSection({ category, sources, itemName }:
       case "Trading":
       case "Buying":
         return source.source_name && (
-          <SourceCard 
+          <ItemDetailCard 
             //key={index}
             topRowHead={
               <IconLabel 
@@ -103,7 +119,7 @@ export default function SourceSection({ category, sources, itemName }:
       case "Foraging":
         return (
           source.locations?.map( (location) => (
-            <SourceCard 
+            <ItemDetailCard 
               //key={`${index}-${category}-${location.location_name}`} 
               topRowHead={location.location_name} 
               topRowDetails={formatProbability(source.probability)} 
@@ -148,7 +164,7 @@ export default function SourceSection({ category, sources, itemName }:
           </div>
         );
         return (
-          <SourceCard
+          <ItemDetailCard
             //key={index}
             topRowHead={<IconLabel label={itemName} />}
             additionalRows={catchingDetails}
@@ -157,7 +173,7 @@ export default function SourceSection({ category, sources, itemName }:
 
       default: // "Geodes", "Animal", "Mining", "Monster", "Farming" ("Panning", "Crab Pot")
         return source.source_name && (
-          <SourceCard
+          <ItemDetailCard
             //key={index}
             topRowHead={<IconLabel label={source.source_name} 
             category={category === "Mining" || category === "Monster" ? category : undefined}/>}

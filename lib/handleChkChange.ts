@@ -1,9 +1,22 @@
-//import { Session } from "next-auth";
+/**
+ * MODULE:  lib/handleChkChange
+ * 
+ * SUMMARY:
+ *   This function is used as the onClick function for Tracker checkboxes. 
+ *   It sends a POST request to api/saveCheckboxData, which updates the 
+ *   user progress in the database.
+ * 
+ * API USAGE:
+ *   - pages/api/saveCheckboxData: for updating the database
+ * 
+ * USED BY:
+ *   - components/CheckCard.tsx
+ *   - components/CheckSection.tsx
+ */
 
 const handleChkChange = async ( category: string, subcategory: string | null, checkboxId: string,
-                                isChecked: boolean ) => {
+                                isChecked: boolean ): Promise<void> => {
   
-  //if(!session) return;        // Session is confirmed in the API route
   const rootUrl = process.env.NEXT_PUBLIC_ROOT_URL;
 
   const res = await fetch(`${rootUrl}/api/saveCheckboxData`, {

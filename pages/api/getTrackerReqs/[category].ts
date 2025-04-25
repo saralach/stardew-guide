@@ -1,9 +1,19 @@
-import { connectToDatabase } from '@/lib/mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+/**
+ * MODULE:  pages/api/getTrackerReqs/[category].ts
+ * 
+ * SUMMARY:
+ *   This endpoint is used for retrieving the tracker requirements for the specified category. 
+ *   The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+ * 
+ *   HTTP Method Available:  GET
+ * 
+ * DEPENDENCIES:
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - lib/mongodb: for connecting to the database
+ */
 
-// HTTP Method Available: GET
-// This endpoint is used for retrieving the tracker requirements for the specified category. 
-// The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+import { NextApiRequest, NextApiResponse } from 'next';
+import { connectToDatabase } from '@/lib/mongodb';
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

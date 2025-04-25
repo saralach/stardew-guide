@@ -1,6 +1,15 @@
+/**
+ * MODULE:  pages/404.tsx
+ * 
+ * SUMMARY:
+ *   Displays 404 error message when user navigates to a route that does not exist.
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - styles/404: for styling
+ */
+
 import Head from "next/head";
-import Loading from "@/components/Loading";
-import { useEffect, useState } from 'react';
 import styles from "@/styles/404.module.css";
 
 export default function Error404Page() {
@@ -18,4 +27,4 @@ export default function Error404Page() {
     </>
   );
 
-}// end AllVillagersPage()
+}// end Error404Page()

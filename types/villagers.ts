@@ -1,3 +1,10 @@
+/**
+ * MODULE:  types/villagers.ts
+ * 
+ * SUMMARY:
+ *   Defines TypeScript types (interfaces) for objects containing villager data; 
+ *   for use across the app.
+ */
 
 export interface BasicVillagerData {
   name: string;

@@ -1,5 +1,21 @@
-import styles from '@/styles/InlineList.module.css';
+/**
+ * MODULE:  components/InlineList
+ * 
+ * SUMMARY:
+ *   Displays an icon inline with a label. Can also function as a link to another page.
+ * 
+ * DEPENDENCIES:
+ *   - components/IconLabel: for displaying items with icons
+ *   - styles/InlineList: for styling
+ * 
+ * USED BY:
+ *   - components/CheckCard
+ *   - components/SourceSection
+ *   - components/UsageSection
+ */
+
 import IconLabel, { ICON_SIZES } from '@/components/IconLabel';
+import styles from '@/styles/InlineList.module.css';
 
 type DelimiterTypes = "none" | "bullet";
 

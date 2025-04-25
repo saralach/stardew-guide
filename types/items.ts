@@ -1,3 +1,11 @@
+/**
+ * MODULE:  types/items.ts
+ * 
+ * SUMMARY:
+ *   Defines TypeScript types (interfaces) for objects containing item data; 
+ *   for use across the app.
+ */
+
 // -------- For data from api/items/[itemname] --------
 export interface ItemInfo {
   item_name: string;

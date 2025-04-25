@@ -1,8 +1,26 @@
+/**
+ * MODULE:  pages/Items/index.tsx
+ * 
+ * SUMMARY:
+ *   Displays links for each item.
+ * 
+ * API USAGE:
+ *   - GET /api/items - retrieve items grouped by category
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - next/link: for optimized links
+ *   - react: for states and handling async behavior with useEffect
+ *   - components/Loading: component to display while page is loading
+ *   - types/items: TypeScript type for data retrieved from the API
+ */
+
 import Head from "next/head";
-import Loading from "@/components/Loading";
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Link from 'next/link'
-import { ItemCategory } from "@/types/itemInfoTypes";
+import Loading from "@/components/Loading";
+import { ItemCategory } from "@/types/items";
+
 
 export default function AllItemsPage() {
 

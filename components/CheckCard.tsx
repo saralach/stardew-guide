@@ -1,9 +1,25 @@
-import { useEffect, useState } from "react";
-import React from "react";
-import { CardWidth } from "@/types/enums";
+/**
+ * MODULE:  components/CheckCard
+ * 
+ * SUMMARY:
+ *   Displays a single requirement within a subcategory.
+ * 
+ * DEPENDENCIES:
+ *   - react
+ *   - components/IconLabel
+ *   - components/InlineList
+ *   - handleChkChange: checkbox onClick
+ *   - types/enums: CardWidth enum definition
+ * 
+ * USED BY:
+ *   - components/CheckSection.tsx
+ */
+
+import React, { useEffect, useState } from "react";
 import IconLabel from "@/components/IconLabel";
-import handleChkChange from "@/lib/handleChkChange";
 import InlineList from "@/components/InlineList";
+import handleChkChange from "@/lib/handleChkChange";
+import { CardWidth } from "@/types/enums";
 
 interface CheckCardProps {
   category: string;

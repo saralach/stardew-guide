@@ -1,3 +1,18 @@
+/**
+ * MODULE:  components/NavigationCard
+ * 
+ * SUMMARY:
+ *   Displays a link to a page styled like a button. For use on the home page.
+ *
+ * DEPENDENCIES:
+ *   - next/image: for optimized image rendering
+ *   - next/link: navigation
+ *   - styles/Home: styling
+ * 
+ * USED BY:
+ *   - pages/index.tsx (home page)
+ */
+
 import Image from "next/image";
 import Link from 'next/link';
 import styles from '@/styles/Home.module.css';

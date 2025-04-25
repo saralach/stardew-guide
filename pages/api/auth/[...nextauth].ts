@@ -1,11 +1,23 @@
-import NextAuth, { AuthOptions, Awaitable, User } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { JWT } from "next-auth/jwt";
-import { connectToDatabase } from "@/lib/mongodb";
-import { compare } from "bcryptjs";
-import { Session } from "next-auth";
+/**
+ * MODULE:  pages/api/auth/[...nextauth].ts
+ * 
+ * SUMMARY:
+ *   Configuration for NextAuth; used for account functionality.
+ * 
+ * DEPENDENCIES:
+ *   - bcryptjs: for testing passwords against a password hash
+ *   - next-auth: for retrieving session data
+ *   - next-auth/jwt: for generating web tokens
+ *   - next-auth/providers/credentials: for next-auth configuration of credentials
+ *   - lib/mongodb: for connecting to the database
+ */
 
-// Set up NextAuth
+import { compare } from "bcryptjs";
+import NextAuth, { AuthOptions, Session, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { connectToDatabase } from "@/lib/mongodb";
+
 
 export const authOptions: AuthOptions = {
   providers: [

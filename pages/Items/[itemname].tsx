@@ -1,10 +1,30 @@
+/**
+ * MODULE:  pages/Items/[itemname].tsx
+ * 
+ * SUMMARY:
+ *   Displays information for a single item.
+ * 
+ * API USAGE:
+ *   - GET /api/items/[itemname] - retrieve the item's data
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - next/router: for retrieving slug (aka [itemname]) from URL
+ *   - react: for states and handling async behavior with useEffect
+ *   - components/SourceSection: for displaying a group of item sources
+ *   - components/UsageSection: for displaying a group of item usage
+ *   - styles/Item: for styling
+ *   - types/items: TypeScript type for data retrieved from the API
+ */
+
 import Head from 'next/head';
-import styles from '@/styles/Item.module.css';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import SourceSection from '@/components/SourceSection';
-import { ItemInfo } from '@/types/itemInfoTypes';
 import UsageSection from '@/components/UsageSection';
+import styles from '@/styles/Item.module.css';
+import { ItemInfo } from '@/types/items';
+
 
 export default function ItemPage() {
   const router = useRouter();

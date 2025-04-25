@@ -1,7 +1,25 @@
+/**
+ * MODULE:  pages/Login.tsx
+ * 
+ * SUMMARY:
+ *   Allows a user that is not logged in to login or register. Displays error message to users
+ *   that are already signed in.
+ * 
+ * API USAGE:
+ *   - /api/auth/register: for account creation
+ * 
+ * DEPENDENCIES:
+ *   - next-auth/react: for getting session & sign-in functionality
+ *   - next/head: for adding page title/metadata
+ *   - next/router: for navigation
+ *   - react: for using states and rerendering components on state change
+ *   - styles/Login: for styling
+ */
+
+import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSession, signIn } from 'next-auth/react';
+import { useState } from 'react';
 import styles from '@/styles/Login.module.css';
 
 export default function Login() {
@@ -93,57 +111,62 @@ export default function Login() {
   }; //end handleSubmit()
 
   // ============ Return page content ======================================
-  if(status === 'authenticated')
-    return <p data-testid='logged-in-msg'>{`Silly ${session.user.username}, you are already logged in!`}</p>
   return (
     <>
       <Head>
         <title>Login | Stardew Guide</title>
       </Head>
-      <main className={styles.logincontainer}>
-        <div className={styles.tabcontainer}>
-          <button 
-            disabled={!isLogin}
-            onClick={switchMenu}
-            className={styles.tab}
-            data-testid='register-tab'
-          >
-            Register
-          </button>
-          <button 
-            disabled={isLogin}
-            onClick={switchMenu}
-            className={styles.tab}
-            data-testid='login-tab'
-          >
-            Login
-          </button>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type='text'
-            placeholder='Username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button 
-            type='submit'
-            data-testid='submit-btn'
-          >
-            {isLogin ? 'Login' : 'Register'}
-          </button>
-        </form>
-        {
-          message && <p data-testid='message'>{message}</p>
-        }
-      </main>
+      {
+        status === 'authenticated' ? (
+          <p data-testid='logged-in-msg'>
+            {`Silly ${session.user.username}, you are already logged in!`}
+          </p>
+        ) : (
+          <main className={styles.logincontainer}>
+            <div className={styles.tabcontainer}>
+              <button 
+                disabled={!isLogin}
+                onClick={switchMenu}
+                className={styles.tab}
+                data-testid='register-tab'
+              >
+                Register
+              </button>
+              <button 
+                disabled={isLogin}
+                onClick={switchMenu}
+                className={styles.tab}
+                data-testid='login-tab'
+              >
+                Login
+              </button>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <input
+                type='text'
+                placeholder='Username'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button 
+                type='submit'
+                data-testid='submit-btn'
+              >
+                {isLogin ? 'Login' : 'Register'}
+              </button>
+            </form>
+            {
+              message && <p data-testid='message'>{message}</p>
+            }
+          </main>
+        )
+      }
     </>
-
   );
 }

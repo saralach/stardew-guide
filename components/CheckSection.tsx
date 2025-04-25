@@ -1,10 +1,29 @@
-import { useState } from "react";
-import React from "react";
-import { ChevronUp } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-import { SingleReq } from "@/types/trackerReqTypes";
+/**
+ * MODULE:  components/CheckSection
+ * 
+ * SUMMARY:
+ *   Displays a subcategory of requirements. May be a single requirement or a group of requirements.
+ * 
+ * DEPENDENCIES:
+ *   - lucide-react: Icons
+ *   - react
+ *   - components/CheckCard: displaying nested requirements
+ *   - handleChkChange: checkbox onClick
+ *   - types/trackerReqs: requirement type definition
+ * 
+ * USED BY:
+ *   Tracker Pages
+ *   - pages/Tracker/Bundles.tsx
+ *   - pages/Tracker/Museum.tsx
+ *   - pages/Tracker/Perfection.tsx
+ */
+
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from "react";
 import CheckCard from "@/components/CheckCard";
 import handleChkChange from "@/lib/handleChkChange";
+import { SingleReq } from "@/types/trackerReqs";
+
 
 interface CheckSectionProps {
   category: string;

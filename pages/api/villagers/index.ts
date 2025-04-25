@@ -1,8 +1,19 @@
-import { connectToDatabase } from '@/lib/mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+/**
+ * MODULE:  pages/api/villagers/index.ts
+ * 
+ * SUMMARY:
+ *   This endpoint retrieves a string array of villager names.
+ * 
+ *   HTTP Method Available:  GET
+ * 
+ * DEPENDENCIES:
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - lib/mongodb: for connecting to the database
+ */
 
-// HTTP Method Available: GET
-// This endpoint retrieves a string array of villager names.
+import { NextApiRequest, NextApiResponse } from 'next';
+import { connectToDatabase } from '@/lib/mongodb';
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

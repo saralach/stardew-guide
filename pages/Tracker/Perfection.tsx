@@ -1,10 +1,31 @@
+/**
+ * MODULE:  pages/Tracker/Perfection.tsx
+ * 
+ * SUMMARY:
+ *   Displays perfection requirements with user's progress and allows user to update it.
+ * 
+ * API USAGE:
+ *   - GET /api/getTrackerReqs/Perfection - for retrieving requirements
+ *   - GET /api/getCheckboxData/Perfection - for retrieving initial user progress
+ * 
+ * DEPENDENCIES:
+ *   - next-auth/react: for retrieving session data
+ *   - next/head: for adding page title/metadata
+ *   - react: for states and handling async behavior with useEffect
+ *   - components/CheckSection: component to display & handle a single group of requirements
+ *   - components/Loading: component to display while page is loading
+ *   - types/trackerReqs: TypeScript type for requirement data retrieved from the API
+ *   - types/userProgress: TypeScript type for user progress data retrieved from the API
+ */
+
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import CheckSection from '@/components/CheckSection';
 import Loading from '@/components/Loading';
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { ReqGroup } from '@/types/trackerReqTypes';
-import { CheckData } from '@/types/userProgressTypes';
+import { ReqGroup } from '@/types/trackerReqs';
+import { CheckData } from '@/types/userProgress';
+
 
 export default function PerfectionTracker() {
 

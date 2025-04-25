@@ -1,21 +1,42 @@
+/**
+ * MODULE:  pages/index.tsx
+ * 
+ * SUMMARY:
+ *   Displays the home page, with an overview of the site, links to the site's main pages,
+ *   and information about the game itself.
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - next/image: for optimized image rendering
+ *   - components/NavigationCard: for page links
+ *   - styles/Home: for styling
+ */
+
 import Head from "next/head";
 import Image from "next/image";
-import Link from 'next/link';
-import styles from '@/styles/Home.module.css';
 import NavigationCard from "@/components/NavigationCard";
+import styles from '@/styles/Home.module.css';
 
 export default function Home() {
+  const metaDesc = "Find the information you need about the villagers and items that "  + 
+                   "Stardew Valley has to offer, and track your game progress using our " +
+                   "Museum and Perfection trackers.";
+
+  const steamLink = "https://store.steampowered.com/app/413150/Stardew_Valley/";
+  const nintendoLink = "https://www.nintendo.com/us/store/products/stardew-valley-switch/";
+
   return (
     <>
       <Head>
         <title>Home | Stardew Guide</title>
-        <meta name="description" content="Find the information you need about the villagers and items that Stardew Valley has to offer, and track your game progress using our Museum and Perfection trackers." />
+        <meta 
+          name="description"
+          content={metaDesc} 
+        />
       </Head>
-
 
       <main className={styles.homecontent}>
         <h1>Welcome to Stardew Guide!</h1>
-
 
         <section id="features">
           <h2>What does Stardew Guide have to offer?</h2>
@@ -26,12 +47,9 @@ export default function Home() {
           </ul>
         </section>
 
-
         <section id="links">
           <h2>New to Stardew Guide?</h2>
-          <p>
-            Check out all that we have to offer below.
-          </p>
+          <p>Check out all that we have to offer below.</p>
 
           <div className={styles.imglinkscontainer}>
             <NavigationCard
@@ -70,21 +88,15 @@ export default function Home() {
           </div>
         </section>
 
-
         <section id="disclaimer">
           <h2>Disclaimer</h2>
           <p>
             The creator of Stardew Guide did not create Stardew Valley. The game as well as the
             artwork that can be found on this site are the work of ConcernedApe.
           </p>
+          <p>If you haven't already, check out the game here:</p>
 
-          <p>
-            If you haven't already, check out the game here:
-          </p>
-          <a 
-            className={styles.gamelinkbtn} 
-            href="https://store.steampowered.com/app/413150/Stardew_Valley/"
-          >
+          <a className={styles.gamelinkbtn} href={steamLink}>
             <Image
               src="/steam_icon_white.svg"
               alt="Steam Logo"
@@ -93,10 +105,8 @@ export default function Home() {
             />
             Stardew Valley on Steam
           </a>
-          <a 
-            className={styles.gamelinkbtn} 
-            href="https://www.nintendo.com/us/store/products/stardew-valley-switch/"
-          >
+
+          <a className={styles.gamelinkbtn} href={nintendoLink}>
             <Image
               src="/nintendo_switch_icon_white.svg"
               alt="Nintendo Switch Logo"
@@ -106,7 +116,6 @@ export default function Home() {
             Stardew Valley for Nintendo Switch
           </a>
         </section>
-
 
       </main>
     </>

@@ -1,34 +1,41 @@
-import { UsageInfo } from "@/types/itemInfoTypes";
-import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import { ReactNode, useState } from "react";
-import InlineList from "@/components/InlineList";
-import SourceCard from "@/components/SourceCard";
+/**
+ * MODULE:  components/UsageSection
+ * 
+ * SUMMARY:
+ *   Displays a single category of item uses.
+ *
+ * DEPENDENCIES:
+ *   - lucide-react: icons
+ *   - react: ReactNode type, component states, etc.
+ *   - components/IconLabel: display
+ *   - components/ItemDetailCard: display
+ *   - types/items: UsageInfo type
+ * 
+ * USED BY:
+ *   - pages/Items/[itemname].tsx
+ */
 
-interface SourceSectionProps {
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ReactNode, useState } from "react";
+import IconLabel, { ICON_SIZES } from "@/components/IconLabel";
+import ItemDetailCard from "@/components/ItemDetailCard";
+import { UsageInfo } from "@/types/items";
+
+interface UsageSectionProps {
   category: string;
   uses: UsageInfo[];
 }
 
-export default function SourceSection({ category, uses }: 
-      SourceSectionProps) {
+export default function UsageSection({ category, uses }: UsageSectionProps) {
         
   const [sectionVisible, setSectionVisible] = useState(true);
 
   const changeVisibility = () => {
     setSectionVisible(!sectionVisible);
   };
-  
-  const formatProbability = (probability: number | undefined): ReactNode | undefined => {
-    if(probability === undefined)
-      return undefined;
-    return (
-      <p>{`${parseFloat((probability * 100).toFixed(2))}%`}</p>
-    );
-  };
 
   // ==================== Set Up Content ====================
-  const getSourceCards = (use: UsageInfo): ReactNode | ReactNode[] => {
+  const getUseCards = (use: UsageInfo): ReactNode | ReactNode[] => {
     const additionalRows = [];
 
     use.equipment_name && additionalRows.push(
@@ -47,7 +54,7 @@ export default function SourceSection({ category, uses }:
     );
     
     return (
-      <SourceCard 
+      <ItemDetailCard 
         topRowHead={
           <IconLabel label={use.product_name} 
             qty={use.qty_obtained !== 1 ? use.qty_obtained : undefined} 
@@ -58,16 +65,16 @@ export default function SourceSection({ category, uses }:
       />
     );
 
-  }//end getSourceContent()
+  }//end getUseCards()
 
 
-  // ------- Get Source Cards -------------------------
+  // ------- Get Use Cards -------------------------
   let sectionContent: ReactNode[] | null = uses.map( (use) =>  
-    getSourceCards(use)
+    getUseCards(use)
   );
 
-  // ------- Remove Any Undefined Source Cards --------
-  sectionContent = sectionContent.filter(sourceCard => sourceCard !== undefined);
+  // ------- Remove Any Undefined Use Cards --------
+  sectionContent = sectionContent.filter(useCard => useCard !== undefined);
   if(sectionContent.length === 0)
     sectionContent = null;
 
@@ -98,4 +105,4 @@ export default function SourceSection({ category, uses }:
     </div>
   );
 
-} //end SourceSection()
+} //end UsageSection()

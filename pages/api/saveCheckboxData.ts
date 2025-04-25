@@ -1,8 +1,26 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
-import { connectToDatabase } from '@/lib/mongodb';
+/**
+ * MODULE:  pages/api/saveCheckboxData.ts
+ * 
+ * SUMMARY:
+ *   This endpoint is used for updating the completion status of a single requirement. 
+ *   Data will be saved to the database only if the user is logged in.
+ * 
+ *   HTTP Method Available:  POST
+ * 
+ * DEPENDENCIES:
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - next-auth/next: for retrieving session
+ *   - lib/mongodb: for connecting to the database
+ *   - pages/api/auth/[...nextauth]: necessary for retrieving session
+ *   - types/apiResponses: TypeScript type for response data
+ */
+
 import { NextApiRequest, NextApiResponse } from 'next';
-import { GeneralResponse } from '@/types/apiResponseTypes';
+import { getServerSession } from 'next-auth/next';
+import { connectToDatabase } from '@/lib/mongodb';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { GeneralResponse } from '@/types/apiResponses';
+
 
 export default async function handler(
   req: NextApiRequest, 

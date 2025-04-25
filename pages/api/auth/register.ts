@@ -1,6 +1,22 @@
+/**
+ * MODULE:  pages/api/auth/register.ts
+ * 
+ * SUMMARY:
+ *   Handles creation of an account. Confirms that credentials exist and that an account with
+ *   the given username does not exist, before adding new account data to the database.
+ * 
+ *   HTTP Method Available:  POST
+ * 
+ * DEPENDENCIES:
+ *   - bcryptjs: for generating password hashes
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - lib/mongodb: for connecting to the database
+ */
+
 import { hash } from 'bcryptjs';
-import { connectToDatabase } from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { connectToDatabase } from '@/lib/mongodb';
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST')

@@ -1,9 +1,27 @@
+/**
+ * MODULE:  pages/Villagers/[villagername].tsx
+ * 
+ * SUMMARY:
+ *   Displays information for a single villager.
+ * 
+ * API USAGE:
+ *   - GET /api/villagers/[villagername] - retrieve villager data
+ * 
+ * DEPENDENCIES:
+ *   - next/head: for adding page title/metadata
+ *   - next/router: for retrieving slug (aka [villagername]) from URL
+ *   - react: for states and handling async behavior with useEffect
+ *   - components/IconLabel: for displaying gifts in gift preferences section
+ *   - components/Loading: component to display while page is loading
+ *   - types/villagers: TypeScript type for data retrieved from the API
+ */
+
 import Head from "next/head";
-import IconLabel from "@/components/IconLabel";
-import Loading from "@/components/Loading";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FullVillagerData } from "@/types/villagerInfoTypes";
+import IconLabel from "@/components/IconLabel";
+import Loading from "@/components/Loading";
+import { FullVillagerData } from "@/types/villagers";
 
 export default function VillagerPage() {
   const router = useRouter();

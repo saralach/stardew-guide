@@ -1,3 +1,10 @@
+/**
+ * MODULE:  types/enums.ts
+ * 
+ * SUMMARY:
+ *   Defines enums for use across the app.
+ */
+
 export enum CardWidth {
   Full = "full",
   Thin = "thin",

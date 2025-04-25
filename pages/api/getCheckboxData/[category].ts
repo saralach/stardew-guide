@@ -1,13 +1,28 @@
-import { connectToDatabase } from '@/lib/mongodb';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { GeneralResponse } from '@/types/apiResponseTypes';
-import { CheckData } from '@/types/userProgressTypes';
+/**
+ * MODULE:  pages/api/getCheckboxData/[category].ts
+ * 
+ * SUMMARY:
+ *   Used for retrieving a user’s checkbox data for the specified category. 
+ *   The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+ * 
+ *   HTTP Method Available:  GET
+ * 
+ * DEPENDENCIES:
+ *   - next: for TypeScript types for Next.js-specific API request and responses
+ *   - next-auth/next: for retrieving session
+ *   - pages/api/auth/[...nextauth]: necessary for retrieving session
+ *   - lib/mongodb: for connecting to the database
+ *   - types/apiResponses: for TypeScript type for response
+ *   - types/userProgress: for TypeScript type for response
+ */
 
-// HTTP Method Available: GET
-// This endpoint is used for retrieving a user’s checkbox data for the specified category. 
-// The categories correspond to the names of the trackers (Perfection, Museum, etc.).
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth/next';
+import { connectToDatabase } from '@/lib/mongodb';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { GeneralResponse } from '@/types/apiResponses';
+import { CheckData } from '@/types/userProgress';
+
 
 export default async function handler(
   req: NextApiRequest, 

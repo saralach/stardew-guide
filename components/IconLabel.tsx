@@ -1,5 +1,19 @@
-import styles from '@/styles/IconLink.module.css';
+/**
+ * MODULE:  components/IconLabel
+ * 
+ * SUMMARY:
+ *   Displays an icon inline with a label. Can also function as a link to another page.
+ * 
+ * DEPENDENCIES:
+ *   - next/link: for optimized links
+ *   - styles/IconLink: for styling
+ * 
+ * USED BY:
+ *   Various pages and components
+ */
+
 import Link from 'next/link';
+import styles from '@/styles/IconLink.module.css';
 
 interface IconLabelProps {
     category?: string;
