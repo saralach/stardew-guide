@@ -1,0 +1,45 @@
+.pgcontainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+/* ============ Gift Prefs ============ */
+.giftsection {
+  text-align: center;
+  padding-block: 1.25rem;
+
+  h2 {
+    margin-block: 1rem;
+  }
+
+  h4 {
+    margin-block-end: .5rem;
+  }
+
+  .prefscontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    & > div {
+      padding-inline: .25rem;
+      padding-block: .5rem;
+      width: 13rem;
+
+      /* Divider lines */
+      &:not(:nth-child(1)) {
+        border-inline-start: var(--light-border);
+      }
+    }
+
+    li {
+      list-style-type: none;
+      height: fit-content;
+    }
+  }
+}
+

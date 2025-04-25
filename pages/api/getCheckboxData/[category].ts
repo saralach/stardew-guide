@@ -14,6 +14,9 @@
  *   - lib/mongodb: for connecting to the database
  *   - types/apiResponses: for TypeScript type for response
  *   - types/userProgress: for TypeScript type for response
+ * 
+ * USED BY:
+ *   - tracker pages
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';

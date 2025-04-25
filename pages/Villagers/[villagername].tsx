@@ -13,15 +13,18 @@
  *   - react: for states and handling async behavior with useEffect
  *   - components/IconLabel: for displaying gifts in gift preferences section
  *   - components/Loading: component to display while page is loading
+ *   - styles/Villager: styling
  *   - types/villagers: TypeScript type for data retrieved from the API
  */
 
-import Head from "next/head";
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import IconLabel from "@/components/IconLabel";
-import Loading from "@/components/Loading";
-import { FullVillagerData } from "@/types/villagers";
+import IconLabel from '@/components/IconLabel';
+import Loading from '@/components/Loading';
+import styles from '@/styles/Villager.module.css';
+import { FullVillagerData } from '@/types/villagers';
+
 
 export default function VillagerPage() {
   const router = useRouter();
@@ -50,7 +53,7 @@ export default function VillagerPage() {
       fetchVillagerInfo();
   }, [villagername]); /* executes again when villagername is changed */
 
-
+  
   return (
     <div>
       <Head>
@@ -61,70 +64,77 @@ export default function VillagerPage() {
           <Loading/>
         ) : (
           villagerInfo ? (
-            <main>
+            <main className={styles.pgcontainer}>
               <h1>{router.query.villagername}</h1>
-
-              <div className="flex flex-col justify-center items-center flex-nowrap">
                 <img 
-                  className="villager-pic-lg block"
+                  className='villager-pic-lg block'
                   src={`/Villager/${router.query.villagername}.png`}
                 />
 
-                <table className="villagerinfo">
+                <table className='villagerinfo'>
                   <tbody>
                     <tr>
-                      <td className="labelcell">
+                      <td className='labelcell'>
                         Birthday
                       </td>
-                      <td className="infocell">
+                      <td>
                         {`${villagerInfo.bday_season} ${villagerInfo.bday_date}`}
                       </td>
                     </tr>
                     <tr>
-                      <td className="labelcell">
+                      <td className='labelcell'>
                         Lives In
                       </td>
-                      <td className="infocell">
+                      <td>
                         {villagerInfo.home_location}
                       </td>
                     </tr>
                     <tr>
-                      <td className="labelcell">
+                      <td className='labelcell'>
                         Address
                       </td>
-                      <td className="infocell">
+                      <td>
                         {villagerInfo.address}
                       </td>
                     </tr>
                     <tr>
-                      <td className="labelcell">
+                      <td className='labelcell'>
                         Can Marry
                       </td>
-                      <td className="infocell">
-                        {villagerInfo.can_marry ? "Yes" : "No"}
+                      <td>
+                        {villagerInfo.can_marry ? 'Yes' : 'No'}
                       </td>
                     </tr>
                   </tbody>
                 </table>
 
-                <article className="py-5">
-                  <h4>Loved Gifts</h4>
-                  <ul>
-                    {
-                      villagerInfo.gift_prefs.items.map((gift, index) => {
-                        return (
-                          gift.pref_num === 5 && (
-                            <li className="list-none h-fit" key={index}>
-                              <IconLabel label={gift.item_name} isLink={true}/>
-                            </li>
-                          )
-                        )
-                      })
-                    }
-                  </ul>
-                </article>
-              </div>
-
+                <section className={styles.giftsection}>
+                  {
+                    villagerInfo.gift_groups && (
+                      <>
+                        <h2>Gift Preferences</h2>
+                        <div className={styles.prefscontainer}>
+                          {
+                            villagerInfo.gift_groups.map((giftGroup, groupIndex) => (
+                              <div>
+                                <h4>{`${giftGroup.pref} Gifts`}</h4>
+                                <ul>
+                                  {
+                                    giftGroup.items.map((item, itemIndex) => (
+                                      <li key={`${groupIndex}${itemIndex}`}>
+                                        <IconLabel label={item} isLink={true}/>
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            ))
+                          }
+                        </div>
+                      </>
+                    )
+                  }
+                </section>
             </main>
           ) : (
             <p data-testid='error-msg'>
@@ -135,5 +145,5 @@ export default function VillagerPage() {
       }
     </div>
   );
-
+  
 }// end VillagerPage()

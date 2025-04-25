@@ -13,6 +13,9 @@
  *   - lib/mongodb: for connecting to the database
  *   - types/apiResponses: TypeScript type for response data
  *   - types/items: TypeScript type for response data
+ * 
+ * USED BY:
+ *   - pages/Items/index.tsx
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';

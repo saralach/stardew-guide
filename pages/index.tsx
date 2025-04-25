@@ -29,10 +29,7 @@ export default function Home() {
     <>
       <Head>
         <title>Home | Stardew Guide</title>
-        <meta 
-          name="description"
-          content={metaDesc} 
-        />
+        <meta name="description" content={metaDesc} />
       </Head>
 
       <main className={styles.homecontent}>
@@ -64,9 +61,25 @@ export default function Home() {
               href="/Items"
               pageType="INFO"
               label="Items"
-              imgSrc="/Prismatic_Shard.png"
+              imgSrc="/Prismatic_Shard_96px.png"
               imgAlt="Prismatic Shard Item"
-              imgWidth={96} // intrinsic size = 48 x 48; 48 * 2 = 96
+              imgWidth={96} // intrinsic size = 96 x 96
+            />
+            <NavigationCard
+              href="/Tracker/Bundles"
+              pageType="TRACKER"
+              label="Bundles"
+              imgSrc="/Junimo.png"
+              imgAlt="Community Center Junimo"
+              imgWidth={96} // intrinsic size = 96 x 96
+            />
+            <NavigationCard
+              href="/Tracker/Museum"
+              pageType="TRACKER"
+              label="Museum"
+              imgSrc="/NPC/Gunther.png"
+              imgAlt="Portrait of Museum Curator Gunther"
+              imgWidth={128} // intrinsic size = 128 x 128
             />
             <NavigationCard
               href="/Tracker/Perfection"
@@ -76,14 +89,6 @@ export default function Home() {
               imgAlt="Golden Clock"
               imgWidth={72} // intrinsic size = 144; 144 / 2 = 72
               imgHeight={120} //intrinsic size = 240; 240 / 2 = 120
-            />
-            <NavigationCard
-              href="/Tracker/Museum"
-              pageType="TRACKER"
-              label="Museum"
-              imgSrc="/NPC/Gunther.png"
-              imgAlt="Portrait of Museum Curator Gunther"
-              imgWidth={128} // intrinsic size = 128 x 128
             />
           </div>
         </section>

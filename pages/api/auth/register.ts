@@ -11,6 +11,9 @@
  *   - bcryptjs: for generating password hashes
  *   - next: for TypeScript types for Next.js-specific API request and responses
  *   - lib/mongodb: for connecting to the database
+ * 
+ * USED BY:
+ *   - pages/Login.tsx
  */
 
 import { hash } from 'bcryptjs';

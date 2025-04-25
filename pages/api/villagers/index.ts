@@ -9,6 +9,9 @@
  * DEPENDENCIES:
  *   - next: for TypeScript types for Next.js-specific API request and responses
  *   - lib/mongodb: for connecting to the database
+ * 
+ * USED BY:
+ *   - pages/Villagers/index.tsx
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';

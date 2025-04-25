@@ -10,21 +10,22 @@
  * 
  * USED BY:
  *   Various pages and components
+ * 
  */
 
 import Link from 'next/link';
 import styles from '@/styles/IconLink.module.css';
 
 interface IconLabelProps {
-    category?: string;
-    label: string;
-    qty?: number;
-    maxQty?: number;
+    category?: string;      // subdirectory for img src
+    label: string;          // text displayed
+    qty?: number;           // qty to be displayed
+    maxQty?: number;        // for displaying a qty range
     altImgSrc?: string;
     isLink?: boolean;   
     className?: string;
     iconSize?: string;
-    qtyAfter?: boolean;
+    qtyAfter?: boolean;     // determines whether qty is placed before or after label
 }
 
 export const ICON_SIZES = {

@@ -13,6 +13,9 @@
  *   - lib/mongodb: for connecting to the database
  *   - pages/api/auth/[...nextauth]: necessary for retrieving session
  *   - types/apiResponses: TypeScript type for response data
+ * 
+ * USED BY:
+ *   - lib/handleChkChange.ts
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';

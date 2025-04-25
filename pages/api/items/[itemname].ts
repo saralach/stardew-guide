@@ -12,6 +12,9 @@
  *   - lib/mongodb: for connecting to the database
  *   - types/apiResponses: TypeScript type for response data
  *   - types/items: TypeScript type for response data
+ * 
+ * USED BY:
+ *   - pages/Items/[itemname].tsx
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -78,8 +81,9 @@ export default async function handler(
 
         return accumulator;
       }, []);
-  
-      item.sources = itemSources;
+      
+      if(Array.isArray(itemSources) && itemSources.length !== 0)
+        item.sources = itemSources;
     }
 
     // ----------- Group use data into categories ------------------------
@@ -108,9 +112,11 @@ export default async function handler(
   
         return accumulator;
       }, []);
-      item.uses = itemUses;
+      
+      if(Array.isArray(itemUses) && itemUses.length !== 0)
+        item.uses = itemUses;
     }
-
+    
     res.status(200).json(item);
   }
   catch (error) {

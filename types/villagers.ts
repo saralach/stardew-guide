@@ -24,7 +24,8 @@ export interface FullVillagerData extends BasicVillagerData {
   home_location: string;
   address: string;
   can_marry: boolean;
-  gift_prefs: GiftPrefs;
+  gift_prefs?: GiftPrefs;
+  gift_groups?: GiftPrefGroup[];
 }
 
 export interface GiftPrefs {
@@ -40,4 +41,9 @@ export interface GiftPrefCategory {
 export interface GiftPrefItem {
   item_name: string;
   pref_num: number;
+}
+
+export interface GiftPrefGroup {
+  pref: string;
+  items: string[];
 }
