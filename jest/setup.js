@@ -1,4 +1,12 @@
-// Things in this file apply to all tests!!
+/**
+ * MODULE:  jest/testHelpers.ts
+ * 
+ * SUMMARY:
+ *   Global setup for all jest tests. Applies to all tests / test suites.
+ * 
+ * DEPENDENCIES:
+ *   util: for avoiding ReferenceErrors in tests
+ */
 
 import { TextEncoder, TextDecoder } from 'util';
 

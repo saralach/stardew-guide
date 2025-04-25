@@ -1,3 +1,19 @@
+/**
+ * MODULE:  jest/testHelpers.ts
+ * 
+ * SUMMARY:
+ *   Helper functions for testing when dealing with sessions or API calls.
+ * 
+ * EXPORTS:
+ *   - getMockSession(): Partial<Session>
+ *   - getMockErrorResponse(): Promise<Response>
+ *   - getMockReqsResponse(): Promise<Response>
+ *   - getMockChkResponse(isEmpty: boolean): Promise<Response>
+ * 
+ * USED BY:
+ *   various test pages
+ */
+
 // ============================== getMockSession() ==============================
 function getMockSession() {
   return {
@@ -48,6 +64,7 @@ function getMockReqsResponse(): Promise<Response> {
 
 
 // ============================ getMockChkResponse() ============================
+// Gets a sample set of user checkbox progress data.
 function getMockChkResponse(isEmpty: boolean): Promise<Response> {
   const userChkData = isEmpty ? [] : [
     { subcategory: 'Minerals', checkbox_id: 'Quartz' },
