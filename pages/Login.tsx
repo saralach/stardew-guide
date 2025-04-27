@@ -55,7 +55,7 @@ export default function Login() {
     e.preventDefault(); // Do not refresh the page
 
     // Confirm credentials exist
-    if(!username || !password) {
+    if( username === "" || password === "" ) {
       setMessage('Please enter username and password.');
       return;
     }
