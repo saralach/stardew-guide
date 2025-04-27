@@ -1,6 +1,19 @@
-import handler from '@/pages/api/auth/register';
+/**
+ * MODULE:  __tests__/api/auth/register.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suites for testing the registration API route.
+ *   Tests that tabs and subtabs are displayed as intended and are/aren't links when necessary.
+ * 
+ * DEPENDENCIES:
+ *   - node-mocks-http: for api route testing
+ *   - lib/mongodb: for mocking database connection
+ *   - pages/api/auth/register: API route to test
+ */
+
 import { createMocks } from 'node-mocks-http';
 import { connectToDatabase } from '@/lib/mongodb';
+import handler from '@/pages/api/auth/register';
 
 jest.mock('../../../lib/mongodb', () => ({
   connectToDatabase: jest.fn()

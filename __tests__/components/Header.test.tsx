@@ -1,18 +1,30 @@
-import { render, screen, waitFor,  fireEvent } from '@testing-library/react';
-import Header from '@/components/Header';
+/**
+ * MODULE:  __tests__/components/Header.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suites for testing the Header component.
+ *   Tests that tabs and subtabs are displayed as intended and are/aren't links when necessary.
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - next-auth/react: for wrapping page in SessionProvider
+ *   - components/Header: component to test
+ *   - jest/testHelpers: for mocking session / logged in user
+ */
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SessionProvider } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import Header from '@/components/Header';
 import { getMockSession } from '@/jest/testHelpers';
 
 // Set up mock next/router
 jest.mock('next/router', () => ({
-  useRouter: jest.fn()
+  useRouter: () => ({
+    pathname: '/Villagers',
+    push: jest.fn(),
+    prefetch: jest.fn(),
+  }),
 }));
-
-beforeEach(() => {
-  jest.resetAllMocks();
-  (useRouter as jest.Mock).mockReturnValue({pathname: '/Villagers'})
-});
 
 describe('Header Component', () => {
 
@@ -27,7 +39,7 @@ describe('Header Component', () => {
     expect(screen.getByText('Tracker')).toBeInTheDocument();
   });
 
-  it('displays tracker options when tracker tab is hovered over', async () => {
+  it('displays subtabs when main tab is hovered over', async () => {
     render(
       <SessionProvider session={null}>
         <Header />

@@ -1,5 +1,18 @@
+/**
+ * MODULE:  __tests__/Villagers/[villagername].test.tsx
+ * 
+ * SUMMARY:
+ *   Test suite for testing the /Villagers/[villagername] page.
+ *   Tests error handling and display of data upon successful fetch.
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - pages/Villagers/[villagername]: page to test
+ */
+
 import { render, screen, waitFor } from '@testing-library/react';
 import VillagerPage from '@/pages/Villagers/[villagername]';
+
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -44,25 +57,20 @@ describe('Dynamic Villagers Page -- /Villagers/[villagername]', () => {
         status: 200,
         json: () => Promise.resolve({
           // Test data (Abigail)
-          name: "Abigail",
-          gender: "Female",
-          bday_season: "Fall",
+          name: 'Abigail',
+          gender: 'Female',
+          bday_season: 'Fall',
           bday_date: 13,
-          home_location: "Pelican Town",
+          home_location: 'Pelican Town',
           address: "Pierre's General Store",
           can_marry: true,
-          "gift_prefs": {
-            items: [
-              { item_name: "Amethyst", pref_num: 5 },
-              { item_name: "Banana Pudding", pref_num: 5 },
-              { item_name: "Blackberry Cobbler", pref_num: 5 },
-              { item_name: "Chocolate Cake", pref_num: 5 },
-              { item_name: "Monster Compendium", pref_num: 5 },
-              { item_name: "Pufferfish", pref_num: 5 },
-              { item_name: "Pumpkin", pref_num: 5 },
-              { item_name: "Spicy Eel", pref_num: 5 },
+          'gift_groups': [{
+            pref: 'Love',
+            items: [ 
+              'Amethyst', 'Banana Pudding', 'Blackberry Cobbler', 'Chocolate Cake', 
+              'Monster Compendium', 'Pufferfish', 'Pumpkin', 'Spicy Eel'
             ]
-          }
+          }]
         }) // end json
       } as unknown as Response ) // Make TypeScript tolerate incomplete Response object
     );

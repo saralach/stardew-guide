@@ -1,5 +1,18 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+/**
+ * MODULE:  __tests__/Items/index.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suites for testing the /Items page.
+ *   Tests error handling and display of data upon successful fetch.
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - pages/Items/index: page to test
+ */
+
+import { render, screen, waitFor } from '@testing-library/react';
 import AllItemsPage from '@/pages/Items/index';
+
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -26,6 +39,7 @@ describe('All Items Page -- /Items', () => {
     });
   });
 
+
   it('displays items when fetch was successful', async () => {
     // Mock fetch API & successful response
     global.fetch = jest.fn(() =>
@@ -41,7 +55,7 @@ describe('All Items Page -- /Items', () => {
 
     render(<AllItemsPage />);
 
-    // Confirm items get displayed
+    // Confirm items are displayed
     await waitFor(() => {
       expect(screen.getByText('Ostrich Egg')).toBeInTheDocument();
       expect(screen.getByText('Fiddlehead Fern')).toBeInTheDocument();

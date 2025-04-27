@@ -1,11 +1,38 @@
+/**
+ * MODULE:  __tests__/Tracker/Trackers.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suites for testing all of the /Trackers pages.
+ *   For each page, tests:
+ *   - display of error message if user is not signed in
+ *   - when signed in: 
+ *      - handling of various API responses (error handling & display of checkboxes)
+ *      - checking and unchecking functionality
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - next-auth/react: for wrapping page in SessionProvider
+ *   - react: for Component TypeScript type
+ *   - jest/testHelpers: for mock API responses and mock sessions
+ *   - lib/handleChkChange: for mocking implementation of handleChkChange()
+ *   - pages/Tracker/Bundles: page to test
+ *   - pages/Tracker/Museum: page to test
+ *   - pages/Tracker/Perfection: page to test
+ */
+
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import MuseumTracker from '@/pages/Tracker/Museum';
-import PerfectionTracker from '@/pages/Tracker/Perfection';
-import BundlesTracker from '@/pages/Tracker/Bundles';
 import { SessionProvider } from 'next-auth/react';
 import { ComponentType } from 'react';
-import handleChkChange from '../../lib/handleChkChange';
-import { getMockSession, getMockErrorResponse, getMockChkResponse, getMockReqsResponse } from '@/jest/testHelpers';
+import {
+  getMockChkResponse,
+  getMockErrorResponse,
+  getMockReqsResponse,
+  getMockSession
+} from '@/jest/testHelpers';
+import handleChkChange from '@/lib/handleChkChange';
+import BundlesTracker from '@/pages/Tracker/Bundles';
+import MuseumTracker from '@/pages/Tracker/Museum';
+import PerfectionTracker from '@/pages/Tracker/Perfection';
 
 
 jest.mock('../../lib/handleChkChange');
@@ -25,22 +52,15 @@ const trackersToTest: Tracker[] = [
 describe.each(trackersToTest)('$trackerCategory Tracker Page -- /Tracker/$trackerCategory', ({trackerCategory, PageComponent}) => {
 
   afterEach(() => {
-    // Clear call history
-    jest.clearAllMocks();
-    
-    // Clear mock implementation
+    // Clear mock call history & reset mock implementation
     jest.resetAllMocks();
-    delete (global as any).fetch;
-
-    // Restore Original Implementation
-    jest.restoreAllMocks();
   });
 
   // ================================ Signed in user ================================
   describe('user is signed in', () => {
 
-    // ----------------------- Testing display of checkboxes -----------------------
-    describe('test display of checkboxes depending on different API responses', () => {
+    // ----------------- Testing display for various API responses -------------------
+    describe('test display for various different API responses', () => {
 
       it('displays error msg when fails to fetch reqs & user data', async () => {
         // Mock fetch API & responses

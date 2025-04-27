@@ -1,5 +1,18 @@
+/**
+ * MODULE:  __tests__/Villagers/index.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suite for testing the /Villagers page.
+ *   Tests error handling and display of data upon successful fetch.
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - pages/Villagers/index: page to test
+ */
+
 import { render, screen, waitFor } from '@testing-library/react';
 import AllVillagersPage from '@/pages/Villagers/index';
+
 
 beforeEach(() => {
   jest.resetAllMocks();

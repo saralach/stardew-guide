@@ -1,30 +1,37 @@
+/**
+ * MODULE:  __tests__/Login.test.tsx
+ * 
+ * SUMMARY:
+ *   Test suite for testing the /Login page.
+ *   This test suite tests:
+ *   - error handling with form data
+ *   - page behavior when a user is already logged in
+ *   - login/register tab toggling functionality
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/jest-dom: adds toHaveTextContent(), toBeEnabled(), & toBeDisabled() matchers
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - next-auth/react: for wrapping page in SessionProvider
+ *   - jest/testHelpers: for getting mock sessions
+ *   - pages/Login: page to test
+ */
+
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Login from '@/pages/Login';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SessionProvider } from 'next-auth/react';
+import { getMockSession } from '@/jest/testHelpers';
+import Login from '@/pages/Login';
 
-// Set up mock next/router
 jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
+  useRouter: () => ({
+    pathname: '/Login',
+    push: jest.fn(),
+    prefetch: jest.fn(),
+  }),
 }));
-
-// Import AFTER creating mock so mock version is imported rather than real implementation
-import { useRouter } from 'next/router';
 
 // ========================== Login Page Test Suite =============================
 describe('Login Page -- /Login', () => {
-
-  const mockPush = jest.fn();
-
-  // Runs before each test; sets up mock useRouter
-  beforeEach( () => {
-    mockPush.mockClear();
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush
-    });
-  });
-
-
 
   // ======================== UNauthenticated User Tests ========================
   describe('Unauthenticated User', () => {
@@ -185,12 +192,7 @@ describe('Login Page -- /Login', () => {
   // ========================= Authenticated User Tests =========================
   describe('Authenticated User', () => {
 
-    const mockSession = {
-      user: {
-        username: "totallyRealUser"
-      },
-      expires: '2099-01-01T00:00:00.000Z'
-    };
+    const mockSession = getMockSession();
 
     beforeEach(() => {
       // Render Login page, simulating a user who is logged in

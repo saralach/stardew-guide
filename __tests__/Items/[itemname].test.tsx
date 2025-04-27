@@ -1,5 +1,18 @@
+/**
+ * MODULE:  __tests__/Items/[itemname].test.tsx
+ * 
+ * SUMMARY:
+ *   Test suites for testing the /Items/[itemname] page.
+ *   Tests error handling and display of data upon successful fetch.
+ * 
+ * DEPENDENCIES:
+ *   - @testing-library/react: for accessing the HTML DOM in tests
+ *   - pages/Items/[itemname]: page to test
+ */
+
 import { render, screen, waitFor } from '@testing-library/react';
 import ItemPage from '@/pages/Items/[itemname]';
+
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
