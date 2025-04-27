@@ -52,7 +52,7 @@ export default function Login() {
 
   // ============ handleSubmit() ===========================================
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Do not refresh the page
 
     // Confirm credentials exist
     if(!username || !password) {
@@ -64,49 +64,43 @@ export default function Login() {
     const validCredentialLengths = validateCredentialLengths(username, password);
 
     if(isLogin) {
-      if(validCredentialLengths) {
-        // Attempt to sign in
-        const res = await signIn('credentials', {
-          redirect: false,
-          username,
-          password,
-        });
-    
-        if (res?.error)
-          setMessage(res.error);
-        else
-          router.push('/'); //Redirect to home page
-      }
+      // Attempt to sign in
+      const res = await signIn('credentials', { redirect: false, username, password });
+  
+      if (res?.error)
+        setMessage(res.error);
       else
-        setMessage("Invalid credentials.");
+        router.push('/'); //Redirect to home page
     }
     else { 
       // Attempt to register
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-  
-      const data = await res.json();
-  
-      if (res.status === 201) {
-        // Automatically sign the user in after successful registration
-        const signInResponse = await signIn('credentials', {
-          redirect: false,
-          username,
-          password,
+      if(validCredentialLengths) {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
         });
+    
+        const data = await res.json();
+    
+        if (res.status === 201) {
+          // Automatically sign the user in after successful registration
+          const signInResponse = await signIn('credentials', {
+            redirect: false,
+            username,
+            password,
+          });
 
-        if (signInResponse?.error)
-          setMessage('Failed to log in after registration.');
+          if (signInResponse?.error)
+            setMessage('Failed to log in after registration.');
+          else
+            router.push('/');
+        }
         else
-          router.push('/');
+          setMessage(data.message);
       }
-      else
-        setMessage(data.message);
     }
   }; //end handleSubmit()
 
