@@ -80,33 +80,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Group item preferences based on pref_num
     const prefs = villager?.gift_prefs?.items.reduce((accumulator: GiftPrefGroup[], item: any) => {
-      // Store current item's pref
-      const currPrefCategory = getPrefCategory(item.pref_num);
 
-      // Get group that matches the category (if it exists)
-      const prefGroup = accumulator.find((group) => group.pref === currPrefCategory);
+      // Confirm prefNum is valid before making changes
+      if (item.pref_num >= 1 && item.pref_num <= 5) {
 
-      // If group exists for the specific category, add the element to the existing 
-      // group's array; Otherwise, create a group for that category
-      if(prefGroup)
-        prefGroup.items.push(item.item_name);
-      else {
-        const newArray = [item.item_name];
-        accumulator.push({
-          pref: currPrefCategory,
-          items: newArray
-        });
+        // Store current item's pref
+        const currPrefCategory = getPrefCategory(item.pref_num);
+
+        // Get group that matches the category (if it exists)
+        const prefGroup = accumulator.find((group) => group?.pref === currPrefCategory);
+
+        // If group exists for the specific category, add the element to the existing 
+        // group's array; Otherwise, create a group for that category
+        if(prefGroup)
+          prefGroup.items.push(item.item_name);
+        else {
+          // Add group at the index that will arrange the groups as loved through hated
+          const groupIndex = 5 - item.pref_num;
+          accumulator[groupIndex] = {
+            pref: currPrefCategory,
+            items: [item.item_name]
+          };
+        }
       }
-
+      console.log(accumulator);
       return accumulator;
     }, []);
 
+    
     if(prefs && prefs.length > 0)
       villager.gift_groups = prefs;
 
     res.status(200).json(villager);
   }
   catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to fetch document' });
   }
 }
