@@ -60,9 +60,6 @@ export default function Login() {
       return;
     }
 
-    // Check if credentials meet length requirements
-    const validCredentialLengths = validateCredentialLengths(username, password);
-
     if(isLogin) {
       // Attempt to sign in
       const res = await signIn('credentials', { redirect: false, username, password });
@@ -73,6 +70,9 @@ export default function Login() {
         router.push('/'); //Redirect to home page
     }
     else { 
+      // Check if credentials meet length requirements
+      const validCredentialLengths = validateCredentialLengths(username, password);
+      
       // Attempt to register
       if(validCredentialLengths) {
         const res = await fetch('/api/auth/register', {
