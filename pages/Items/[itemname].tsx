@@ -75,15 +75,15 @@ export default function ItemPage() {
 
               <div className={styles.detailcontainer}>
                 { /* ======== Energy & Health ======== */
-                  (item.energy && item.health) && (
+                  (item.energy || item.health) && (
                     <>
                       <IconLabel
-                        label={item.energy.toString()}
+                        label={item.energy ? item.energy.toString() : "0"}
                         category='Icon'
                         altImgSrc='Energy'
                       />
                       <IconLabel
-                        label={item.health.toString()}
+                        label={item.health ? item.health.toString() : "0"}
                         category='Icon'
                         altImgSrc='Health'
                       />
