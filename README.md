@@ -2,95 +2,40 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 
 ## Folder Structure
+
+```
 stardew-guide/ 
-├── __tests__/             # Actual test files for testing pages & components
-├── tests/                 # Shared/universal/reusable test setup/config, helpers, mocks, etc.
-│   ├── setupTests.tsx     # Jest + MSW setup (starts MSW server, sets globals, etc.)
-├── components/            # Reusable components 
-│   ├── CheckCard.tsx 
-│   ├── CheckSection.tsx
-│   ├── FishCard.tsx
-│   ├── Header.tsx
-│   ├── IconLink.tsx
-│   ├── Loading.tsx
-│   └── SourceSection.tsx
-├── lib/                   # Utility functions or API logic 
-│   └── mongodb.js 
-├── pages/                 # Next.js pages (routes) 
-│   ├── api/               # API routes 
-│   │   ├── auth/
-│   │   │   ├── [...nextauth].js
-│   │   │   ├── login.js
-│   │   │   └── register.js
-│   │   ├── getCheckboxData/
-│   │   │   └── [category].js
-│   │   ├── items/
-│   │   │   └── [itemname].js
-│   │   ├── villagers/
-│   │   │   └── [villagername].js
-│   │   ├── bundles.js 
-│   │   ├── cooking.js 
-│   │   ├── crafting.js 
-│   │   ├── fish.js 
-│   │   ├── getMuseumReqs.js 
-│   │   ├── getPerfectionReqs.js 
-│   │   ├── items.js 
-│   │   ├── saveCheckboxData.js 
-│   │   └── villagers.js 
-│   ├── index.js           # Home page 
-│   └── about.js           # About page 
-├── public/                # Static assets (images, fonts, etc.) 
-│   ├── logo.png 
-│   └── background.jpg 
-├── styles/                # Global styles 
-│   ├── globals.css 
-│   └── Home.module.css 
-├── .env.local             # Environment variables 
-├── next.config.js         # Next.js configuration 
-├── package.json           # Project dependencies and scripts 
-└── README.md              # Project documentation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+├── \__tests__/             // Test suite files for testing routes & components
+├── jest/                  // Universal test setup/config and reusable functions for tests
+├── components/            // Reusable components 
+├── lib/                   // Utility functions
+├── pages/                 // Next.js pages/routes
+│   └── api/               // API routes 
+├── public/                // Static assets - images
+├── styles/                // Stylesheets
+├── types/                 // TypeScript type definitions
+```
 
 ## Getting Started
 
-First, run the development server:
+Make sure you have project dependencies installed:
+- Git
+- Node.js
+
+After Git and Node.js are installed, clone the repository.
+
+Then, install the required node modules:
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) with your browser (ideally Google Chrome) to see the result.
 
 ## Learn More
 
@@ -98,11 +43,3 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
