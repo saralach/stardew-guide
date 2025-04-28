@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ```
 stardew-guide/ 
-├── \__tests__/             // Test suite files for testing routes & components
+├── \__tests__/            // Test suite files for testing routes & components
 ├── jest/                  // Universal test setup/config and reusable functions for tests
 ├── components/            // Reusable components 
 ├── lib/                   // Utility functions
