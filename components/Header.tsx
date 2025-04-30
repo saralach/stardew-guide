@@ -55,14 +55,14 @@ export default function Header() {
                 
                 if(tab.subtabs) {
                   return (
-                    <li className={styles.dropdowncontainer}>
+                    <li className={styles.dropdowncontainer} key={tab.name}>
                       <span className={styles.dropdowntrigger}>{tab.name}</span>
                       <ul className={styles.dropdownlist}>
                         {
                           tab.subtabs.map((subtab) => {
                             const subpath = path + '/' + subtab;
                             return (
-                              <li>
+                              <li key={subtab}>
                                 {
                                   router.pathname === subpath ? 
                                     subtab : <Link href={subpath}>{subtab}</Link>
@@ -77,7 +77,7 @@ export default function Header() {
                 }
                 else {
                   return (
-                    <li>
+                    <li key={tab.name}>
                       {
                         router.pathname !== path ? 
                           <Link href={path}>{tab.name}</Link> : tab.name

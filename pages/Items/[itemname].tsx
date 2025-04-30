@@ -11,7 +11,9 @@
  *   - next/head: for adding page title/metadata
  *   - next/router: for retrieving slug (aka [itemname]) from URL
  *   - react: for states and handling async behavior with useEffect
+ *   - components/ItemHeader: for displaying energy, health, & sell price
  *   - components/SourceSection: for displaying a group of item sources
+ *   - components/Loading: component to display while page is loading
  *   - components/UsageSection: for displaying a group of item usage
  *   - styles/Item: for styling
  *   - types/items: TypeScript type for data retrieved from the API
@@ -20,11 +22,12 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import ItemHeader from '@/components/ItemHeader';
+import Loading from '@/components/Loading';
 import SourceSection from '@/components/SourceSection';
 import UsageSection from '@/components/UsageSection';
 import styles from '@/styles/Item.module.css';
 import { ItemInfo } from '@/types/items';
-import IconLabel from '@/components/IconLabel';
 
 
 export default function ItemPage() {
@@ -62,86 +65,75 @@ export default function ItemPage() {
         <title>{`${item ? item.item_name : 'Item Not Found'} | Stardew Guide`}</title>
       </Head>
       {
-        item ? (
-          <main>
-            <div className={styles.itemintro}>
-              <div className={styles.itemheader}>
-                <img className='item-pic' alt={item.item_name} 
-                  src={`/${itemname?.replace(' ', '_')}.png`} 
-                />
-                <h1 className='ps-2'>{item.item_name}</h1>
-              </div>
-              <p className={styles.caption}>{item.desc}</p>
-
-              <div className={styles.detailcontainer}>
-                { /* ======== Energy & Health ======== */
-                  (item.energy || item.health) && (
-                    <>
-                      <IconLabel
-                        label={item.energy ? item.energy.toString() : "0"}
-                        category='Icon'
-                        altImgSrc='Energy'
-                      />
-                      <IconLabel
-                        label={item.health ? item.health.toString() : "0"}
-                        category='Icon'
-                        altImgSrc='Health'
-                      />
-                    </>
-                  )
-                }
-                { /* ========== Sell Price ========== */
-                  item.sell_price && (
-                    <IconLabel
-                      label={`${item.sell_price}g`}
-                      altImgSrc='Gold'
-                    />
-                  )
-                }
-              </div>
-            </div>
-
-            { /* =========== Item Sources =========== */
-              item.sources && (
-                <section className={styles.btmborder} id='Sources'>
-                  <h2 className={`text-center pb-3`}>SOURCES</h2>
-                  {
-                    /* Create a SourceSection for each source subcategory */
-                    item.sources && item.sources?.map( (sourceCategory) => (
-                      <SourceSection 
-                        key={`${sourceCategory.source_category}-Sources`}
-                        category={sourceCategory.source_category}
-                        sources={sourceCategory.sources}
-                        itemName={item.item_name}
-                      />
-                    ))
-                  }
-                </section>
-              )
-            }
-
-            { /* ============ Item Usage ============ */
-              item.uses && (
-                <section id='Usage'>
-                  <h2 className={`text-center pb-3`}>USAGE</h2>
-                  {
-                    /* Create a SourceSection for each use subcategory */
-                    item.uses?.map( (useCategory) => (
-                      <UsageSection 
-                        key={`${useCategory.use_category}-Sources`}
-                        category={useCategory.use_category}
-                        uses={useCategory.uses}
-                      />
-                    ))
-                  }
-                </section>
-              )
-            }
-            
-          </main>
+        loading ? (
+          <Loading />
         ) : (
-          <p data-testid='error-msg'>{`Oops! Item '${itemname}' was not found.`}</p>
+          item ? (
+            <main>
+              <div className={styles.itemintro}>
+                <div className={styles.itemheader}>
+                  <img className='item-pic' alt={item.item_name} 
+                    src={`/${itemname?.replace(' ', '_')}.png`} 
+                  />
+                  <h1 className='ps-2'>{item.item_name}</h1>
+                </div>
+                <p className={styles.caption}>{item.desc}</p>
+                <div className={styles.detailcontainer}>
+                  { 
+                    <ItemHeader 
+                      baseSellPrice={item.sell_price} 
+                      energy={item.energy}
+                      health={item.health}
+                      isEdible={item.energy !== undefined || item.health !== undefined}
+                      maxQuality={item.max_quality}
+                    />
+                  }
+                </div>
+              </div>
+  
+              { /* =========== Item Sources =========== */
+                item.sources && (
+                  <section className={styles.btmborder} id='Sources'>
+                    <h2 className={`text-center pb-3`}>SOURCES</h2>
+                    {
+                      /* Create a SourceSection for each source subcategory */
+                      item.sources && item.sources?.map( (sourceCategory) => (
+                        <SourceSection 
+                          key={`${sourceCategory.source_category}-Sources`}
+                          category={sourceCategory.source_category}
+                          sources={sourceCategory.sources}
+                          itemName={item.item_name}
+                        />
+                      ))
+                    }
+                  </section>
+                )
+              }
+  
+              { /* ============ Item Usage ============ */
+                item.uses && (
+                  <section id='Usage'>
+                    <h2 className={`text-center pb-3`}>USAGE</h2>
+                    {
+                      /* Create a SourceSection for each use subcategory */
+                      item.uses?.map( (useCategory) => (
+                        <UsageSection 
+                          key={`${useCategory.use_category}-Sources`}
+                          category={useCategory.use_category}
+                          uses={useCategory.uses}
+                        />
+                      ))
+                    }
+                  </section>
+                )
+              }
+              
+            </main>
+          ) : (
+            <p data-testid='error-msg'>{`Oops! Item '${itemname}' was not found.`}</p>
+          )
         )
+
       }
     </>
   );
