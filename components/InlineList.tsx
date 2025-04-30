@@ -37,7 +37,7 @@ function InlineList({ listItems, listName = "", showIcons = false,  delimiter = 
         {
           listItems.map((listItem) => {
             return (
-              <li>
+              <li key={listItem}>
                 {
                   showIcons ? (
                     <IconLabel 

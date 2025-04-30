@@ -35,19 +35,19 @@ export default function UsageSection({ category, uses }: UsageSectionProps) {
   };
 
   // ==================== Set Up Content ====================
-  const getUseCards = (use: UsageInfo): ReactNode | ReactNode[] => {
+  const getUseCards = (use: UsageInfo, index: number): ReactNode | ReactNode[] => {
     const additionalRows = [];
 
     use.equipment_name && additionalRows.push(
-      <div className="bottom-border">
+      <div className="bottom-border" key={`${index}-${additionalRows.length}`}>
         <IconLabel label={use.equipment_name} iconSize={ICON_SIZES.XS} />
       </div>
     );
     use.item_costs && additionalRows.push(
-      <div className="pt-3">
+      <div className="pt-3" key={`${index}-cost`}>
         {
           use.item_costs?.map( (item) => (
-            <IconLabel label={item.item} qty={item.qty} />
+            <IconLabel label={item.item} qty={item.qty} key={`${index}-cost-${item.item}`} />
           ))
         }
       </div>
@@ -62,6 +62,7 @@ export default function UsageSection({ category, uses }: UsageSectionProps) {
           />
         }
         additionalRows={additionalRows}
+        key={index}
       />
     );
 
@@ -69,8 +70,8 @@ export default function UsageSection({ category, uses }: UsageSectionProps) {
 
 
   // ------- Get Use Cards -------------------------
-  let sectionContent: ReactNode[] | null = uses.map( (use) =>  
-    getUseCards(use)
+  let sectionContent: ReactNode[] | null = uses.map( (use, index) =>  
+    getUseCards(use, index)
   );
 
   // ------- Remove Any Undefined Use Cards --------

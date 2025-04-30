@@ -37,7 +37,7 @@ export default function AllVillagersPage() {
       }
     }
     fetchVillagers();
-  }, []); /* []: run only once after the component mounts */
+  }, []); // []: run only once after the component mounts
 
   return (
     <>
@@ -54,7 +54,11 @@ export default function AllVillagersPage() {
               <div className="cards-container">
                 {
                   villagers.map( (villager) => (
-                    <a className="cardlink villagerlink" href={`Villagers/${villager}`}>
+                    <a
+                      className="cardlink villagerlink"
+                      href={`Villagers/${villager}`}
+                      key={villager}
+                    >
                       <img
                         className="villagerphoto" src={`/Villager/${villager}.png`}
                         alt={`${villager}'s portrait`} 

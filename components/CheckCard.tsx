@@ -73,47 +73,75 @@ function CheckCard ({ category, subcategory, req, initIsChecked, showIcon=false 
   if(subcategory === "Fishing") {
     if(req.seasons) {
       children.push(
-        <InlineList listItems={req.seasons} listName="Seasons" showIcons={true} />
+        <InlineList 
+          key={`${subcategory}-${req.req_id}-seasons`} 
+          listItems={req.seasons}
+          listName="Seasons"
+          showIcons={true}
+        />
       );
     }
     if(req.weather && req.weather[0] !== "Any") {
       children.push(
-        <InlineList listItems={req.weather} listName="Weather" showIcons={true} />
+        <InlineList
+          listItems={req.weather}
+          listName="Weather"
+          showIcons={true}
+          key={`${subcategory}-${req.req_id}-weather`} 
+        />
       );
     }
     if(req.times) {
       children.push(
-        <InlineList listItems={req.times} listName="Time" delimiter="bullet" />
+        <InlineList
+          listItems={req.times}
+          listName="Time"
+          delimiter="bullet"
+          key={`${subcategory}-${req.req_id}-times`}
+        />
       );
     }
     if(req.locations) {
       children.push(
-        <InlineList listItems={req.locations} listName="Locations" delimiter="bullet" />
+        <InlineList
+          listItems={req.locations}
+          listName="Locations"
+          delimiter="bullet"
+          key={`${subcategory}-${req.req_id}-locations`}
+        />
       );
     }
   }
 
   if(showGold && formattedGold)
-    children.push(<IconLabel label={formattedGold} altImgSrc="Gold" />);
+    children.push(
+      <IconLabel
+        label={formattedGold}
+        altImgSrc="Gold"
+        key={`${subcategory}-${req.req_id}-gold`}
+      />
+    );
   
   if(req.items_reqd) {
     children.push(
-      req.items_reqd.map((item_reqd: any, index: number) => {
-        return (
-          <IconLabel 
-            key={`${req.label}-${item_reqd.item}-${index}`} 
-            label={item_reqd.item} 
-            qty={item_reqd.qty}
-            isLink={true}
-          />
-        )
-      })
+      req.items_reqd.map((item_reqd: any, index: number) => (
+        <IconLabel 
+          key={`${req.label}-${item_reqd.item}-${index}`} 
+          label={item_reqd.item} 
+          qty={item_reqd.qty}
+          isLink={true}
+        />
+      ))
     );
   }
 
   if(category === 'Bundles') {
     if(req.num_slots !== req.items_reqd?.length)
-      children.push(<p className="pt-3 font-bold">{`Items Required: ${req.num_slots}`}</p>);
+      children.push(
+        <p className="pt-3 font-bold" key={`${subcategory}-${req.req_id}-numslots`}>
+          {`Items Required: ${req.num_slots}`}
+        </p>
+      );
   }
 
   // Remove any undefined children; if children is empty array, set to null

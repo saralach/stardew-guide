@@ -116,7 +116,7 @@ export default function VillagerPage() {
                         <div className={styles.prefscontainer}>
                           {
                             villagerInfo.gift_groups.map((giftGroup, groupIndex) => (
-                              <div>
+                              <div key={giftGroup.pref}>
                                 <h4>{`${giftGroup.pref} Gifts`}</h4>
                                 <ul>
                                   {

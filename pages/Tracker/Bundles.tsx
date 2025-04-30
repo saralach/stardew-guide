@@ -110,7 +110,7 @@ export default function BundlesTracker() {
                   requirements.map((reqGroup) => {
                     return (
                       <CheckSection 
-                        key={reqGroup.subcategory_id}
+                        key={reqGroup.subcategory}
                         category={checkboxCategory}
                         sectionId={reqGroup.subcategory} 
                         desc={reqGroup.label ? reqGroup.label : reqGroup.subcategory}

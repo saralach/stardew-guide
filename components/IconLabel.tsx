@@ -40,8 +40,6 @@ export const ICON_SIZES = {
 function IconLabel({ category, label, qty, maxQty, altImgSrc = "", isLink = false, className = "", 
                      iconSize = ICON_SIZES.SMALL, qtyAfter=false, quality}: IconLabelProps)  {
 
-                      console.log(`quality = ${quality}`)
-
   const itemName = getItemName(label, altImgSrc);
   const location = getLocation(itemName, category);
   const qualityPath = quality ? `/Quality/${quality}.png` : null;

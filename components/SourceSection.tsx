@@ -56,12 +56,12 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
         const additionalRows = [];
 
         category === "Equipment" && source.source_name && additionalRows.push(
-          <div className="bottom-border">
+          <div className="bottom-border" key={index}>
             <IconLabel label={source.source_name} iconSize={ICON_SIZES.XS} />
           </div>
         );
         source.item_costs && additionalRows.push(
-          <div className="pt-3">
+          <div className="pt-3" key={index}>
             {
               source.item_costs?.map( (item) => (
                 <IconLabel key={item.item} label={item.item} qty={item.qty} />
@@ -120,7 +120,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
         return (
           source.locations?.map( (location) => (
             <ItemDetailCard 
-              //key={`${index}-${category}-${location.location_name}`} 
+              key={`${index}-${category}-${location.location_name}`} 
               topRowHead={location.location_name} 
               topRowDetails={formatProbability(source.probability)} 
             />
@@ -135,6 +135,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
             {
               source.locations && (
                 <InlineList 
+                  key={`${index}-locations`}
                   listName="Locations"
                   listItems={source.locations?.map((location) => location.location_name)}
                   delimiter="bullet"
@@ -144,6 +145,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
             {
               source.seasons && (
                 <InlineList 
+                  key={`${index}-seasons`}
                   listName="Seasons"
                   listItems={source.seasons}
                   delimiter="bullet"
@@ -154,6 +156,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
             {
               source.weather && (
                 <InlineList 
+                  key={`${index}-weather`}
                   listName="Weather"
                   listItems={source.weather}
                   delimiter="bullet"
@@ -165,7 +168,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
         );
         return (
           <ItemDetailCard
-            //key={index}
+            key={index}
             topRowHead={<IconLabel label={itemName} />}
             additionalRows={catchingDetails}
           />
@@ -174,7 +177,7 @@ export default function SourceSection({ category, sources, itemName }: SourceSec
       default: // "Geodes", "Animal", "Mining", "Monster", "Farming" ("Panning", "Crab Pot")
         return source.source_name && (
           <ItemDetailCard
-            //key={index}
+            key={index}
             topRowHead={<IconLabel label={source.source_name} 
             category={category === "Mining" || category === "Monster" ? category : undefined}/>}
             topRowDetails={formatProbability(source.probability)}  

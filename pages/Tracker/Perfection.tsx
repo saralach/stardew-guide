@@ -63,8 +63,6 @@ export default function PerfectionTracker() {
         //const res = await fetch(`${rootUrl}/api/getPerfectionReqs`);
         const res = await fetch(`${rootUrl}/api/getTrackerReqs/${checkboxCategory}`);
         const data = await res.json();
-        console.log('requirements:');
-        console.log(data);
         setRequirements(data);
       } 
       catch(error) {

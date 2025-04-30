@@ -41,9 +41,6 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[],
   const [sectionVisible, setSectionVisible] = useState(true);
   const [isComplete, setIsComplete] = useState(mainTaskIsComplete);
 
-  console.log(`CheckSection -- category = ${category}, sectionId = ${sectionId}`)
-  console.log(initCompletedTasks);
-
   const toggleVisibility = () => {
     setSectionVisible(!sectionVisible);
   };
@@ -94,7 +91,7 @@ function CheckSection({ category, sectionId, desc, reqs, initCompletedTasks=[],
             reqs?.map((req) => {
               return (
                 <CheckCard
-                  key={req.req_id}
+                  key={`${category}${req.req_id}`}
                   category={category}
                   subcategory={sectionId}
                   req={req} 
