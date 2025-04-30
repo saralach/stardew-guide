@@ -26,7 +26,7 @@ import { ItemCategory } from '@/types/items';
 
 export default async function handler(
   req: NextApiRequest, 
-  res: NextApiResponse<ItemCategory | ErrorResponse>
+  res: NextApiResponse<ItemCategory[] | ErrorResponse>
 ) {
 
   if (req.method !== 'GET')
@@ -37,7 +37,7 @@ export default async function handler(
     const { db } = await connectToDatabase();
     const collection = db.collection('items');
 
-    const items = await collection.aggregate([
+    const itemGroups: ItemCategory[] = await collection.aggregate([
       { // Get item names grouped by category
         $group: {
           _id: "$category",
@@ -48,8 +48,13 @@ export default async function handler(
         $sort: { _id: 1 }
       }
     ]).toArray();
+
+    // Sort items in arrays alphabetically
+    itemGroups.forEach((itemGroup: ItemCategory) => {
+      itemGroup.items.sort();
+    });
  
-    res.status(200).json(items);
+    res.status(200).json(itemGroups);
   }
   catch (error) {
     res.status(500).json({ error: 'Failed to fetch documents' });
