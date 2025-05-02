@@ -55,46 +55,45 @@ function IconLabel({ category, label, qty, maxQty, altImgSrc = "", isLink = fals
     else
       label = `${qtyStr} ${label}`;
   }
+  
+  // --- Determine content -----------------------
+  const getInnerContent = () => {
+    return (
+      <>
+        <img 
+          className={`${styles.iconimg} ${iconSize}`}
+          src={`${location}.png`} alt={itemName}
+        />
+        {
+          qualityPath !== null && (
+            <img 
+              src={qualityPath}
+              alt={`${quality} quality`}
+              className={`${styles.qualityimg} ${iconSize}`}
+            />
+          )
+        }
+        {label}
+      </>
+    )
+  }
 
+  // --- Return ----------------------------------
   return (
     isLink ? (
       <Link className={`${styles.iconlabel} ${className} link`} href={`/Items${location}`}>
-        <img 
-          className={`${styles.iconimg} ${iconSize}`}
-          src={`${location}.png`} alt={itemName}
-        />
-        {
-          qualityPath && (
-            <img 
-              src={qualityPath}
-              alt={`${quality} quality`}
-              className={`${styles.qualityimg} ${iconSize}`}
-            />
-          )
-        }
-        {label}
+        { getInnerContent() }
       </Link>
     ) : (
       <div className={`${styles.iconlabel} ${className}`}>
-        <img 
-          className={`${styles.iconimg} ${iconSize}`}
-          src={`${location}.png`} alt={itemName}
-        />
-        {
-          qualityPath && (
-            <img 
-              src={qualityPath}
-              alt={`${quality} quality`}
-              className={`${styles.qualityimg} ${iconSize}`}
-            />
-          )
-        }
-        {label}
+        { getInnerContent() }
       </div>
     )
   );
 } // end IconLabel
 
+
+// --- Determine itemName for image path -------
 function getItemName(label: string, altImgSrc: string): string {
   let itemName = "";
 
@@ -108,6 +107,8 @@ function getItemName(label: string, altImgSrc: string): string {
   return itemName;
 }
 
+
+// --- Determine image path --------------------
 function getLocation(itemName: string, category: string | undefined): string {
   let location = "/" + itemName.replaceAll(" ", "_").replaceAll(":", "");
 

@@ -60,7 +60,6 @@ export default function PerfectionTracker() {
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
-        //const res = await fetch(`${rootUrl}/api/getPerfectionReqs`);
         const res = await fetch(`${rootUrl}/api/getTrackerReqs/${checkboxCategory}`);
         const data = await res.json();
         setRequirements(data);
