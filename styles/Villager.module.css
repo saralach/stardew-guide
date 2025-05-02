@@ -1,8 +1,27 @@
+/**
+ * MODULE:  styles/Villager.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling the dynamic villager page.
+ * 
+ * USED BY:
+ *   - pages/Villagers/[villagername].tsx
+ */
+ 
 .pgcontainer {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: center;
+}
+
+.villagerpic {
+  width: 262px; /*  2 * 128px (image size) + 6px border  */
+  margin-block: 1rem;
+  background-color: var(--midgray0);
+  border: 3px solid var(--midgray1);
+  padding-block-start: 4px;
+  display: block;
 }
 
 /* ============ Gift Prefs ============ */

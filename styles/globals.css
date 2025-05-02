@@ -1,4 +1,12 @@
-/*  Defines base styles applied across the entire application.  */
+/**
+ * MODULE:  styles/globals.css
+ * 
+ * SUMMARY:
+ *   Defines base styles that are applied across the entire application.
+ * 
+ * USED BY:
+ *   - all pages
+ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @tailwind base;
@@ -47,7 +55,7 @@
   --font-size-md: 1.25rem;
   --font-size-sm: 1.1rem;
   --font-size-xs: 1rem;
-  --font-size-xxs: .9rem;
+  --font-size-xxs: 0.9rem;
 
 
   /* ------- Card Widths -------- */
@@ -67,13 +75,13 @@
 * {
   margin: 0;
   padding: 0;
-  /*box-sizing: border-box;*/
   outline: none;
   border: none;
   text-decoration: none;
 }
 
 html {
+  /* Apply font to entire page */
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -87,26 +95,6 @@ body {
 main {
   padding-inline: 3rem;
   padding-block: 2rem;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
-}
-h1 {
-  font-size: var(--font-size-xl);
-  text-align: center;
-}
-h2 {
-  font-size: var(--font-size-lg);
-}
-h3 {
-  font-size: var(--font-size-md);
-}
-h4 {
-  font-size: var(--font-size-sm);
-}
-h5, h6 {
-  font-size: var(--font-size-xs);
 }
 
 li {
@@ -137,6 +125,32 @@ img {
   image-rendering: pixelated; /* make pixel art images not blur */
 }
 
+/* ======================== Headings ======================== */
+h1, h2, h3, h4, h5, h6 { /* all headings */
+  font-weight: bold;
+}
+
+h1 {
+  font-size: var(--font-size-xl);
+  text-align: center;
+}
+
+h2 {
+  font-size: var(--font-size-lg);
+}
+
+h3 {
+  font-size: var(--font-size-md);
+}
+
+h4 {
+  font-size: var(--font-size-sm);
+}
+
+h5, h6 {
+  font-size: var(--font-size-xs);
+}
+
 
 /*============================================================*/
 /*                           Forms                            */
@@ -152,7 +166,7 @@ form {
   }
 }
 
-
+/* ========================= Inputs ========================= */
 input[type='text'], input[type='email'], input[type='password'] {
   width: min(80%, 20rem);
   padding-inline: 1rem;
@@ -185,7 +199,7 @@ button[type='submit'] {
 table {
   border: 1px solid var(--midgray2);
 
-  tr+tr {
+  tr+tr { /* all rows except the first row of a table */
     border-block-start: 1px solid var(--midgray1);
   }
 
@@ -194,15 +208,13 @@ table {
     padding-block: .125rem;
   }
 
-  tr:nth-child(even) {
-
+  tr:nth-child(even) td { /* even rows */
     td {
       background-color: var(--midgray0);
     }
-
-
   }
-  .labelcell {
+
+  &.col1head td:not(td+td) { /* first cell in a row only */
     font-weight: bold;
   }
 }
@@ -211,115 +223,8 @@ table {
 /*============================================================*/
 /*                         Utilities                          */
 /*============================================================*/
-.chevron-btn {
-  margin-inline: 0.5rem;
-  color: var(--text-color-disabled);
-}
 
-.villager-pic-lg {
-  width: 262px; /* 2 * 128px (image size) + 6px border */
-  margin-block: 1rem;
-  background-color: var(--midgray0);
-  border: 3px solid var(--midgray1);
-  padding-block-start: 4px;
-
-}
-
-.cardlink {
-  text-align: center;
-  margin: 1rem;
-  padding: 1rem;
-  padding-block-end: .5rem;
-  border: 1px solid var(--midgray1);
-  border-radius: 1rem;
-  background-color: var(--lightgray0);
-  box-shadow: var(--shadow-1);
-
-
-  img.villagerphoto {
-    min-width: 140px;
-    width: 140px;   /* photos are 128x128, +8px padding +4 border */
-    max-width: 140px;
-    background-color: var(--lightgray1) /*var(--accent-color-light) var(--yellow-light)*/;
-    padding-block-start: 4px;
-    padding-inline: 4px;
-    border: 2px solid var(--midgray0) /*var(--accent-color-light-1) var(--yellow-light-2)*/;
-  }
-
-  p {
-    font-size: var(--font-size-md);
-    font-weight: bold;
-    margin-block-start: .25rem;
-    margin-block-end: 0;
-  }
-}
-
-
-.card {
-  margin: .625rem;
-  padding-inline: 1rem;
-  padding-block: .75rem;
-  border: 1px solid var(--midgray1);
-  border-radius: 1rem;
-  background-color: var(--lightgray0);
-  box-shadow: var(--shadow-1);
-
-  &:has(input:checked) {
-      background-color: var(--midgray0);
-  }
-
-  &:has(.card input:not(:checked)) { /* not all subtasks are completed */
-    background-color: var(--lightgray0);
-  }
-
-  .right-check-container {
-      display: flex;
-      justify-content: space-between;
-  }
-
-  h5 {
-      margin-block-start: .75rem;
-      margin-block-end: .125rem;
-  }
-}
-
-.cards-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-inline: 1rem;
-}
-
-/*.thin-card {
-  min-width: 15rem;
-  width: 18rem;
-}*/
-
-.card-tiny {
-  max-width: 10rem;
-  width: 10rem;
-  min-width: 10rem;
-}
-
-.card-thin {
-  max-width: 15rem;
-  width: 25cqw; /* 25% container width */
-  min-width: 13rem;
-}
-
-.card-full {
-  width: 100%;
-  margin-block-start: .5rem;
-  margin-block-end: .25rem;
-}
-
-.card-wide {
-  max-width: 22rem;
-  width: 45cqw; /* 45% container width */
-  min-width: 17rem;
-}
-
+/* ========================== Misc ========================== */
 .item-pic {
   width: 48px;
   height: auto;
@@ -327,18 +232,8 @@ table {
 
 .link:hover {
   font-weight: bold;
-  /*color: var(--alt-color-2);*/
   text-decoration: underline;
 }
-
-/*.monsterlist li {
-  list-style-type: none;
-
-  img {
-      padding-block: 2px;
-      padding-inline-end: 10px;
-  }
-}*/
 
 .itemphoto {
   width: 48px;
@@ -363,13 +258,14 @@ table {
   border-block-end: 1px solid var(--midgray1);
 }
 
-.justify-between {
-  justify-content: space-between;
+/* ====================== Icon Styling ====================== */
+.chevron-btn {
+  margin-inline: 0.5rem;
+  color: var(--text-color-disabled);
 }
 
-.medium-font-weight {
-  font-weight: 500;
-}
+/* ====================== Font Styles ======================= */
+.medium-font-weight { font-weight: 500; }
 
 .xl-font  { font-size: var(--font-size-xl);  }
 .lg-font  { font-size: var(--font-size-lg);  }
@@ -377,3 +273,96 @@ table {
 .sm-font  { font-size: var(--font-size-sm);  }
 .xs-font  { font-size: var(--font-size-xs);  }
 .xxs-font { font-size: var(--font-size-xxs); }
+
+
+/* ========================== Cards ========================= */
+.cards-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-inline: 1rem;
+}
+
+.card {
+  margin: .625rem;
+  padding-inline: 1rem;
+  padding-block: .75rem;
+  border: 1px solid var(--midgray1);
+  border-radius: 1rem;
+  background-color: var(--lightgray0);
+  box-shadow: var(--shadow-1);
+
+  &:has(input:checked) {
+    background-color: var(--midgray0);
+  }
+
+  &:has(.card input:not(:checked)) { /* not all subtasks are completed */
+    background-color: var(--lightgray0);
+  }
+
+  .right-check-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h5 {
+    margin-block-start: 0.75rem;
+    margin-block-end: 0.125rem;
+  }
+}
+
+/* ======================= Card Links ======================= */
+.cardlink {
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+  padding-block-end: .5rem;
+  border: 1px solid var(--midgray1);
+  border-radius: 1rem;
+  background-color: var(--lightgray0);
+  box-shadow: var(--shadow-1);
+
+
+  img.villagerphoto {
+    min-width: 140px;
+    width: 140px;   /* photos are 128x128, +8px padding +4 border */
+    max-width: 140px;
+    background-color: var(--lightgray1);
+    padding-block-start: 4px;
+    padding-inline: 4px;
+    border: 2px solid var(--midgray0);
+  }
+
+  p {
+    font-size: var(--font-size-md);
+    font-weight: bold;
+    margin-block-start: 0.25rem;
+    margin-block-end: 0;
+  }
+}
+
+/* ======================= Card Sizes ======================= */
+.card-tiny {
+  max-width: 10rem;
+  width: 10rem;
+  min-width: 10rem;
+}
+
+.card-thin {
+  max-width: 15rem;
+  width: 25cqw; /* 25% container width */
+  min-width: 13rem;
+}
+
+.card-full {
+  width: 100%;
+  margin-block-start: .5rem;
+  margin-block-end: .25rem;
+}
+
+.card-wide {
+  max-width: 22rem;
+  width: 45cqw; /* 45% container width */
+  min-width: 17rem;
+}

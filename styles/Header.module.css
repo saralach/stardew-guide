@@ -1,3 +1,13 @@
+/**
+ * MODULE:  styles/Header.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling the header / navigation bar that is displayed on all pages.
+ * 
+ * USED BY:
+ *   - components/Header.tsx
+ */
+
 .pagehead nav {
   display: flex;
   flex-direction: row;
@@ -10,8 +20,7 @@
   background-color: var(--accent-color-1);
   box-shadow: 1px 1px 7px var(--midgray2);
 
-  /* Prevent users from selecting text */
-  user-select: none;
+  user-select: none; /* Prevent users from selecting text */
 
   .lefthead > * {
     display: inline;
@@ -54,20 +63,11 @@
 
   .dropdowncontainer {
     position: relative;
-
-
   }
 
   .dropdowncontainer:hover .dropdownlist, .dropdownlist:hover {
     display: flex;
   }
-
-  /*.dropdowncontainer:hover 
-  .dropdowntrigger:hover + .dropdownlist {
-    display: flex;
-    flex-direction: column;
-    background-color: violet;
-  }*/
 
   .dropdownlist {
     position: absolute;

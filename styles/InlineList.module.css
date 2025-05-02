@@ -1,8 +1,17 @@
+/**
+ * MODULE:  styles/InlineList.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling InlineList components.
+ * 
+ * USED BY:
+ *   - components/InlineList.tsx
+ */
+
 .inlinelist {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
 
   li {
     display: inline;

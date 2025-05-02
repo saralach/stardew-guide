@@ -1,8 +1,18 @@
+/**
+ * MODULE:  styles/IconLink.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling IconLink components.
+ * 
+ * USED BY:
+ *   - components/IconLink.tsx
+ */
+
 .iconimg {
   width: auto;
   height: auto;
   padding-block: 2px;
-  margin-inline-end: /*10px*/ 6px;
+  margin-inline-end: 6px;
   display: inline;
 }
 
@@ -20,20 +30,16 @@
 }
 
 .xxsicon {
-  /*max-height: 16px;*/
   max-width: 16px;
   height: auto;
 }
 
 .xsicon {
-  /*max-height: 24px;*/
   max-width: 24px;
   height: auto;
 }
 
 .smicon {
-  /*max-height: 32px;*/
   max-width: 32px;
   height: auto;
-  /*object-fit: contain;*/
 }

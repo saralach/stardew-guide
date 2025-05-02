@@ -1,3 +1,13 @@
+/**
+ * MODULE:  styles/Login.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling the login page.
+ * 
+ * USED BY:
+ *   - pages/Login.tsx
+ */
+
 .logincontainer {  
   margin-left: auto;
   margin-right: auto;
@@ -16,10 +26,7 @@
   padding-block: .5rem;
   padding-inline: .5rem;
   border-radius: 1.375rem;
-
-
 }
-
 
 .tab {
   background-color: var(--lightgray1);

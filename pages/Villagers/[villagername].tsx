@@ -49,7 +49,7 @@ export default function VillagerPage() {
       }
     }
 
-    if(villagername)
+    if(villagername !== undefined)
       fetchVillagerInfo();
   }, [villagername]); /* executes again when villagername is changed */
 
@@ -67,14 +67,14 @@ export default function VillagerPage() {
             <main className={styles.pgcontainer}>
               <h1>{router.query.villagername}</h1>
                 <img 
-                  className='villager-pic-lg block'
+                  className={styles.villagerpic}
                   src={`/Villager/${router.query.villagername}.png`}
                 />
 
-                <table className='villagerinfo'>
+                <table className="col1head">
                   <tbody>
                     <tr>
-                      <td className='labelcell'>
+                      <td>
                         Birthday
                       </td>
                       <td>
@@ -82,7 +82,7 @@ export default function VillagerPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className='labelcell'>
+                      <td>
                         Lives In
                       </td>
                       <td>
@@ -90,7 +90,7 @@ export default function VillagerPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className='labelcell'>
+                      <td>
                         Address
                       </td>
                       <td>
@@ -98,7 +98,7 @@ export default function VillagerPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className='labelcell'>
+                      <td>
                         Can Marry
                       </td>
                       <td>

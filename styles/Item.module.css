@@ -1,3 +1,13 @@
+/**
+ * MODULE:  styles/Item.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling the dynamic items page.
+ * 
+ * USED BY:
+ *   - pages/Items/[itemname].tsx
+ */
+
 .itemintro {
   display: flex;
   flex-direction: column;

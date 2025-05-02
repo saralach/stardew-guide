@@ -1,3 +1,13 @@
+/**
+ * MODULE:  styles/ToggleSwitch.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling ToggleSwitch components.
+ * 
+ * USED BY:
+ *   - components/ToggleSwitch.tsx
+ */
+
 :root {
   --switch-width: 36px;
   --switch-height: 20px;

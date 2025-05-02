@@ -1,3 +1,13 @@
+/**
+ * MODULE:  styles/Home.module.css
+ * 
+ * SUMMARY:
+ *   Used for styling the home page.
+ * 
+ * USED BY:
+ *   - pages/index.tsx
+ */
+
 .homecontent {
 
   p {
@@ -15,7 +25,6 @@
     }
   }
 }
-
 
 .gamelinkbtn {
   display: flex;
@@ -40,7 +49,6 @@
     padding-inline-end: .5rem;
   }
 }
-
 
 /* ---- IMAGE LINKS --- For "New to Stardew Guide?" section ---------- */
 .imglinkscontainer {
